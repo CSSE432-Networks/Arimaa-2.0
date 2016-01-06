@@ -88,7 +88,7 @@ public class GUI {
 		newGameButton.setVisible(true);
 
 		// Setup ActionListener for NEW GAME button
-		newGameButton.addActionListener(g.new newGameListener());
+		newGameButton.addActionListener(g.new NewGameListener());
 
 		// Add the LOAD GAME button to the Main Menu
 		JButton loadGameButton = new JButton();
@@ -102,7 +102,7 @@ public class GUI {
 		loadGameButton.setVisible(true);
 
 		// Setup ActionListener for the LOAD GAME button
-		loadGameButton.addActionListener(g.new loadGameListener());
+		loadGameButton.addActionListener(g.new LoadGameListener());
 
 		g.activeFrames.get(0).setVisible(true);
 	}
@@ -304,9 +304,45 @@ public class GUI {
 		renderInitialBoard();
 	}
 
+	public void createWinWindow() {
+		String playerName = "";
+		if (this.game.getWinner() == 1)
+			playerName = game.getP1Name();
+		else if (this.game.getWinner() == 2)
+			playerName = game.getP2Name();
+	
+		JFrame winnerFrame = new JFrame();
+		activeFrames.add(winnerFrame);
+		winnerFrame.setTitle("Winner!");
+		winnerFrame.setLocation(650 / 2 - 324 / 2 + 5, 650 / 2 - 324 / 2
+				+ 44);
+		winnerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		winnerFrame.setVisible(true);
+	
+		ImagePanel panel = new ImagePanel(new ImageIcon(
+				"resources/BoardStoneBigCropped.jpg").getImage());
+		winnerFrame.getContentPane().add(panel);
+		winnerFrame.pack();
+		panel.setVisible(true);
+	
+	
+		// Set Up winner name Label
+		JLabel winnerLabel = new JLabel();
+		winnerLabel.setText("<html> <div style=\"text-align: center;\"> <b>" + playerName + " Wins!"
+				+ "</b></html>");
+		winnerLabel.setForeground(Color.WHITE);
+		Font winnerFont = winnerLabel.getFont();
+		winnerLabel.setFont(new Font(winnerFont.getName(), 4, 24));
+		winnerLabel.setSize(150, 150);
+		panel.add(winnerLabel);
+		winnerLabel
+				.setLocation(winnerFrame.getWidth() / 2 - 75, winnerFrame.getHeight() / 2 - 87);
+		winnerLabel.setVisible(true);
+	}
+
 	// ACTION LISTENERS
 	//TODO Extract?
-	private class newGameListener implements ActionListener {
+	private class NewGameListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -405,7 +441,7 @@ public class GUI {
 					- startGameButton.getWidth(), (panel.getHeight() / 2)
 					+ (2 * startGameButton.getHeight()));
 			panel.add(startGameButton);
-			startGameButton.addActionListener(new startGameListener());
+			startGameButton.addActionListener(new StartGameListener());
 			startGameButton.setVisible(true);
 
 			// Set up Cancel Button
@@ -415,13 +451,13 @@ public class GUI {
 			cancelButton.setLocation((panel.getWidth() / 2),
 					(panel.getHeight() / 2) + (2 * cancelButton.getHeight()));
 			panel.add(cancelButton);
-			cancelButton.addActionListener(new cancelListener());
+			cancelButton.addActionListener(new CancelListener());
 			cancelButton.setVisible(true);
 		}
 	}
 
 	//TODO Extract?
-	private class loadGameListener implements ActionListener {
+	private class LoadGameListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -620,7 +656,7 @@ public class GUI {
 		}
 	}
 
-	private class cancelListener implements ActionListener {
+	private class CancelListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -631,7 +667,7 @@ public class GUI {
 	}
 
 	//TODO Extract to another class?
-	private class startGameListener implements ActionListener {
+	private class StartGameListener implements ActionListener {
 
 		//TODO long method, possible refactor?
 		@Override
@@ -933,7 +969,7 @@ public class GUI {
 
 					// Piece selected, Second piece selected, empty square
 					// selected
-				} else if (twoPieceSelectedAndEmptySapceClicked(rowClicked,
+				} else if (twoPieceSelectedAndEmptySpaceClicked(rowClicked,
 						columnClicked)) {
 
 					if (checkForPull(rowClicked, columnClicked)) {
@@ -1016,7 +1052,7 @@ public class GUI {
 			return -1; // Shouldn't ever happen
 		}
 
-		private boolean twoPieceSelectedAndEmptySapceClicked(int rowClicked,
+		private boolean twoPieceSelectedAndEmptySpaceClicked(int rowClicked,
 				int columnClicked) {
 			return this.selectedPiece != null
 					&& this.secondSelectedPiece != null
@@ -1113,42 +1149,6 @@ public class GUI {
 			}
 			return false;
 		}
-	}
-
-	public void createWinWindow() {
-		String playerName = "";
-		if (this.game.getWinner() == 1)
-			playerName = game.getP1Name();
-		else if (this.game.getWinner() == 2)
-			playerName = game.getP2Name();
-
-		JFrame winnerFrame = new JFrame();
-		activeFrames.add(winnerFrame);
-		winnerFrame.setTitle("Winner!");
-		winnerFrame.setLocation(650 / 2 - 324 / 2 + 5, 650 / 2 - 324 / 2
-				+ 44);
-		winnerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		winnerFrame.setVisible(true);
-
-		ImagePanel panel = new ImagePanel(new ImageIcon(
-				"resources/BoardStoneBigCropped.jpg").getImage());
-		winnerFrame.getContentPane().add(panel);
-		winnerFrame.pack();
-		panel.setVisible(true);
-
-
-		// Set Up winner name Label
-		JLabel winnerLabel = new JLabel();
-		winnerLabel.setText("<html> <div style=\"text-align: center;\"> <b>" + playerName + " Wins!"
-				+ "</b></html>");
-		winnerLabel.setForeground(Color.WHITE);
-		Font winnerFont = winnerLabel.getFont();
-		winnerLabel.setFont(new Font(winnerFont.getName(), 4, 24));
-		winnerLabel.setSize(150, 150);
-		panel.add(winnerLabel);
-		winnerLabel
-				.setLocation(winnerFrame.getWidth() / 2 - 75, winnerFrame.getHeight() / 2 - 87);
-		winnerLabel.setVisible(true);
 	}
 }
 

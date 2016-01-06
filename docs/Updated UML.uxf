@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.3">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>928</x>
+      <y>8</y>
+      <w>416</w>
+      <h>696</h>
+    </coordinates>
+    <panel_attributes>game::Game
+--
+~boards = new ArrayList&lt;BoardState&gt;(): ArrayList&lt;BoardState&gt;
++currentBoard = null: BoardState
+~moveTimer = 0: int
+~p1TimeBank = 0: int
+~p2TimeBank = 0: int
+~turnCounter = 0: int
+~p1Name = "Player1": String
+~p2Name = "Player2": String
+-winner = 0: int
+-numMoves = 4: int
+-playerTurn = 1: int
+-isPushPull: boolean
+~p1Pieces: HashMap&lt;Character, Integer&gt;
+~p2Pieces: HashMap&lt;Character, Integer&gt;
+--
++Game(BoardState b): ctor
++Game(): ctor
++configurePieceInventory(): void
++placePiece(int row, int column, char piece): boolean
++removePiece(int row, int column): boolean
++getSpace(int row, int column): Piece
++move(int row, int column, int dir): boolean
+-isValidMoveFromSquare(int row, int column): boolean
+-isValidMoveSquare(int row, int column): boolean
+-endMove(): void
+-checkWin(): void
+-checkDeaths(int row, int col): void
+-checkFriendlyAdjacent(int row, int col): boolean
+-checkStrongerAdjacent(int row, int col): boolean
+-checkStrong(Piece one, Piece two): boolean
+-switchPiece(int row1, int column1, int row2, int column2): void
++push(int row, int column, int dir1, int dir2): boolean
+-pieceCanPush(Piece pushingPiece, Piece pushedPiece): boolean
+-isValidSquareToPushFrom(int row, int column): boolean
++pull(int row1, int column1, int row2, int column2, int direction1): boolean
+-tryPull(Piece space, Piece space2, int row1, int column1, int direction1): boolean
+-isValidSquaretoPullFrom(int row1, int column1, int row2, int column2): boolean
++getDirection(int row1, int column1, int row2, int column2): int
++undoMove(): void
++loadFile(Scanner scanner): boolean
++saveFile(FileWriter fw): boolean
++getTurnCounter(): int
++getP1Name(): String
++getP2Name(): String
++setWinner(int winner): void
++getNumMoves(): int
++getTurnTimer(): int
++getWinner(): int
++getPlayerTurn(): int
++setPlayerTurn(int playerTurn): void
++getP1Pieces(): HashMap&lt;Character, Integer&gt;
++getP2Pieces(): HashMap&lt;Character, Integer&gt;
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>544</x>
+      <y>0</y>
+      <w>272</w>
+      <h>368</h>
+    </coordinates>
+    <panel_attributes>game::GUI
+--
+-p1Name: String
+-p2Name: String
+-activeFrames: ArrayList&lt;JFrame&gt;
+-game: Game
+-gameBoardPanel = null: ImagePanel
+-boardPieces: ImagePanel[][]
+-p1TextField: JTextField
+-p2TextField: JTextField
+-timerComboBox: JComboBox&lt;Integer&gt;
+-moveCountLabel: JLabel
+-turnCountLabel: JLabel
+-turnIndicatorLabel: JLabel
+-timerLabel: JLabel
+-timer: TimePanel
+--
++GUI(): ctor
++main(String[] args): void
++getP1name(): String
++setP1name(String p1name): void
++getP2name(): String
++setP2name(String p2name): void
++getActiveFrames(): ArrayList&lt;JFrame&gt;
++setActiveFrames(ArrayList&lt;JFrame&gt; frames): void
+-renderInitialBoard(): void
+#renderBoard(): void
++createWinWindow(): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1376</x>
+      <y>424</y>
+      <w>232</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>game::Piece
+--
+-type: PieceType
+-image: Image
+-owner: Owner
+-rank: int
+--
++Piece(char c): ctor
++Piece(PieceType t, Image i, Owner o): ctor
+-createP2Piece(char c): void
+-createP1Piece(char c): void
++getType(): PieceType
++setType(PieceType type): void
++getImage(): Image
++setImg(Image img): void
++getOwner(): Owner
++setOwner(Owner owner): void
++getRank(): int
++setRank(int rank): void
++equals(Object p2): boolean
++isStrongerThan(Piece p2): boolean
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1464</x>
+      <y>8</y>
+      <w>288</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>game::BoardState
+--
+-boardArray = new char[8][8]: char[][]
+-turnNumber: int
+--
++BoardState(char[][] map, int turnNumber): ctor
++getBoardArray(): char[][]
++setBoardArray(char[][] boardArray): void
++setBoardSpace(int row, int column, String piece): void
++getTurnNumber(): int
++setTurnNumber(int turnNumber): void
++incrementTurn(): void
++clone(): BoardState
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>400</x>
+      <y>448</y>
+      <w>344</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>game::TimePanel
+--
+-timerLabel: JLabel
+~timer: Timer
+~playerTurn: int
+--
++TimePanel(GUI gui, Game game, int startTime, JLabel label): ctor
++update(int s, int minute): void
++getTimerLabel(): JLabel
++setTimerLabel(JLabel timerLabel): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>96</x>
+      <y>448</y>
+      <w>272</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>game::ImagePanel
+--
+-serialVersionUID = -7315460075240330922L: long
+-img: Image
+-row: int
+-column: int
+--
++ImagePanel(String img): ctor
++ImagePanel(Image img): ctor
++createWinWindow(): void
++paintComponent(Graphics g): void
++setRow(int row): void
++getRow(): int
++setColumn(int column): void
++getColumn(): int
++getPixelX(): int
++getPixelY(): int
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>360</y>
+      <w>128</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>140.0;10.0;140.0;70.0;10.0;70.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>208</x>
+      <y>360</y>
+      <w>392</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>470.0;10.0;470.0;40.0;10.0;40.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1336</x>
+      <y>48</y>
+      <w>144</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;160.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1336</x>
+      <y>152</y>
+      <w>160</w>
+      <h>288</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>180.0;340.0;180.0;280.0;100.0;280.0;100.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>808</x>
+      <y>112</y>
+      <w>136</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>784</x>
+      <y>360</y>
+      <w>48</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>40.0;480.0;40.0;70.0;10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>696</x>
+      <y>744</y>
+      <w>232</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>/ActionListener/
+--
+--
++actionPerformed(ActionEvent arg0): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>872</x>
+      <y>784</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0;160.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>800</y>
+      <w>232</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>newGameListener
+--
+--
++actionPerformed(ActionEvent arg0): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>856</y>
+      <w>232</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>loadGameListener
+--
+--
++actionPerformed(ActionEvent arg0): void
+-loadGame(File file): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>928</y>
+      <w>232</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>cancelListener
+--
+--
++actionPerformed(ActionEvent arg0): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>984</y>
+      <w>232</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>startGameListener
+--
+--
++actionPerformed(ActionEvent arg0): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>1040</y>
+      <w>232</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>saveGameListener
+--
+--
++actionPerformed(ActionEvent arg0): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>1096</y>
+      <w>232</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>undoListener
+--
+--
++actionPerformed(ActionEvent arg0): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>1152</y>
+      <w>232</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>endTurnListener
+--
+--
++actionPerformed(ActionEvent arg0): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>848</x>
+      <y>784</y>
+      <w>168</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0;190.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>824</x>
+      <y>784</y>
+      <w>192</w>
+      <h>184</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;210.0;220.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>784</y>
+      <w>216</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;280.0;250.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>776</x>
+      <y>784</y>
+      <w>240</w>
+      <h>296</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;350.0;280.0;350.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>752</x>
+      <y>784</y>
+      <w>264</w>
+      <h>352</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;420.0;310.0;420.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>728</x>
+      <y>784</y>
+      <w>288</w>
+      <h>408</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;490.0;340.0;490.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>432</x>
+      <y>744</y>
+      <w>232</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>/MouseListener/
+--
+--
++mouseClicked(MouseEvent): void
++mouseReleased(MouseEvent): void
++mouseEntered(MouseEvent): void
++mouseExited(MouseEvent): void
++mousePressed(MouseEvent): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>544</x>
+      <y>360</y>
+      <w>232</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;480.0;10.0;400.0;270.0;400.0;270.0;70.0;240.0;70.0;240.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>392</x>
+      <y>936</y>
+      <w>304</w>
+      <h>256</h>
+    </coordinates>
+    <panel_attributes>MovementListener
+--
+-selectedPiece: ImagePanel
+-secondSelectedPiece: ImagePanel
+--
++mouseClicked(MouseEvent): void
++mouseReleased(MouseEvent): void
++mouseEntered(MouseEvent): void
++mouseExited(MouseEvent): void
++mousePressed(MouseEvent): void
+-moveDirectionTwoPush(ImagePanel, int, int): int
+-moveDirectionOnePush(ImagePanel, ImagePanel): int
+-twoPieceSelectedAndEmptySpaceClicked(int, int): boolean
+-pieceSelectedAndSecondPieceClicked(int, int): boolean
+-moveDirection(ImagePanel, int, int): int
+-noSelectedPieceAndEmptySpaceClicked(int, int): int
+-noPieceSelectedAndPieceClicked(int, int): boolean
+-clockOnBoard(int, int): boolean
+-checkForPush(int, int): boolean
+-checkForPull(int, int): boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>536</x>
+      <y>832</y>
+      <w>24</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+</diagram>
