@@ -60,15 +60,6 @@ public class GUI {
 		this.p2Name = "Player 2";
 		p2TextField = null;
 		p1TextField = null;
-		// BoardState b=new BoardState(new char[][] {
-		// { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-		// { ' ', ' ', ' ', ' ', 'r', ' ', ' ', ' ' },
-		// { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-		// { ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ' },
-		// { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-		// { ' ', 'R', ' ', 'E', ' ', ' ', 'r', ' ' },
-		// { ' ', 'e', ' ', ' ', ' ', ' ', 'C', ' ' },
-		// { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, }, 0);
 		this.game = new Game();
 		this.boardPieces = new ImagePanel[8][8];
 		this.activeFrames = new ArrayList<JFrame>();
@@ -800,7 +791,6 @@ public class GUI {
 			// Not needed
 		}
 
-		// TODO Possible refactor, method long and complicated
 		@Override
 		public void mousePressed(MouseEvent e) {
 			int sourceX = (int) e.getPoint().getX();
@@ -822,48 +812,22 @@ public class GUI {
 				// If a piece is selected and an empty space is clicked
 				// AKA move
 				else if (noSelectedPieceAndEmptySpaceClicked(rowClicked, columnClicked)) {
-					int calculatedDirection = moveDirection(selectedPiece, rowClicked, columnClicked);
-					// Using move to check for valid move
-					if (game.move(selectedPiece.getRow(), selectedPiece.getColumn(), calculatedDirection)) {
-						renderBoard();
-					}
-					this.selectedPiece = null;
-					this.secondSelectedPiece = null;
-
+					handleMove(rowClicked, columnClicked);
 				}
 
 				// Piece already selected, clicked a second piece
 				else if (pieceSelectedAndSecondPieceClicked(rowClicked, columnClicked)) {
 					this.secondSelectedPiece = boardPieces[rowClicked][columnClicked];
 
-					// Piece selected, Second piece selected, empty square
-					// selected
+				// Piece selected, Second piece selected, empty square
+				// selected
 				} else if (twoPieceSelectedAndEmptySpaceClicked(rowClicked, columnClicked)) {
 
 					if (checkForPull(rowClicked, columnClicked)) {
-						int calculatedDirection = moveDirection(selectedPiece, rowClicked, columnClicked);
-
-						if (game.pull(this.selectedPiece.getRow(), this.selectedPiece.getColumn(),
-								this.secondSelectedPiece.getRow(), this.secondSelectedPiece.getColumn(),
-								calculatedDirection)) {
-							renderBoard();
-
-						}
-						this.selectedPiece = null;
-						this.secondSelectedPiece = null;
+						handlePull(rowClicked, columnClicked);
 
 					} else if (checkForPush(rowClicked, columnClicked)) {
-						int calculatedDirection1 = moveDirectionOnePush(selectedPiece, secondSelectedPiece);
-
-						int calculatedDirection2 = moveDirectionTwoPush(secondSelectedPiece, rowClicked, columnClicked);
-
-						if (game.push(this.selectedPiece.getRow(), this.selectedPiece.getColumn(), calculatedDirection1,
-								calculatedDirection2)) {
-							renderBoard();
-
-						}
-						this.selectedPiece = null;
-						this.secondSelectedPiece = null;
+						handlePush(rowClicked, columnClicked);
 					}
 				}
 
@@ -874,6 +838,41 @@ public class GUI {
 				}
 			}
 
+		}
+
+		private void handlePush(int rowClicked, int columnClicked) {
+			int calculatedDirection1 = moveDirectionOnePush(selectedPiece, secondSelectedPiece);
+
+			int calculatedDirection2 = moveDirectionTwoPush(secondSelectedPiece, rowClicked, columnClicked);
+
+			if (game.push(this.selectedPiece.getRow(), this.selectedPiece.getColumn(), calculatedDirection1,
+					calculatedDirection2)) {
+				renderBoard();
+			}
+			this.selectedPiece = null;
+			this.secondSelectedPiece = null;
+		}
+
+		private void handlePull(int rowClicked, int columnClicked) {
+			int calculatedDirection = moveDirection(selectedPiece, rowClicked, columnClicked);
+
+			if (game.pull(this.selectedPiece.getRow(), this.selectedPiece.getColumn(),
+					this.secondSelectedPiece.getRow(), this.secondSelectedPiece.getColumn(), calculatedDirection)) {
+				renderBoard();
+
+			}
+			this.selectedPiece = null;
+			this.secondSelectedPiece = null;
+		}
+
+		private void handleMove(int rowClicked, int columnClicked) {
+			int calculatedDirection = moveDirection(selectedPiece, rowClicked, columnClicked);
+			// Using move to check for valid move
+			if (game.move(selectedPiece.getRow(), selectedPiece.getColumn(), calculatedDirection)) {
+				renderBoard();
+			}
+			this.selectedPiece = null;
+			this.secondSelectedPiece = null;
 		}
 
 		private int moveDirectionTwoPush(ImagePanel secondSelectedPiece2, int rowClicked, int columnClicked) {
