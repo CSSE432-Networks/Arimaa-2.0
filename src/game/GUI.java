@@ -1017,7 +1017,7 @@ class ImagePanel extends JPanel {
 	public void setRow(int row) {
 		this.row = row;
 	}
-
+  
 	public int getRow() {
 		return this.row;
 	}

@@ -231,6 +231,17 @@ public class TestGame {
 		Game g = new Game();
 		assertFalse(g.move(1,0,5));
 	}
+	
+	@Test
+	public void testCannotMoveWithNoMovesLeft(){
+		Game g = new Game();
+		assertTrue(g.move(1, 0, 2));
+		assertTrue(g.move(2, 0, 0));
+		assertTrue(g.move(1, 0, 2));
+		assertTrue(g.move(2, 0, 0));
+
+		assertFalse(g.move(1, 0, 2));
+	}
 
 	// Testing push method
 
