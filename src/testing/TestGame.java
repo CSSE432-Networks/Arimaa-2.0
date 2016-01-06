@@ -191,6 +191,17 @@ public class TestGame {
 				g.getSpace(0, 1));
 	}
 	
+	@Test
+	public void testEndTurn(){
+		Game g = new Game();
+		assertTrue(1 == g.getPlayerTurn());
+		g.endTurn();
+		assertTrue(2 == g.getPlayerTurn());
+		g.endTurn();
+		assertTrue(1 == g.getPlayerTurn());
+	}
+
+	
 	BoardState freezingBoard = new BoardState(new char[][] {
 			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
 			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
