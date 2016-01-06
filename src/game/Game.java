@@ -319,59 +319,40 @@ public class Game {
 		switch (dir1) {
 		case 0:
 			if (row - 1 >= 0) {
-				Piece pushingPiece = getSpace(row, column);
-				Piece pushedPiece = getSpace(row - 1, column);
-				if (pieceCanPush(pushingPiece, pushedPiece)
-						&& move(row - 1, column, dir2)) {
-					isPushPull = false;
-					// should always be true
-					return move(row, column, dir1);
-				}
+				return enactPush(row, column, row - 1, column, dir1, dir2);
 			}
 
 			break;
 		case 1:
 			if (column + 1 <= 7) {
-				Piece pushingPiece2 = getSpace(row, column);
-				Piece pushedPiece2 = getSpace(row, column + 1);
-				if (pieceCanPush(pushingPiece2, pushedPiece2)
-						&& move(row, column + 1, dir2)) {
-					isPushPull = false;
-					// should always be true
-					return move(row, column, dir1);
-				}
+				return enactPush(row, column, row, column + 1, dir1, dir2);
 			}
 			break;
 		case 2:
 			if (row + 1 <= 7) {
-				Piece pushingPiece3 = getSpace(row, column);
-				Piece pushedPiece3 = getSpace(row + 1, column);
-				if (pushingPiece3.isStrongerThan(pushedPiece3)) {
-					if (pieceCanPush(pushingPiece3, pushedPiece3)
-							&& move(row + 1, column, dir2)) {
-						isPushPull = false;
-						// should always be true
-						return move(row, column, dir1);
-
-					}
-				}
+				return enactPush(row, column, row + 1, column, dir1, dir2);
 			}
 			break;
 		case 3:
 			if (column - 1 >= 0) {
-				Piece pushingPiece4 = getSpace(row, column);
-				Piece pushedPiece4 = getSpace(row, column - 1);
-				if (pieceCanPush(pushingPiece4, pushedPiece4)
-						&& move(row, column - 1, dir2)) {
-					isPushPull = false;
-					// should always be true
-					return move(row, column, dir1);
-				}
+				return enactPush(row, column, row, column - 1, dir1, dir2);
 			}
 
 			break;
 		}
 		isPushPull=false;
+		return false;
+	}
+	
+	private boolean enactPush(int rowPushing, int columnPushing, int rowPushed, int columnPushed, int dir1, int dir2){
+		Piece pushingPiece = getSpace(rowPushing, columnPushing);
+		Piece pushedPiece = getSpace(rowPushed, columnPushed);
+		if (pieceCanPush(pushingPiece, pushedPiece)
+				&& move(rowPushed, columnPushed, dir2)) {
+			isPushPull = false;
+			// should always be true
+			return move(rowPushing, columnPushing, dir1);
+		}
 		return false;
 	}
 
