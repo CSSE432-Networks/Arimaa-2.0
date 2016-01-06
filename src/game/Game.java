@@ -163,57 +163,55 @@ public class Game {
 
 	// This method checks both rows for rabbits of the opposite side
 	private void checkWin() {
+		
+		if(checkTopAndBottomRows())
+			return;
+		
+		if(checkIfRabbitsExist(Piece.Owner.Player1))
+			return;
+		
+		checkIfRabbitsExist(Piece.Owner.Player2);
+		
+	}
+	
+	// Checks if a player has gotten a rabbit to the opponents home row
+	private boolean checkTopAndBottomRows(){
 		// check top row
 		for (int i = 0; i < 8; i++) {
 			if (getSpace(0, i) != null) {
 				if (getSpace(0, i).equals(
 						new Piece(PieceType.Rabbit, null, Piece.Owner.Player2))) {
 					winner = 2;
+					return true;
 				}
 			}
-		}
-		// check bottom row
-		for (int i = 0; i < 8; i++) {
+			
 			if (getSpace(7, i) != null) {
 				if (getSpace(7, i).equals(
 						new Piece(PieceType.Rabbit, null, Piece.Owner.Player1))) {
 					winner = 1;
+					return true;
 				}
 			}
 		}
-		
-		//check if rabbits exits
-		boolean p1RabbitExists=false;
+		return false;
+	}
+	
+	// Checks to see if players are out of rabbits
+	private boolean checkIfRabbitsExist(Owner player){
 		for(int i=0;i<8;i++){
 			for(int j=0;j<8;j++){
 				//and short circuits if null preventing nullpointerexception
-				if(getSpace(i,j)!=null&&getSpace(i, j).equals(new Piece(PieceType.Rabbit, null, Piece.Owner.Player1))){
-					p1RabbitExists=true;
+				if(getSpace(i,j)!=null&&getSpace(i, j).equals(new Piece(PieceType.Rabbit, null, player))){
+					return false;
 				}
 			}
 		}
-
-		if(!p1RabbitExists){
-			winner=2;
-		}
-		
-		boolean p2RabbitExists=false;
-		for(int i=0;i<8;i++){
-			for(int j=0;j<8;j++){
-				if(getSpace(i,j)!=null&&getSpace(i, j).equals(new Piece(PieceType.Rabbit, null, Piece.Owner.Player2))){
-					p2RabbitExists=true;
-				}
-			}
-		}
-		
-		if(!p2RabbitExists){
-			winner=1;
-		}
-		// Removed this now that we have a pop up box - Jesse
-
-		// noone has won
-		// if (winner != 0)
-		// System.out.println("Winner: " + winner);
+		if(player.equals(Piece.Owner.Player1))
+			winner = 2;
+		else 
+			winner = 1;
+		return true;
 	}
 
 	/**
