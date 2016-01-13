@@ -54,6 +54,8 @@ public class GUI {
 	private final String BLACK_DOG_PIC_LOCATION = "resources/Black dog.png";
 	private final String BLACK_CAT_PIC_LOCATION = "resources/Black cat.png";
 	private final String BLACK_RABBIT_PIC_LOCATION = "resources/Black rabbit.png";
+	private static final String BOARD_BACKGROUND = "resources/BoardStoneBig.jpg";
+	private final String CROPPED_BOARD_FOR_WINNER_PANEL = "resources/BoardStoneBigCropped.jpg";
 
 	public GUI() {
 		this.p1Name = "Player 1";
@@ -74,7 +76,7 @@ public class GUI {
 		GUI g = new GUI();
 
 		// Add MAIN MENU panel with appropriate background image
-		ImagePanel panel = new ImagePanel(new ImageIcon("resources/BoardStoneBig.jpg").getImage());
+		ImagePanel panel = new ImagePanel(new ImageIcon(BOARD_BACKGROUND).getImage());
 		g.activeFrames.get(0).getContentPane().add(panel);
 		g.activeFrames.get(0).pack();
 		panel.setVisible(true);
@@ -224,7 +226,7 @@ public class GUI {
 		winnerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		winnerFrame.setVisible(true);
 
-		ImagePanel panel = new ImagePanel(new ImageIcon("resources/BoardStoneBigCropped.jpg").getImage());
+		ImagePanel panel = new ImagePanel(new ImageIcon(CROPPED_BOARD_FOR_WINNER_PANEL).getImage());
 		winnerFrame.getContentPane().add(panel);
 		winnerFrame.pack();
 		panel.setVisible(true);
@@ -253,7 +255,7 @@ public class GUI {
 			settingsFrame.setLocation(650 / 2 - 324 / 2 + 5, 650 / 2 - 324 / 2 + 44);
 			settingsFrame.setVisible(true);
 
-			ImagePanel panel = new ImagePanel(new ImageIcon("resources/BoardStoneBigCropped.jpg").getImage());
+			ImagePanel panel = new ImagePanel(new ImageIcon(CROPPED_BOARD_FOR_WINNER_PANEL).getImage());
 			settingsFrame.getContentPane().add(panel);
 			settingsFrame.pack();
 			panel.setVisible(true);
@@ -569,7 +571,7 @@ public class GUI {
 			gameFrame.setTitle("Let's Play!");
 			gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-			ImagePanel panel = new ImagePanel(new ImageIcon("resources/board.jpg").getImage());
+			ImagePanel panel = new ImagePanel(new ImageIcon(BOARD_BACKGROUND).getImage());
 			activeFrames.get(0).getContentPane().add(panel);
 			activeFrames.get(0).pack();
 			panel.setVisible(true);
