@@ -27,5 +27,12 @@ public class TestImagePanel {
 	public void testInitializes() {
 		assertNotNull(testPanel);
 	}
+	
+	@Test
+	public void testSetRow() {
+		assertTrue(testPanel.getRow() == 0);
+		this.testPanel.setRow(3);
+		assertTrue(testPanel.getRow() == 3);
+	}
 
 }
