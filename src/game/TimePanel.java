@@ -9,8 +9,8 @@ import javax.swing.JLabel;
 
 public class TimePanel {
 	private JLabel timerLabel;
-	Timer timer;
-	int playerTurn;
+	private Timer timer;
+	private int playerTurn;
 
 	public TimePanel(GUI gui, Game game, int startTime, JLabel label) {
 

@@ -669,6 +669,10 @@ public class Game {
 	public int getTurnTimer() {
 		return moveTimer;
 	}
+	
+	public void setTurnTimer(int time) {
+		this.moveTimer = time;
+	}
 
 	/**
 	 * @return the winner: 0 is nobody, 1 is player1, 2 is player2
