@@ -191,6 +191,17 @@ public class TestGame {
 				g.getSpace(0, 1));
 	}
 	
+	@Test
+	public void testEndTurn(){
+		Game g = new Game();
+		assertTrue(1 == g.getPlayerTurn());
+		g.endTurn();
+		assertTrue(2 == g.getPlayerTurn());
+		g.endTurn();
+		assertTrue(1 == g.getPlayerTurn());
+	}
+
+	
 	BoardState freezingBoard = new BoardState(new char[][] {
 			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
 			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
@@ -230,6 +241,17 @@ public class TestGame {
 	public void testInvalidMoveDirection(){
 		Game g = new Game();
 		assertFalse(g.move(1,0,5));
+	}
+	
+	@Test
+	public void testCannotMoveWithNoMovesLeft(){
+		Game g = new Game();
+		assertTrue(g.move(1, 0, 2));
+		assertTrue(g.move(2, 0, 0));
+		assertTrue(g.move(1, 0, 2));
+		assertTrue(g.move(2, 0, 0));
+
+		assertFalse(g.move(1, 0, 2));
 	}
 
 	// Testing push method

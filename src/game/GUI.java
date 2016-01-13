@@ -41,20 +41,28 @@ public class GUI {
 	private JLabel turnIndicatorLabel;
 	private JLabel timerLabel;
 
+	private final String WHITE_ELEPHANT_PIC_LOCATION = "resources/White elephant.png";
+	private final String WHITE_CAMEL_PIC_LOCATION = "resources/White camel.png";
+	private final String WHITE_HORSE_PIC_LOCATION = "resources/White horse.png";
+	private final String WHITE_DOG_PIC_LOCATION = "resources/White dog.png";
+	private final String WHITE_CAT_PIC_LOCATION = "resources/White cat.png";
+	private final String WHITE_RABBIT_PIC_LOCATION = "resources/White rabbit.png";
+	private final String BLACK_ELEPHANT_PIC_LOCATION = "resources/Black elephant.png";
+	private final String BLACK_CAMEL_PIC_LOCATION = "resources/Black camel.png";
+	private final String BLACK_HORSE_PIC_LOCATION = "resources/Black horse.png";
+	private final String BLACK_DOG_PIC_LOCATION = "resources/Black dog.png";
+	private final String BLACK_CAT_PIC_LOCATION = "resources/Black cat.png";
+	private final String BLACK_RABBIT_PIC_LOCATION = "resources/Black rabbit.png";
+	private static final String BOARD_BACKGROUND = "resources/board.jpg";
+	private final String NEW_GAME_SETTINGS_BACKGROUND = "resources/BoardStoneBigCropped.jpg";
+	private static final String INITIAL_WINDOW_BACKGROUND = "resources/BoardStoneBig.jpg";
+	private final String WINNER_BACKGROUND = "resources/BoardStoneBigCropped.jpg";
+
 	public GUI() {
 		this.p1Name = "Player 1";
 		this.p2Name = "Player 2";
 		p2TextField = null;
 		p1TextField = null;
-		// BoardState b=new BoardState(new char[][] {
-		// { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-		// { ' ', ' ', ' ', ' ', 'r', ' ', ' ', ' ' },
-		// { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-		// { ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ' },
-		// { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-		// { ' ', 'R', ' ', 'E', ' ', ' ', 'r', ' ' },
-		// { ' ', 'e', ' ', ' ', ' ', ' ', 'C', ' ' },
-		// { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, }, 0);
 		this.game = new Game();
 		this.boardPieces = new ImagePanel[8][8];
 		this.activeFrames = new ArrayList<JFrame>();
@@ -69,12 +77,12 @@ public class GUI {
 		GUI g = new GUI();
 
 		// Add MAIN MENU panel with appropriate background image
-		ImagePanel panel = new ImagePanel(new ImageIcon("resources/BoardStoneBig.jpg").getImage());
+		ImagePanel panel = new ImagePanel(new ImageIcon(INITIAL_WINDOW_BACKGROUND).getImage());
 		g.activeFrames.get(0).getContentPane().add(panel);
 		g.activeFrames.get(0).pack();
 		panel.setVisible(true);
 
-		// Add the NEW GAME button to the Main Menu
+		// Add the NEW GAME button to the Main Menu]
 		JButton newGameButton = g.createButton("New Game", 4, 20, 150, 75, (panel.getWidth() / 4) - 35,
 				(panel.getHeight() / 2) - 37, g.new NewGameListener());
 		panel.add(newGameButton);
@@ -111,7 +119,6 @@ public class GUI {
 		this.activeFrames = frames;
 	}
 
-	// TODO: Long method, bad switch statement. Refactor?
 	private void renderInitialBoard() {
 		if (game.getWinner() != 0)
 			createWinWindow();
@@ -121,121 +128,55 @@ public class GUI {
 				char c = boardArray[row][column];
 				switch (c) {
 				case 'E':
-					ImagePanel whiteElephantPanel = new ImagePanel(
-							new ImageIcon("resources/White elephant.png").getImage());
-					this.gameBoardPanel.add(whiteElephantPanel);
-					whiteElephantPanel.setRow(row);
-					whiteElephantPanel.setColumn(column);
-					whiteElephantPanel.setLocation(whiteElephantPanel.getPixelX(), whiteElephantPanel.getPixelY());
-					whiteElephantPanel.setVisible(true);
-					this.boardPieces[row][column] = whiteElephantPanel;
+					createPieceIcon(row, column, WHITE_ELEPHANT_PIC_LOCATION);
 					break;
 				case 'C':
-					ImagePanel whiteCamelPanel = new ImagePanel(new ImageIcon("resources/White camel.png").getImage());
-					this.gameBoardPanel.add(whiteCamelPanel);
-					whiteCamelPanel.setRow(row);
-					whiteCamelPanel.setColumn(column);
-					whiteCamelPanel.setLocation(whiteCamelPanel.getPixelX(), whiteCamelPanel.getPixelY());
-					whiteCamelPanel.setVisible(true);
-					this.boardPieces[row][column] = whiteCamelPanel;
+					createPieceIcon(row, column, WHITE_CAMEL_PIC_LOCATION);
 					break;
 				case 'H':
-					ImagePanel whiteHorsePanel = new ImagePanel(new ImageIcon("resources/White horse.png").getImage());
-					this.gameBoardPanel.add(whiteHorsePanel);
-					whiteHorsePanel.setRow(row);
-					whiteHorsePanel.setColumn(column);
-					whiteHorsePanel.setLocation(whiteHorsePanel.getPixelX(), whiteHorsePanel.getPixelY());
-					whiteHorsePanel.setVisible(true);
-					this.boardPieces[row][column] = whiteHorsePanel;
+					createPieceIcon(row, column, WHITE_HORSE_PIC_LOCATION);
 					break;
 				case 'D':
-					ImagePanel whiteDogPanel = new ImagePanel(new ImageIcon("resources/White dog.png").getImage());
-					this.gameBoardPanel.add(whiteDogPanel);
-					whiteDogPanel.setRow(row);
-					whiteDogPanel.setColumn(column);
-					whiteDogPanel.setLocation(whiteDogPanel.getPixelX(), whiteDogPanel.getPixelY());
-					whiteDogPanel.setVisible(true);
-					this.boardPieces[row][column] = whiteDogPanel;
+					createPieceIcon(row, column, WHITE_DOG_PIC_LOCATION);
 					break;
 				case 'K':
-					ImagePanel whiteCatPanel = new ImagePanel(new ImageIcon("resources/White cat.png").getImage());
-					this.gameBoardPanel.add(whiteCatPanel);
-					whiteCatPanel.setRow(row);
-					whiteCatPanel.setColumn(column);
-					whiteCatPanel.setLocation(whiteCatPanel.getPixelX(), whiteCatPanel.getPixelY());
-					whiteCatPanel.setVisible(true);
-					this.boardPieces[row][column] = whiteCatPanel;
+					createPieceIcon(row, column, WHITE_CAT_PIC_LOCATION);
 					break;
 				case 'R':
-					ImagePanel whiteRabbitPanel = new ImagePanel(
-							new ImageIcon("resources/White rabbit.png").getImage());
-					this.gameBoardPanel.add(whiteRabbitPanel);
-					whiteRabbitPanel.setRow(row);
-					whiteRabbitPanel.setColumn(column);
-					whiteRabbitPanel.setLocation(whiteRabbitPanel.getPixelX(), whiteRabbitPanel.getPixelY());
-					whiteRabbitPanel.setVisible(true);
-					this.boardPieces[row][column] = whiteRabbitPanel;
+					createPieceIcon(row, column, WHITE_RABBIT_PIC_LOCATION);
 					break;
 				case 'e':
-					ImagePanel blackElephantPanel = new ImagePanel(
-							new ImageIcon("resources/Black elephant.png").getImage());
-					this.gameBoardPanel.add(blackElephantPanel);
-					blackElephantPanel.setRow(row);
-					blackElephantPanel.setColumn(column);
-					blackElephantPanel.setLocation(blackElephantPanel.getPixelX(), blackElephantPanel.getPixelY());
-					blackElephantPanel.setVisible(true);
-					this.boardPieces[row][column] = blackElephantPanel;
+					createPieceIcon(row, column, BLACK_ELEPHANT_PIC_LOCATION);
 					break;
 				case 'c':
-					ImagePanel blackCamelPanel = new ImagePanel(new ImageIcon("resources/Black camel.png").getImage());
-					this.gameBoardPanel.add(blackCamelPanel);
-					blackCamelPanel.setRow(row);
-					blackCamelPanel.setColumn(column);
-					blackCamelPanel.setLocation(blackCamelPanel.getPixelX(), blackCamelPanel.getPixelY());
-					blackCamelPanel.setVisible(true);
-					this.boardPieces[row][column] = blackCamelPanel;
+					createPieceIcon(row, column, BLACK_CAMEL_PIC_LOCATION);
 					break;
 				case 'h':
-					ImagePanel blackHorsePanel = new ImagePanel(new ImageIcon("resources/Black horse.png").getImage());
-					this.gameBoardPanel.add(blackHorsePanel);
-					blackHorsePanel.setRow(row);
-					blackHorsePanel.setColumn(column);
-					blackHorsePanel.setLocation(blackHorsePanel.getPixelX(), blackHorsePanel.getPixelY());
-					blackHorsePanel.setVisible(true);
-					this.boardPieces[row][column] = blackHorsePanel;
+					createPieceIcon(row, column, BLACK_HORSE_PIC_LOCATION);
 					break;
 				case 'd':
-					ImagePanel blackDogPanel = new ImagePanel(new ImageIcon("resources/Black dog.png").getImage());
-					this.gameBoardPanel.add(blackDogPanel);
-					blackDogPanel.setRow(row);
-					blackDogPanel.setColumn(column);
-					blackDogPanel.setLocation(blackDogPanel.getPixelX(), blackDogPanel.getPixelY());
-					blackDogPanel.setVisible(true);
-					this.boardPieces[row][column] = blackDogPanel;
+					createPieceIcon(row, column, BLACK_DOG_PIC_LOCATION);
 					break;
 				case 'k':
-					ImagePanel blackCatPanel = new ImagePanel(new ImageIcon("resources/Black cat.png").getImage());
-					this.gameBoardPanel.add(blackCatPanel);
-					blackCatPanel.setRow(row);
-					blackCatPanel.setColumn(column);
-					blackCatPanel.setLocation(blackCatPanel.getPixelX(), blackCatPanel.getPixelY());
-					blackCatPanel.setVisible(true);
-					this.boardPieces[row][column] = blackCatPanel;
+					createPieceIcon(row, column, BLACK_CAT_PIC_LOCATION);
 					break;
 				case 'r':
-					ImagePanel blackRabbitPanel = new ImagePanel(
-							new ImageIcon("resources/Black rabbit.png").getImage());
-					this.gameBoardPanel.add(blackRabbitPanel);
-					blackRabbitPanel.setRow(row);
-					blackRabbitPanel.setColumn(column);
-					blackRabbitPanel.setLocation(blackRabbitPanel.getPixelX(), blackRabbitPanel.getPixelY());
-					blackRabbitPanel.setVisible(true);
-					this.boardPieces[row][column] = blackRabbitPanel;
+					createPieceIcon(row, column, BLACK_RABBIT_PIC_LOCATION);
 					break;
 				default:
 				}
 			}
 		}
+	}
+
+	private void createPieceIcon(int row, int column, String imageLocation) {
+		ImagePanel whiteElephantPanel = new ImagePanel(new ImageIcon(imageLocation).getImage());
+		this.gameBoardPanel.add(whiteElephantPanel);
+		whiteElephantPanel.setRow(row);
+		whiteElephantPanel.setColumn(column);
+		whiteElephantPanel.setLocation(whiteElephantPanel.getPixelX(), whiteElephantPanel.getPixelY());
+		whiteElephantPanel.setVisible(true);
+		this.boardPieces[row][column] = whiteElephantPanel;
 	}
 
 	protected void renderBoard() {
@@ -266,11 +207,12 @@ public class GUI {
 		JFrame winnerFrame = new JFrame();
 		activeFrames.add(winnerFrame);
 		winnerFrame.setTitle("Winner!");
+
 		winnerFrame.setLocation(650 / 2 - 324 / 2 + 75, 650 / 2 - 324 / 2 + 0);
 		winnerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		winnerFrame.setVisible(true);
 
-		ImagePanel panel = new ImagePanel(new ImageIcon("resources/BoardStoneBigCropped.jpg").getImage());
+		ImagePanel panel = new ImagePanel(new ImageIcon(WINNER_BACKGROUND).getImage());
 		winnerFrame.getContentPane().add(panel);
 		winnerFrame.pack();
 		panel.setVisible(true);
@@ -400,6 +342,7 @@ public class GUI {
 		button.addActionListener(listener);
 		button.setVisible(true);
 		return button;
+
 	}
 
 	// ACTION LISTENERS
@@ -414,7 +357,7 @@ public class GUI {
 			settingsFrame.setLocation(650 / 2 - 324 / 2 + 5, 650 / 2 - 324 / 2 + 44);
 			settingsFrame.setVisible(true);
 
-			ImagePanel panel = new ImagePanel(new ImageIcon("resources/BoardStoneBigCropped.jpg").getImage());
+			ImagePanel panel = new ImagePanel(new ImageIcon(NEW_GAME_SETTINGS_BACKGROUND).getImage());
 			settingsFrame.getContentPane().add(panel);
 			settingsFrame.pack();
 			panel.setVisible(true);
@@ -529,6 +472,7 @@ public class GUI {
 			Scanner scanner = new Scanner(file);
 			if (game.loadFile(scanner)) {
 				setupForGame();
+
 			} else {
 				System.err.println("Invalid game state");
 			}
@@ -565,6 +509,7 @@ public class GUI {
 
 			game.setTurnTimer((int) timerComboBox.getSelectedItem());
 			setupForGame();
+
 		}
 	}
 
@@ -639,7 +584,6 @@ public class GUI {
 			// Not needed
 		}
 
-		// TODO Possible refactor, method long and complicated
 		@Override
 		public void mousePressed(MouseEvent e) {
 			int sourceX = (int) e.getPoint().getX();
@@ -660,23 +604,8 @@ public class GUI {
 
 				// If a piece is selected and an empty space is clicked
 				// AKA move
-				else if (noSelectedPieceAndEmptySpaceClicked(rowClicked, columnClicked)) {
-					Integer calculatedDirection = null;
-					try {
-						calculatedDirection = moveDirection(selectedPiece, rowClicked, columnClicked);
-					} catch (ArimaaException e1) {
-						e1.printStackTrace();
-						System.err.println("Arimaa Exception: " + e1.getMessage());
-					}
-					// Using move to check for valid move
-					if (calculatedDirection != null) {
-						if (game.move(selectedPiece.getRow(), selectedPiece.getColumn(), calculatedDirection)) {
-							renderBoard();
-						}
-						this.selectedPiece = null;
-						this.secondSelectedPiece = null;
-					}
-
+				else if (selectedPieceAndEmptySpaceClicked(rowClicked, columnClicked)) {
+					handleMove(rowClicked, columnClicked);
 				}
 
 				// Piece already selected, clicked a second piece
@@ -688,43 +617,10 @@ public class GUI {
 				} else if (twoPieceSelectedAndEmptySpaceClicked(rowClicked, columnClicked)) {
 
 					if (checkForPull(rowClicked, columnClicked)) {
-						Integer calculatedDirection = null;
-						try {
-							calculatedDirection = moveDirection(selectedPiece, rowClicked, columnClicked);
-						} catch (ArimaaException e1) {
-							e1.printStackTrace();
-							System.err.println("Arimaa Exception: " + e1.getMessage());
-						}
-
-						if (calculatedDirection != null) {
-							if (game.pull(this.selectedPiece.getRow(), this.selectedPiece.getColumn(),
-									this.secondSelectedPiece.getRow(), this.secondSelectedPiece.getColumn(),
-									calculatedDirection)) {
-								renderBoard();
-							}
-							this.selectedPiece = null;
-							this.secondSelectedPiece = null;
-						}
+						handlePull(rowClicked, columnClicked);
 
 					} else if (checkForPush(rowClicked, columnClicked)) {
-						Integer calculatedDirection1 = null;
-						Integer calculatedDirection2 = null;
-						try {
-							calculatedDirection1 = moveDirectionOnePush(selectedPiece, secondSelectedPiece);
-							calculatedDirection2 = moveDirectionTwoPush(secondSelectedPiece, rowClicked, columnClicked);
-						} catch (ArimaaException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-
-						if (calculatedDirection1 != null && calculatedDirection2 != null) {
-							if (game.push(this.selectedPiece.getRow(), this.selectedPiece.getColumn(),
-									calculatedDirection1, calculatedDirection2)) {
-								renderBoard();
-							}
-							this.selectedPiece = null;
-							this.secondSelectedPiece = null;
-						}
+						handlePush(rowClicked, columnClicked);
 					}
 				}
 
@@ -734,11 +630,69 @@ public class GUI {
 					this.secondSelectedPiece = null;
 				}
 			}
+		}
 
+		private void handlePush(int rowClicked, int columnClicked) {
+			Integer calculatedDirection1 = null;
+			Integer calculatedDirection2 = null;
+			try {
+				calculatedDirection1 = moveDirectionOnePush(selectedPiece, secondSelectedPiece);
+				calculatedDirection2 = moveDirectionTwoPush(secondSelectedPiece, rowClicked, columnClicked);
+			} catch (ArimaaException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			if (calculatedDirection1 != null && calculatedDirection2 != null) {
+				if (game.push(this.selectedPiece.getRow(), this.selectedPiece.getColumn(), calculatedDirection1,
+						calculatedDirection2)) {
+					renderBoard();
+				}
+				this.selectedPiece = null;
+				this.secondSelectedPiece = null;
+			}
+		}
+
+		private void handlePull(int rowClicked, int columnClicked) {
+			Integer calculatedDirection = null;
+			try {
+				calculatedDirection = moveDirection(selectedPiece, rowClicked, columnClicked);
+			} catch (ArimaaException e1) {
+				e1.printStackTrace();
+				System.err.println("Arimaa Exception: " + e1.getMessage());
+			}
+
+			if (calculatedDirection != null) {
+				if (game.pull(this.selectedPiece.getRow(), this.selectedPiece.getColumn(),
+						this.secondSelectedPiece.getRow(), this.secondSelectedPiece.getColumn(), calculatedDirection)) {
+					renderBoard();
+				}
+				this.selectedPiece = null;
+				this.secondSelectedPiece = null;
+			}
+		}
+
+		private void handleMove(int rowClicked, int columnClicked) {
+			Integer calculatedDirection = null;
+			try {
+				calculatedDirection = moveDirection(selectedPiece, rowClicked, columnClicked);
+			} catch (ArimaaException e1) {
+				e1.printStackTrace();
+				System.err.println("Arimaa Exception: " + e1.getMessage());
+			}
+			// Using move to check for valid move
+			if (calculatedDirection != null) {
+				if (game.move(selectedPiece.getRow(), selectedPiece.getColumn(), calculatedDirection)) {
+					renderBoard();
+				}
+				this.selectedPiece = null;
+				this.secondSelectedPiece = null;
+			}
 		}
 
 		private int moveDirectionTwoPush(ImagePanel secondSelectedPiece2, int rowClicked, int columnClicked)
 				throws ArimaaException {
+
 			if (secondSelectedPiece.getRow() - 1 == rowClicked && secondSelectedPiece.getColumn() == columnClicked)
 				return 0;
 			else if (secondSelectedPiece.getColumn() + 1 == columnClicked && secondSelectedPiece.getRow() == rowClicked)
@@ -754,6 +708,7 @@ public class GUI {
 
 		private int moveDirectionOnePush(ImagePanel selectedPiece2, ImagePanel secondSelectedPiece2)
 				throws ArimaaException {
+
 			if (selectedPiece.getRow() - 1 == secondSelectedPiece.getRow()
 					&& selectedPiece.getColumn() == secondSelectedPiece.getColumn())
 				return 0;
@@ -783,6 +738,7 @@ public class GUI {
 		}
 
 		private int moveDirection(ImagePanel selectedPiece2, int rowClicked, int columnClicked) throws ArimaaException {
+
 			if (selectedPiece.getRow() - 1 == rowClicked && selectedPiece.getColumn() == columnClicked)
 				return 0;
 			else if (selectedPiece.getColumn() + 1 == columnClicked && selectedPiece.getRow() == rowClicked)
@@ -796,7 +752,7 @@ public class GUI {
 			}
 		}
 
-		private boolean noSelectedPieceAndEmptySpaceClicked(int rowClicked, int columnClicked) {
+		private boolean selectedPieceAndEmptySpaceClicked(int rowClicked, int columnClicked) {
 			return this.selectedPiece != null && this.secondSelectedPiece == null
 					&& boardPieces[rowClicked][columnClicked] == null;
 		}
@@ -853,59 +809,4 @@ public class GUI {
 			return false;
 		}
 	}
-}
-
-// TODO: Extract this to another class?
-class ImagePanel extends JPanel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7315460075240330922L;
-	private Image img;
-	private int row;
-	private int column;
-
-	public ImagePanel(String img) {
-		this(new ImageIcon(img).getImage());
-	}
-
-	public ImagePanel(Image img) {
-		this.img = img;
-		Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
-		setPreferredSize(size);
-		setMinimumSize(size);
-		setMaximumSize(size);
-		setSize(size);
-		setLayout(null);
-	}
-
-	public void paintComponent(Graphics g) {
-		g.drawImage(img, 0, 0, null);
-	}
-
-	public void setRow(int row) {
-		this.row = row;
-	}
-
-	public int getRow() {
-		return this.row;
-	}
-
-	public void setColumn(int column) {
-		this.column = column;
-	}
-
-	public int getColumn() {
-		return this.column;
-	}
-
-	public int getPixelX() {
-		return this.column * 80 + 10;
-	}
-
-	public int getPixelY() {
-		return this.row * 80 + 10;
-	}
-
 }
