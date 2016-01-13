@@ -8,12 +8,13 @@ package game;
  */
 public class BoardState {
 	// Fields
-	private char[][] boardArray = new char[8][8]; // Represents the current state of the board
+	private char[][] boardArray = new char[8][8]; // Represents the current
+													// state of the board
 	private int turnNumber;
 
 	public BoardState(char[][] map, int turnNumber) {
-		for(int i=0; i<8; i++){
-			for(int k=0; k<8; k++){
+		for (int i = 0; i < 8; i++) {
+			for (int k = 0; k < 8; k++) {
 				this.boardArray[i][k] = map[i][k];
 			}
 		}

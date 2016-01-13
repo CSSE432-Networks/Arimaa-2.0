@@ -32,15 +32,12 @@ public class Game {
 	 * Creates a board with a default starting layout
 	 */
 	public Game() {
-		currentBoard = new BoardState(new char[][] {
-				{ 'K', 'D', 'H', 'C', 'E', 'H', 'D', 'K' },
-				{ 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ 'r', 'r', 'r', 'r', 'r', 'r', 'r', 'r' },
-				{ 'k', 'd', 'h', 'c', 'e', 'h', 'd', 'k' }, }, 0);
+		currentBoard = new BoardState(
+				new char[][] { { 'K', 'D', 'H', 'C', 'E', 'H', 'D', 'K' }, { 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R' },
+						{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+						{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+						{ 'r', 'r', 'r', 'r', 'r', 'r', 'r', 'r' }, { 'k', 'd', 'h', 'c', 'e', 'h', 'd', 'k' }, },
+				0);
 	}
 
 	/**
@@ -67,7 +64,7 @@ public class Game {
 	 * @return
 	 */
 	public boolean move(int row, int column, int dir) {
-		if(numMoves<=0){
+		if (numMoves <= 0) {
 			return false;
 		}
 		if (!isValidMoveFromSquare(row, column))
@@ -115,25 +112,22 @@ public class Game {
 	private boolean isValidMoveFromSquare(int row, int column) {
 		if (getSpace(row, column) == null)
 			return false;
-		//System.out.println("isPushPull: "+isPushPull);
+		// System.out.println("isPushPull: "+isPushPull);
 		// This may cause issues when we implement undo/redo if we try invalid
 		// moves before we undo
-		if (getSpace(row, column).getOwner() != Owner.values()[(getPlayerTurn() - 1)]
-				&& !isPushPull){
-			//System.out.println("Not your turn: "+isPushPull);
+		if (getSpace(row, column).getOwner() != Owner.values()[(getPlayerTurn() - 1)] && !isPushPull) {
+			// System.out.println("Not your turn: "+isPushPull);
 			return false;// not your turn
 		}
-		if ((checkStrongerAdjacent(row, column) && !checkFriendlyAdjacent(row,
-				column)) && !isPushPull){
-			//System.out.println("Can't move "+isPushPull);
-			return false;// can't move 
-			}
+		if ((checkStrongerAdjacent(row, column) && !checkFriendlyAdjacent(row, column)) && !isPushPull) {
+			// System.out.println("Can't move "+isPushPull);
+			return false;// can't move
+		}
 		return true;
 	}
 
 	private boolean isValidMoveSquare(int row, int column) {
-		if (row >= 0 && row < 8 && column >= 0 && column < 8
-				&& currentBoard.getBoardArray()[row][column] == ' ')
+		if (row >= 0 && row < 8 && column >= 0 && column < 8 && currentBoard.getBoardArray()[row][column] == ' ')
 			return true;
 		return false;
 	}
@@ -150,7 +144,7 @@ public class Game {
 		checkWin();
 		numMoves--;
 	}
-	
+
 	public void endTurn() {
 		if (getPlayerTurn() == 1) {
 			setPlayerTurn(2);
@@ -166,8 +160,7 @@ public class Game {
 		// check top row
 		for (int i = 0; i < 8; i++) {
 			if (getSpace(0, i) != null) {
-				if (getSpace(0, i).equals(
-						new Piece(PieceType.Rabbit, null, Piece.Owner.Player2))) {
+				if (getSpace(0, i).equals(new Piece(PieceType.Rabbit, null, Piece.Owner.Player2))) {
 					winner = 2;
 				}
 			}
@@ -175,39 +168,40 @@ public class Game {
 		// check bottom row
 		for (int i = 0; i < 8; i++) {
 			if (getSpace(7, i) != null) {
-				if (getSpace(7, i).equals(
-						new Piece(PieceType.Rabbit, null, Piece.Owner.Player1))) {
+				if (getSpace(7, i).equals(new Piece(PieceType.Rabbit, null, Piece.Owner.Player1))) {
 					winner = 1;
 				}
 			}
 		}
-		
-		//check if rabbits exits
-		boolean p1RabbitExists=false;
-		for(int i=0;i<8;i++){
-			for(int j=0;j<8;j++){
-				//and short circuits if null preventing nullpointerexception
-				if(getSpace(i,j)!=null&&getSpace(i, j).equals(new Piece(PieceType.Rabbit, null, Piece.Owner.Player1))){
-					p1RabbitExists=true;
+
+		// check if rabbits exits
+		boolean p1RabbitExists = false;
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				// and short circuits if null preventing nullpointerexception
+				if (getSpace(i, j) != null
+						&& getSpace(i, j).equals(new Piece(PieceType.Rabbit, null, Piece.Owner.Player1))) {
+					p1RabbitExists = true;
 				}
 			}
 		}
 
-		if(!p1RabbitExists){
-			winner=2;
+		if (!p1RabbitExists) {
+			winner = 2;
 		}
-		
-		boolean p2RabbitExists=false;
-		for(int i=0;i<8;i++){
-			for(int j=0;j<8;j++){
-				if(getSpace(i,j)!=null&&getSpace(i, j).equals(new Piece(PieceType.Rabbit, null, Piece.Owner.Player2))){
-					p2RabbitExists=true;
+
+		boolean p2RabbitExists = false;
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (getSpace(i, j) != null
+						&& getSpace(i, j).equals(new Piece(PieceType.Rabbit, null, Piece.Owner.Player2))) {
+					p2RabbitExists = true;
 				}
 			}
 		}
-		
-		if(!p2RabbitExists){
-			winner=1;
+
+		if (!p2RabbitExists) {
+			winner = 1;
 		}
 		// Removed this now that we have a pop up box - Jesse
 
@@ -321,8 +315,7 @@ public class Game {
 			if (row - 1 >= 0) {
 				Piece pushingPiece = getSpace(row, column);
 				Piece pushedPiece = getSpace(row - 1, column);
-				if (pieceCanPush(pushingPiece, pushedPiece)
-						&& move(row - 1, column, dir2)) {
+				if (pieceCanPush(pushingPiece, pushedPiece) && move(row - 1, column, dir2)) {
 					isPushPull = false;
 					// should always be true
 					return move(row, column, dir1);
@@ -334,8 +327,7 @@ public class Game {
 			if (column + 1 <= 7) {
 				Piece pushingPiece2 = getSpace(row, column);
 				Piece pushedPiece2 = getSpace(row, column + 1);
-				if (pieceCanPush(pushingPiece2, pushedPiece2)
-						&& move(row, column + 1, dir2)) {
+				if (pieceCanPush(pushingPiece2, pushedPiece2) && move(row, column + 1, dir2)) {
 					isPushPull = false;
 					// should always be true
 					return move(row, column, dir1);
@@ -347,8 +339,7 @@ public class Game {
 				Piece pushingPiece3 = getSpace(row, column);
 				Piece pushedPiece3 = getSpace(row + 1, column);
 				if (pushingPiece3.isStrongerThan(pushedPiece3)) {
-					if (pieceCanPush(pushingPiece3, pushedPiece3)
-							&& move(row + 1, column, dir2)) {
+					if (pieceCanPush(pushingPiece3, pushedPiece3) && move(row + 1, column, dir2)) {
 						isPushPull = false;
 						// should always be true
 						return move(row, column, dir1);
@@ -361,8 +352,7 @@ public class Game {
 			if (column - 1 >= 0) {
 				Piece pushingPiece4 = getSpace(row, column);
 				Piece pushedPiece4 = getSpace(row, column - 1);
-				if (pieceCanPush(pushingPiece4, pushedPiece4)
-						&& move(row, column - 1, dir2)) {
+				if (pieceCanPush(pushingPiece4, pushedPiece4) && move(row, column - 1, dir2)) {
 					isPushPull = false;
 					// should always be true
 					return move(row, column, dir1);
@@ -371,7 +361,7 @@ public class Game {
 
 			break;
 		}
-		isPushPull=false;
+		isPushPull = false;
 		return false;
 	}
 
@@ -404,8 +394,7 @@ public class Game {
 	 *            : direction the piece being pulled will move
 	 * @return True if pull succeeds, False if it fails
 	 */
-	public boolean pull(int row1, int column1, int row2, int column2,
-			int direction1) {
+	public boolean pull(int row1, int column1, int row2, int column2, int direction1) {
 		if (!isValidSquaretoPullFrom(row1, column1, row2, column2))
 			return false;
 		// Get direction that pulled piece will move
@@ -416,35 +405,33 @@ public class Game {
 		// Attempt to perform move operations on both pieces
 		switch (direction1) {
 		case 0:
-			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1,
-					column1, direction1)) {// pieceCanPush(getSpace(row1,
-											// column1),getSpace(row2,
-											// column2))&& move(row1, column1,
-											// direction1)
+			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {// pieceCanPush(getSpace(row1,
+																										// column1),getSpace(row2,
+																										// column2))&&
+																										// move(row1,
+																										// column1,
+																										// direction1)
 				move(row2, column2, direction2);
 				isPushPull = false;
 				return true;
 			}
 			break;
 		case 1:
-			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1,
-					column1, direction1)) {
+			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {
 				move(row2, column2, direction2);
 				isPushPull = false;
 				return true;
 			}
 			break;
 		case 2:
-			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1,
-					column1, direction1)) {
+			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {
 				move(row2, column2, direction2);
 				isPushPull = false;
 				return true;
 			}
 			break;
 		case 3:
-			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1,
-					column1, direction1)) {
+			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {
 				move(row2, column2, direction2);
 				isPushPull = false;
 				return true;
@@ -454,13 +441,11 @@ public class Game {
 		return false;
 	}
 
-	private boolean tryPull(Piece space, Piece space2, int row1, int column1,
-			int direction1) {
+	private boolean tryPull(Piece space, Piece space2, int row1, int column1, int direction1) {
 		return pieceCanPush(space, space2) && move(row1, column1, direction1);
 	}
 
-	private boolean isValidSquaretoPullFrom(int row1, int column1, int row2,
-			int column2) {
+	private boolean isValidSquaretoPullFrom(int row1, int column1, int row2, int column2) {
 		if (numMoves <= 1)
 			return false; // can't push/pull with only one move
 		// Check that both pieces exist
@@ -507,50 +492,45 @@ public class Game {
 		}
 		return -1;
 	}
-	
-	//EDITED 2015-12-09: Changed functionality so undo only reverts one move at a time, not the player's whole turn.
-	public void undoMove(){
-		if(this.numMoves == 4) return;
-		
-		this.currentBoard = this.boards.get(boards.size()-1);
-		this.boards.remove(this.boards.size()-1);
-		
+
+	// EDITED 2015-12-09: Changed functionality so undo only reverts one move at
+	// a time, not the player's whole turn.
+	public void undoMove() {
+		if (this.numMoves == 4)
+			return;
+
+		this.currentBoard = this.boards.get(boards.size() - 1);
+		this.boards.remove(this.boards.size() - 1);
+
 		this.numMoves += 1;
-		
+
 		/*
-		if(this.numMoves == 3) {
-		this.currentBoard = this.boards.get(boards.size()-1);
-		this.boards.remove(this.boards.size()-1);
-		}
-		
-		if(this.numMoves == 2) {
-			this.currentBoard = this.boards.get(boards.size()-2);
-			this.boards.remove(this.boards.size()-2);
-		}
-		
-		if(this.numMoves == 1) {
-			this.currentBoard = this.boards.get(boards.size()-3);
-			this.boards.remove(this.boards.size()-3);
-		}
-		
-		this.numMoves = 4;
-		*/
+		 * if(this.numMoves == 3) { this.currentBoard =
+		 * this.boards.get(boards.size()-1);
+		 * this.boards.remove(this.boards.size()-1); }
+		 * 
+		 * if(this.numMoves == 2) { this.currentBoard =
+		 * this.boards.get(boards.size()-2);
+		 * this.boards.remove(this.boards.size()-2); }
+		 * 
+		 * if(this.numMoves == 1) { this.currentBoard =
+		 * this.boards.get(boards.size()-3);
+		 * this.boards.remove(this.boards.size()-3); }
+		 * 
+		 * this.numMoves = 4;
+		 */
 	}
 
 	public boolean loadFile(Scanner scanner) {
 		// Setup to use Scanner
 		scanner.useDelimiter(",");
-		BoardState boardToSet = new BoardState(new char[][] {
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, }, 0);
-		String[] validBoardCharactersArray = { " ", "E", "C", "H", "D", "K",
-				"R", "e", "c", "h", "d", "k", "r" };
+		BoardState boardToSet = new BoardState(
+				new char[][] { { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+						{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+						{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+						{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, },
+				0);
+		String[] validBoardCharactersArray = { " ", "E", "C", "H", "D", "K", "R", "e", "c", "h", "d", "k", "r" };
 		ArrayList<String> vbc = new ArrayList<String>();
 		for (String s : validBoardCharactersArray) {
 			vbc.add(s);
@@ -629,7 +609,7 @@ public class Game {
 				}
 			}
 		}
-		
+
 		String s2 = "" + this.turnCounter + ",";
 
 		try {
@@ -669,7 +649,7 @@ public class Game {
 	public int getTurnTimer() {
 		return moveTimer;
 	}
-	
+
 	public void setTurnTimer(int time) {
 		this.moveTimer = time;
 	}
