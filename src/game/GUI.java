@@ -55,8 +55,8 @@ public class GUI {
 	private final String BLACK_CAT_PIC_LOCATION = "resources/Black cat.png";
 	private final String BLACK_RABBIT_PIC_LOCATION = "resources/Black rabbit.png";
 	private static final String BOARD_BACKGROUND = "resources/board.jpg";
-	private final String CROPPED_BOARD_FOR_WINNER_PANEL = "resources/BoardStoneBigCropped.jpg";
 	private final String NEW_GAME_SETTINGS_BACKGROUND = "resources/BoardStoneBigCropped.jpg";
+	private static final String INITIAL_WINDOW_BACKGROUND = "resources/BoardStoneBig.jpg";
 	private final String WINNER_BACKGROUND = "resources/BoardStoneBigCropped.jpg";
 
 	public GUI() {
@@ -78,7 +78,7 @@ public class GUI {
 		GUI g = new GUI();
 
 		// Add MAIN MENU panel with appropriate background image
-		ImagePanel panel = new ImagePanel(new ImageIcon(BOARD_BACKGROUND).getImage());
+		ImagePanel panel = new ImagePanel(new ImageIcon(INITIAL_WINDOW_BACKGROUND).getImage());
 		g.activeFrames.get(0).getContentPane().add(panel);
 		g.activeFrames.get(0).pack();
 		panel.setVisible(true);
