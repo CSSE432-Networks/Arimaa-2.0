@@ -15,7 +15,7 @@ public class TestImagePanel {
 
 	@Before
 	public void setUp() throws Exception {
-		this.testPanel = new ImagePanel(new ImageIcon("resources/BoardStoneBig.jpg").getImage());
+		this.testPanel = new ImagePanel("resources/BoardStoneBig.jpg");
 	}
 
 	@After

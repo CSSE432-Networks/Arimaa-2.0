@@ -53,7 +53,7 @@ public class GUI {
 	private final String BLACK_DOG_PIC_LOCATION = "resources/Black dog.png";
 	private final String BLACK_CAT_PIC_LOCATION = "resources/Black cat.png";
 	private final String BLACK_RABBIT_PIC_LOCATION = "resources/Black rabbit.png";
-	private static final String BOARD_BACKGROUND = "resources/board.jpg";
+	private final String BOARD_BACKGROUND = "resources/board.jpg";
 	private final String NEW_GAME_SETTINGS_BACKGROUND = "resources/BoardStoneBigCropped.jpg";
 	private static final String INITIAL_WINDOW_BACKGROUND = "resources/BoardStoneBig.jpg";
 	private final String WINNER_BACKGROUND = "resources/BoardStoneBigCropped.jpg";
@@ -77,7 +77,7 @@ public class GUI {
 		GUI g = new GUI();
 
 		// Add MAIN MENU panel with appropriate background image
-		ImagePanel panel = new ImagePanel(new ImageIcon(INITIAL_WINDOW_BACKGROUND).getImage());
+		ImagePanel panel = new ImagePanel(INITIAL_WINDOW_BACKGROUND);
 		g.activeFrames.get(0).getContentPane().add(panel);
 		g.activeFrames.get(0).pack();
 		panel.setVisible(true);
@@ -170,7 +170,7 @@ public class GUI {
 	}
 
 	private void createPieceIcon(int row, int column, String imageLocation) {
-		ImagePanel whiteElephantPanel = new ImagePanel(new ImageIcon(imageLocation).getImage());
+		ImagePanel whiteElephantPanel = new ImagePanel(imageLocation);
 		this.gameBoardPanel.add(whiteElephantPanel);
 		whiteElephantPanel.setRow(row);
 		whiteElephantPanel.setColumn(column);
@@ -212,7 +212,7 @@ public class GUI {
 		winnerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		winnerFrame.setVisible(true);
 
-		ImagePanel panel = new ImagePanel(new ImageIcon(WINNER_BACKGROUND).getImage());
+		ImagePanel panel = new ImagePanel(WINNER_BACKGROUND);
 		winnerFrame.getContentPane().add(panel);
 		winnerFrame.pack();
 		panel.setVisible(true);
@@ -237,7 +237,7 @@ public class GUI {
 		gameFrame.setTitle("Let's Play!");
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		ImagePanel panel = new ImagePanel(new ImageIcon("resources/board.jpg").getImage());
+		ImagePanel panel = new ImagePanel(BOARD_BACKGROUND);
 		activeFrames.get(0).getContentPane().add(panel);
 		activeFrames.get(0).pack();
 		panel.setVisible(true);
@@ -357,7 +357,7 @@ public class GUI {
 			settingsFrame.setLocation(650 / 2 - 324 / 2 + 5, 650 / 2 - 324 / 2 + 44);
 			settingsFrame.setVisible(true);
 
-			ImagePanel panel = new ImagePanel(new ImageIcon(NEW_GAME_SETTINGS_BACKGROUND).getImage());
+			ImagePanel panel = new ImagePanel(NEW_GAME_SETTINGS_BACKGROUND);
 			settingsFrame.getContentPane().add(panel);
 			settingsFrame.pack();
 			panel.setVisible(true);
