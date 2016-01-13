@@ -51,5 +51,23 @@ public class TestImagePanel {
 		this.testPanel.setColumn(3);
 		assertTrue(testPanel.getColumn() == 3);
 	}
+	
+	@Test
+	public void testGetPixelX(){
+		this.testPanel.setColumn(5);
+		assertTrue(this.testPanel.getPixelX() == 410);
+	}
+	
+	@Test
+	public void testGetPixelX2(){
+		this.testPanel.setColumn(0);
+		assertTrue(this.testPanel.getPixelX() == 10);
+	}
+	
+	@Test
+	public void testGetPixelX3(){
+		this.testPanel.setColumn(8);
+		assertTrue(this.testPanel.getPixelX() == 650);
+	}
 
 }
