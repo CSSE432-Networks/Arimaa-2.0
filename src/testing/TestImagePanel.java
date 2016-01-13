@@ -44,5 +44,12 @@ public class TestImagePanel {
 	public void testGetColumn() {
 		assertTrue(testPanel.getColumn() == 0);
 	}
+	
+	@Test
+	public void testSetColumn() {
+		assertTrue(testPanel.getColumn() == 0);
+		this.testPanel.setColumn(3);
+		assertTrue(testPanel.getColumn() == 3);
+	}
 
 }
