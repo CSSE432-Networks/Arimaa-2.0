@@ -69,5 +69,23 @@ public class TestImagePanel {
 		this.testPanel.setColumn(8);
 		assertTrue(this.testPanel.getPixelX() == 650);
 	}
+	
+	@Test
+	public void testGetPixelY(){
+		this.testPanel.setRow(5);
+		assertTrue(this.testPanel.getPixelY() == 410);
+	}
+	
+	@Test
+	public void testGetPixelY2(){
+		this.testPanel.setRow(0);
+		assertTrue(this.testPanel.getPixelY() == 10);
+	}
+	
+	@Test
+	public void testGetPixelY3(){
+		this.testPanel.setRow(8);
+		assertTrue(this.testPanel.getPixelY() == 650);
+	}
 
 }
