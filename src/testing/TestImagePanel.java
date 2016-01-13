@@ -29,6 +29,11 @@ public class TestImagePanel {
 	}
 	
 	@Test
+	public void testGetRow() {
+		assertTrue(testPanel.getRow() == 0);
+	}
+	
+	@Test
 	public void testSetRow() {
 		assertTrue(testPanel.getRow() == 0);
 		this.testPanel.setRow(3);
