@@ -207,7 +207,7 @@ public class GUI {
 		ImagePanel panel = new ImagePanel(WINNER_BACKGROUND);
 		winnerFrame.getContentPane().add(panel);
 		winnerFrame.pack();
-		winnerFrame.setResizable(false);
+		//winnerFrame.setResizable(false);
 		panel.setVisible(true);
 
 		// Set Up winner name Label
