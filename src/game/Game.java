@@ -222,6 +222,10 @@ public class Game {
 		}
 		numMoves = 4;
 		turnCounter++;
+		checkDeaths(2, 2);
+		checkDeaths(2, 5);
+		checkDeaths(5, 2);
+		checkDeaths(5, 5);
 	}
 
 	// This method checks both rows for rabbits of the opposite side
