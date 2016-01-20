@@ -744,7 +744,10 @@ public class GUI {
 				if (pieceToBePlaced == '!') {
 					return;
 				} else if (pieceToBePlaced != ' ') {
-					game.placePiece(rowClicked, columnClicked, pieceToBePlaced);
+					if(playerCurrentlyPlacingPieces == 1 && rowClicked < 2)
+						game.placePiece(rowClicked, columnClicked, pieceToBePlaced);
+					if(playerCurrentlyPlacingPieces == 2 && rowClicked > 5)
+						game.placePiece(rowClicked, columnClicked, pieceToBePlaced);
 				} else {
 					game.removePiece(rowClicked, columnClicked);
 				}
