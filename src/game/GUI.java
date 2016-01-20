@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -312,8 +314,85 @@ public class GUI {
 		JButton endTurnButton = createButton("End Turn", 1, 12, 137, 50, 655, gameFrame.getHeight() / 2 - 37,
 				new EndTurnListener());
 		gameBoardPanel.add(endTurnButton);
+		
+		setupPiecePlacingWindow();
 
 		renderInitialBoard();
+	}
+
+	private void setupPiecePlacingWindow() {
+		//Construct a frame to display piece placing mechanics.
+		JFrame piecePlacingFrame = new JFrame();
+		//piecePlacingFrame.setResizable(false);
+		//activeFrames.add(piecePlacingFrame);
+		piecePlacingFrame.setTitle("Piece Placing Controls");
+		piecePlacingFrame.setLocation(850, 325);
+		piecePlacingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		activeFrames.add(piecePlacingFrame);
+		piecePlacingFrame.setVisible(true);
+		
+		//Construct a panel for piece placing shenanigans  <--- totally spelled right, eclipse is silly
+		ImagePanel piecePanel = new ImagePanel(WINNER_BACKGROUND);
+		activeFrames.get(1).getContentPane().add(piecePanel);
+		
+		piecePanel.setVisible(true);
+		
+		//Set up Place Rabbit Button
+		JButton placeRabbitButton = createButton("Place Rabbit", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 150,
+				null);
+		piecePanel.add(placeRabbitButton);
+		placeRabbitButton.setVisible(true);
+
+		//Set up Place Cat Button
+		JButton placeCatButton = createButton("Place Cat", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 115,
+				null);
+		piecePanel.add(placeCatButton);
+		placeCatButton.setVisible(true);
+		
+		//Set up Place Dog Button
+		JButton placeDogButton = createButton("Place Dog", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 80,
+				null);
+		piecePanel.add(placeDogButton);
+		placeDogButton.setVisible(true);
+		
+		//Set up Place Horse Button
+		JButton placeHorseButton = createButton("Place Horse", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 45,
+				null);
+		piecePanel.add(placeHorseButton);
+		placeHorseButton.setVisible(true);
+		
+		//Set up Place Camel Button
+		JButton placeCamelButton = createButton("Place Camel", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 10,
+				null);
+		piecePanel.add(placeCamelButton);
+		placeCamelButton.setVisible(true);
+		
+		//Set up Place Elephant Button
+		JButton placeElephantButton = createButton("Place Elephant", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 25,
+				null);
+		piecePanel.add(placeElephantButton);
+		placeElephantButton.setVisible(true);
+		
+		//Set up Remove Button
+		JButton removeButton = createButton("Remove", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 60,
+				null);
+		piecePanel.add(removeButton);
+		removeButton.setVisible(true);
+		
+		//Set up Switch Player Button
+		JButton switchPlayerButton = createButton("Switch Player", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 95,
+				null);
+		piecePanel.add(switchPlayerButton);
+		switchPlayerButton.setVisible(true);
+		
+		
+		//Set up Done Button
+		JButton doneButton = createButton("Done", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 130,
+				null);
+		piecePanel.add(doneButton);
+		doneButton.setVisible(true);
+				
+		piecePlacingFrame.pack();
 	}
 
 	// Label & Button create for convenience in Action Listeners
