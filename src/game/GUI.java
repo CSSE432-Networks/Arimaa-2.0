@@ -207,7 +207,7 @@ public class GUI {
 		ImagePanel panel = new ImagePanel(WINNER_BACKGROUND);
 		winnerFrame.getContentPane().add(panel);
 		winnerFrame.pack();
-		winnerFrame.setResizable(false);
+		//winnerFrame.setResizable(false);
 		panel.setVisible(true);
 
 		// Set Up winner name Label
@@ -579,11 +579,9 @@ public class GUI {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (playerCurrentlyPlacingPieces == 1) {
+			if ((playerCurrentlyPlacingPieces == 1) && game.pieceInventoryEmpty(playerCurrentlyPlacingPieces)) {
 				playerCurrentlyPlacingPieces = 2;
-			} else if (playerCurrentlyPlacingPieces == 2) {
-				playerCurrentlyPlacingPieces = 1;
-			}
+			} 
 		}
 	}
 	

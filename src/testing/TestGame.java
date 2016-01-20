@@ -153,7 +153,7 @@ public class TestGame {
 
 	@Test
 	public void testCannotMoveUpIntoOccupiedSpace() {
-		Game g = new Game();
+		Game g = new Game(standard);
 		assertEquals(new Piece(PieceType.Rabbit, null, Piece.Owner.Player1),
 				g.getSpace(1, 0));
 		assertFalse(g.move(1, 0, 0));
@@ -163,7 +163,7 @@ public class TestGame {
 
 	@Test
 	public void testCannotMoveRightIntoOccupiedSpace() {
-		Game g = new Game();
+		Game g = new Game(standard);
 		assertEquals(new Piece(PieceType.Dog, null, Piece.Owner.Player1),
 				g.getSpace(0, 1));
 		assertFalse(g.move(0, 1, 1));
@@ -173,7 +173,7 @@ public class TestGame {
 
 	@Test
 	public void testCannotMoveDownIntoOccupiedSpace() {
-		Game g = new Game();
+		Game g = new Game(standard);
 		assertEquals(new Piece(PieceType.Dog, null, Piece.Owner.Player1),
 				g.getSpace(0, 1));
 		assertFalse(g.move(0, 1, 2));
@@ -183,7 +183,7 @@ public class TestGame {
 
 	@Test
 	public void testCannotMoveLeftIntoOccupiedSpace() {
-		Game g = new Game();
+		Game g = new Game(standard);
 		assertEquals(new Piece(PieceType.Dog, null, Piece.Owner.Player1),
 				g.getSpace(0, 1));
 		assertFalse(g.move(0, 1, 3));
@@ -225,8 +225,8 @@ public class TestGame {
 	}
 	
 	@Test
-	public void testEmptyCreateConstructor() {
-		Game g = new Game();
+	public void testCreateConstructor() {
+		Game g = new Game(standard);
 		assertEquals(new Piece(PieceType.Rabbit, null, Piece.Owner.Player1),
 				g.getSpace(1, 1));
 	}
@@ -245,7 +245,7 @@ public class TestGame {
 	
 	@Test
 	public void testCannotMoveWithNoMovesLeft(){
-		Game g = new Game();
+		Game g = new Game(standard);
 		assertTrue(g.move(1, 0, 2));
 		assertTrue(g.move(2, 0, 0));
 		assertTrue(g.move(1, 0, 2));
@@ -930,7 +930,7 @@ public class TestGame {
 	
 	@Test
 	public void testUndoTwoMoves() {
-		Game g = new Game();
+		Game g = new Game(standard);
 		g.move(1, 0, 2);
 		g.move(2, 0, 2);
 		g.undoMove();
@@ -939,7 +939,7 @@ public class TestGame {
 	
 	@Test
 	public void testUndoThreeMoves() {
-		Game g = new Game();
+		Game g = new Game(standard);
 		g.move(1, 0, 2);
 		g.move(2, 0, 2);
 		g.move(3, 0, 2);
@@ -950,7 +950,7 @@ public class TestGame {
 	
 	@Test
 	public void testThatUndoCantCrossTurns(){
-		Game g = new Game();
+		Game g = new Game(standard);
 		g.move(1, 0, 2);
 		g.move(2, 0, 2);
 		g.move(3, 0, 2);
@@ -1001,7 +1001,7 @@ public class TestGame {
 	
 	@Test
 	public void testEndMove(){
-		Game g = new Game();
+		Game g = new Game(standard);
 		assertTrue(g.move(1,0,2));
 		assertTrue(g.move(2,0,2));
 		assertTrue(g.move(3,0,2));
