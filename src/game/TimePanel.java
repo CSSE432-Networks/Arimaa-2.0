@@ -18,7 +18,7 @@ public class TimePanel {
 		//timer = new Timer();
 		playerTurn = game.getPlayerTurn();
 		setTimerLabel(label);
-		paused = false;
+		paused = true;
 
 		java.util.Timer updateTimer = new java.util.Timer();
 		updateTimer.scheduleAtFixedRate(new TimerTask() {
@@ -45,11 +45,11 @@ public class TimePanel {
 						game.setWinner(winner);
 						gui.renderBoard();// to show winner pane
 					}
-					int displays, m;
-					m = s / 60;
-					displays = s % 60;
-					update(displays, m);
 				}
+				int displays, m;
+				m = s / 60;
+				displays = s % 60;
+				update(displays, m);
 			}
 		}, 0, 1000);
 	}
@@ -72,7 +72,7 @@ public class TimePanel {
 		this.timerLabel = timerLabel;
 	}
 	
-	public void puase(){
+	public void pause(){
 		this.paused = true;
 	}
 	
