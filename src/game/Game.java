@@ -5,6 +5,7 @@ import game.Piece.PieceType;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Game {
@@ -23,6 +24,7 @@ public class Game {
 	private int numMoves = 4;
 	private int playerTurn = 1;
 	private boolean isPushPull;
+	private HashMap<Character, Integer> pieceInventory;
 
 	public Game(BoardState b) {
 		currentBoard = b;
@@ -32,6 +34,7 @@ public class Game {
 	 * Creates a board with a default starting layout
 	 */
 	public Game() {
+		/*
 		currentBoard = new BoardState(new char[][] {
 				{ 'K', 'D', 'H', 'C', 'E', 'H', 'D', 'K' },
 				{ 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R' },
@@ -41,6 +44,69 @@ public class Game {
 				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
 				{ 'r', 'r', 'r', 'r', 'r', 'r', 'r', 'r' },
 				{ 'k', 'd', 'h', 'c', 'e', 'h', 'd', 'k' }, }, 0);
+				*/
+		currentBoard = new BoardState(new char[][] {
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, }, 0);
+		initializeInventory();
+	}
+	
+	/**
+	 *  Initializes player inventories at the start of the game.
+	 */
+	private void initializeInventory() {
+		this.pieceInventory = new HashMap<Character, Integer>();
+		this.pieceInventory.put('E', 1);
+		this.pieceInventory.put('C', 1);
+		this.pieceInventory.put('H', 2);
+		this.pieceInventory.put('D', 2);
+		this.pieceInventory.put('K', 2);
+		this.pieceInventory.put('R', 8);
+		this.pieceInventory.put('e', 1);
+		this.pieceInventory.put('c', 1);
+		this.pieceInventory.put('h', 2);
+		this.pieceInventory.put('d', 2);
+		this.pieceInventory.put('k', 2);
+		this.pieceInventory.put('r', 8);
+	}
+	
+	public boolean placePiece(int row, int column, char piece) {
+		if (pieceInventory.get(piece) <= 0) {
+			return false;
+		}
+		
+		char[][] boardArray = this.currentBoard.getBoardArray();
+		if (boardArray[row][column] != ' ') {
+			return false;
+		}
+
+		this.pieceInventory.put(piece, this.pieceInventory.get(piece) - 1);
+		
+		boardArray[row][column] = piece;
+		this.currentBoard.setBoardArray(boardArray);
+		
+		return true;
+	}
+	
+	public boolean removePiece(int row, int column) {
+		char[][] boardArray = this.currentBoard.getBoardArray();
+		if (boardArray[row][column] == ' ') {
+			return false;
+		}
+		
+		char removedPiece = boardArray[row][column];
+		this.pieceInventory.put(removedPiece, this.pieceInventory.get(removedPiece) + 1);
+		
+		boardArray[row][column] = ' ';
+		this.currentBoard.setBoardArray(boardArray);
+		
+		return true;
 	}
 
 	/**
