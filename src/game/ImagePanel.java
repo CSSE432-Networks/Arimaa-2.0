@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 
 public class ImagePanel extends JPanel {
 
-
 	private static final long serialVersionUID = -7315460075240330922L;
 	private Image img;
 	private int row;
@@ -36,7 +35,7 @@ public class ImagePanel extends JPanel {
 	public void setRow(int row) {
 		this.row = row;
 	}
-  
+
 	public int getRow() {
 		return this.row;
 	}

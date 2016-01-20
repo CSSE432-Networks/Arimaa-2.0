@@ -1,22 +1,17 @@
 package game;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.io.File;
@@ -205,14 +200,7 @@ public class GUI {
 		else if (this.game.getWinner() == 2)
 			playerName = game.getP2Name();
 
-		JFrame winnerFrame = new JFrame();
-		activeFrames.add(winnerFrame);
-		winnerFrame.setTitle("Winner!");
-
-		winnerFrame.setLocation(650 / 2 - 324 / 2 + 75, 650 / 2 - 324 / 2 + 0);
-		winnerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		winnerFrame.setVisible(true);
-
+		JFrame winnerFrame = createFrame("Winner", 650 / 2 - 324 / 2 + 75, 650 / 2 - 324 / 2 + 0);
 		ImagePanel panel = new ImagePanel(WINNER_BACKGROUND);
 		winnerFrame.getContentPane().add(panel);
 		winnerFrame.pack();
@@ -344,6 +332,17 @@ public class GUI {
 		button.setVisible(true);
 		return button;
 
+	}
+	
+	public JFrame createFrame(String text, int x, int y){
+		JFrame frame = new JFrame();
+		activeFrames.add(frame);
+		frame.setTitle(text);
+		frame.setLocation(x, y);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		
+		return frame;
 	}
 
 	// ACTION LISTENERS

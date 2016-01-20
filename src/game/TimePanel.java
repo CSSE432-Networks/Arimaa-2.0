@@ -15,7 +15,7 @@ public class TimePanel {
 
 	public TimePanel(GUI gui, Game game, int startTime, JLabel label) {
 
-		//timer = new Timer();
+		// timer = new Timer();
 		playerTurn = game.getPlayerTurn();
 		setTimerLabel(label);
 		paused = true;
