@@ -579,11 +579,9 @@ public class GUI {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (playerCurrentlyPlacingPieces == 1) {
+			if ((playerCurrentlyPlacingPieces == 1) && game.pieceInventoryEmpty(playerCurrentlyPlacingPieces)) {
 				playerCurrentlyPlacingPieces = 2;
-			} else if (playerCurrentlyPlacingPieces == 2) {
-				playerCurrentlyPlacingPieces = 1;
-			}
+			} 
 		}
 	}
 	
