@@ -351,32 +351,16 @@ public class GUI {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JFrame settingsFrame = new JFrame();
-			activeFrames.add(settingsFrame);
-			settingsFrame.setTitle("New Game Options");
-			settingsFrame.setLocation(650 / 2 - 324 / 2 + 5, 650 / 2 - 324 / 2 + 44);
-			settingsFrame.setVisible(true);
-
+			JFrame settingsFrame = createFrame("New Game Options", 650 / 2 - 324 / 2 + 5, 650 / 2 - 324 / 2 + 44);
 			ImagePanel panel = new ImagePanel(NEW_GAME_SETTINGS_BACKGROUND);
 			settingsFrame.getContentPane().add(panel);
 			settingsFrame.pack();
 			panel.setVisible(true);
 
 			// Set up Player 1 Name Label and Text Field
-			JLabel p1NameLabel = new JLabel();
-
-			// On Mac, the bolded text causes layout issues
-			p1NameLabel.setText("<html><b>Player 1 Name:</b><html>");
-			p1NameLabel.setForeground(Color.WHITE);
-			Font p1NameFont = p1NameLabel.getFont();
-			p1NameLabel.setFont(new Font(p1NameFont.getName(), 4, 14));
-			p1NameLabel.setSize(110, 25);
+			JLabel p1NameLabel = createLabel("<html><b>Player 1 Name:</b><html>", Color.WHITE, 14, 110, 25, panel.getWidth() / 2 - 110, panel.getHeight() / 2 - 25 * 2);
 			panel.add(p1NameLabel);
-			p1NameLabel.setLocation(panel.getWidth() / 2 - p1NameLabel.getWidth(),
-					panel.getHeight() / 2 - p1NameLabel.getHeight() * 2);
-
-			p1NameLabel.setVisible(true);
-
+			
 			JTextField p1NameField = new JTextField();
 			p1NameField.setSize(110, 25);
 			Font p1FieldFont = p1NameField.getFont();
@@ -387,17 +371,9 @@ public class GUI {
 			p1NameField.setVisible(true);
 
 			// Set up Player 2 Name Label and Text Field
-			JLabel p2NameLabel = new JLabel();
-			p2NameLabel.setText("<html><b>Player 2 Name:</b></hmtl>");
-			p2NameLabel.setForeground(Color.WHITE);
-			Font p2NameFont = p2NameLabel.getFont();
-			p2NameLabel.setFont(new Font(p2NameFont.getName(), 4, 14));
-			p2NameLabel.setSize(110, 25);
+			JLabel p2NameLabel = createLabel("<html><b>Player 2 Name:</b></hmtl>", Color.WHITE, 14, 110, 25, panel.getWidth() / 2 - 110, panel.getHeight() / 2 - 25);
 			panel.add(p2NameLabel);
-			p2NameLabel.setLocation(panel.getWidth() / 2 - p2NameLabel.getWidth(),
-					panel.getHeight() / 2 - p2NameLabel.getHeight());
-			p2NameLabel.setVisible(true);
-
+			
 			JTextField p2NameField = new JTextField();
 			p2NameField.setSize(110, 25);
 			Font p2FieldFont = p2NameField.getFont();
@@ -408,15 +384,8 @@ public class GUI {
 			p2NameField.setVisible(true);
 
 			// Set up Turn Timer Label and Text Field
-			JLabel turnTimerLabel = new JLabel();
-			turnTimerLabel.setText("<html><b>Turn Timer:</b></html>");
-			turnTimerLabel.setForeground(Color.WHITE);
-			Font turnTimerFont = turnTimerLabel.getFont();
-			turnTimerLabel.setFont(new Font(turnTimerFont.getName(), 4, 14));
-			turnTimerLabel.setSize(110, 25);
+			JLabel turnTimerLabel = createLabel("<html><b>Turn Timer:</b></html>", Color.WHITE, 14, 110, 25, panel.getWidth() / 2 - 110, panel.getHeight() / 2);
 			panel.add(turnTimerLabel);
-			turnTimerLabel.setLocation(panel.getWidth() / 2 - turnTimerLabel.getWidth(), panel.getHeight() / 2);
-			turnTimerLabel.setVisible(true);
 
 			Integer[] turnTimerPresets = { 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180 };
 			JComboBox<Integer> turnTimerComboBox = new JComboBox<Integer>(turnTimerPresets);
@@ -428,23 +397,12 @@ public class GUI {
 			turnTimerComboBox.setVisible(true);
 
 			// Set up Start Game Button
-			JButton startGameButton = new JButton();
-			startGameButton.setSize(110, 25);
-			startGameButton.setText("Start Game");
-			startGameButton.setLocation((panel.getWidth() / 2) - startGameButton.getWidth(),
-					(panel.getHeight() / 2) + (2 * startGameButton.getHeight()));
+			JButton startGameButton = createButton("Start Game", 1, 12, 110, 25, (panel.getWidth() / 2) - 110, (panel.getHeight() / 2) + (2 * 25), new StartGameListener());
 			panel.add(startGameButton);
-			startGameButton.addActionListener(new StartGameListener());
-			startGameButton.setVisible(true);
 
 			// Set up Cancel Button
-			JButton cancelButton = new JButton();
-			cancelButton.setSize(110, 25);
-			cancelButton.setText("Cancel");
-			cancelButton.setLocation((panel.getWidth() / 2), (panel.getHeight() / 2) + (2 * cancelButton.getHeight()));
+			JButton cancelButton = createButton("Cancel", 1, 12, 110, 25, (panel.getWidth() / 2), (panel.getHeight() / 2) + (2 * 25), new CancelListener());
 			panel.add(cancelButton);
-			cancelButton.addActionListener(new CancelListener());
-			cancelButton.setVisible(true);
 		}
 	}
 
