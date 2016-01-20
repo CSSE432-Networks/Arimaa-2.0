@@ -71,7 +71,6 @@ public class GUI {
 	}
 
 	public static void main(String[] args) {
-		// TODO: Long method, possible refactoring?
 		GUI g = new GUI();
 
 		// Add MAIN MENU panel with appropriate background image
@@ -306,7 +305,7 @@ public class GUI {
 		
 		setupPiecePlacingWindow();
 
-		renderInitialBoard();
+		//renderInitialBoard();
 	}
 
 	private void setupPiecePlacingWindow() {
@@ -425,7 +424,6 @@ public class GUI {
 	}
 
 	// ACTION LISTENERS
-	// TODO Extract?
 	private class NewGameListener implements ActionListener {
 
 		@Override
@@ -569,7 +567,6 @@ public class GUI {
 		}
 	}
 
-	// TODO Extract?
 	private class LoadGameListener implements ActionListener {
 
 		@Override
@@ -611,7 +608,6 @@ public class GUI {
 		}
 	}
 
-	// TODO Extract to another class?
 	private class StartGameListener implements ActionListener {
 
 		@Override
@@ -635,7 +631,6 @@ public class GUI {
 		}
 	}
 
-	// TODO Extract to another class?
 	private class SaveGameListener implements ActionListener {
 
 		@Override
@@ -678,7 +673,6 @@ public class GUI {
 		}
 	}
 
-	// TODO Extract to seperate class?
 	private class MovementListener implements MouseListener {
 		ImagePanel selectedPiece;
 		ImagePanel secondSelectedPiece;
@@ -775,7 +769,6 @@ public class GUI {
 				calculatedDirection1 = moveDirectionOnePush(selectedPiece, secondSelectedPiece);
 				calculatedDirection2 = moveDirectionTwoPush(secondSelectedPiece, rowClicked, columnClicked);
 			} catch (ArimaaException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
