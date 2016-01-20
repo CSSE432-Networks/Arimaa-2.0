@@ -40,6 +40,7 @@ public class GUI {
 	private JLabel turnCountLabel;
 	private JLabel turnIndicatorLabel;
 	private JLabel timerLabel;
+	private TimePanel timePanel;
 
 	private final String WHITE_ELEPHANT_PIC_LOCATION = "resources/White elephant.png";
 	private final String WHITE_CAMEL_PIC_LOCATION = "resources/White camel.png";
@@ -296,7 +297,7 @@ public class GUI {
 		gameBoardPanel.add(timerLabel);
 
 		// P1 Time Panel
-		TimePanel timePanel = new TimePanel(GUI.this, game, game.getTurnTimer(), timerLabel);
+		this.timePanel = new TimePanel(GUI.this, game, game.getTurnTimer(), timerLabel);
 
 		// Set up Save Game Button
 		JButton saveButton = createButton("Save", 1, 12, 65, 50, 657, gameFrame.getHeight() / 2 - 90,
@@ -472,6 +473,7 @@ public class GUI {
 			Scanner scanner = new Scanner(file);
 			if (game.loadFile(scanner)) {
 				setupForGame();
+				timePanel.unpause();
 
 			} else {
 				System.err.println("Invalid game state");
@@ -521,6 +523,7 @@ public class GUI {
 			File selectedFile = null;
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+			timePanel.pause();
 			int result = fileChooser.showOpenDialog(gameBoardPanel);
 			if (result == JFileChooser.APPROVE_OPTION) {
 				selectedFile = fileChooser.getSelectedFile();
@@ -533,6 +536,7 @@ public class GUI {
 				}
 				game.saveFile(fw);
 			}
+			timePanel.unpause();
 		}
 	}
 
