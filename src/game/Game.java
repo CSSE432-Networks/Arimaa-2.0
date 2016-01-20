@@ -34,6 +34,7 @@ public class Game {
 	 * Creates a board with a default starting layout
 	 */
 	public Game() {
+		/*
 		currentBoard = new BoardState(new char[][] {
 				{ 'K', 'D', 'H', 'C', 'E', 'H', 'D', 'K' },
 				{ 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R' },
@@ -43,6 +44,16 @@ public class Game {
 				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
 				{ 'r', 'r', 'r', 'r', 'r', 'r', 'r', 'r' },
 				{ 'k', 'd', 'h', 'c', 'e', 'h', 'd', 'k' }, }, 0);
+				*/
+		currentBoard = new BoardState(new char[][] {
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, }, 0);
 		initializeInventory();
 	}
 	
