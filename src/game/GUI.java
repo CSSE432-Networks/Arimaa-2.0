@@ -179,8 +179,9 @@ public class GUI {
 	protected void renderBoard() {
 		for (int i = 0; i < 8; i++) {
 			for (int k = 0; k < 8; k++) {
-				if (boardPieces[i][k] != null)
+				if (boardPieces[i][k] != null) {
 					this.gameBoardPanel.remove(this.boardPieces[i][k]);
+			}
 				this.boardPieces[i][k] = null;
 			}
 		}
@@ -309,6 +310,10 @@ public class GUI {
 	}
 
 	private void setupPiecePlacingWindow() {
+		//set up internal stuff
+		this.playerCurrentlyPlacingPieces = 1;
+		this.pieceToBePlaced = '!';
+		
 		//Construct a frame to display piece placing mechanics.
 		JFrame piecePlacingFrame = new JFrame();
 		//piecePlacingFrame.setResizable(false);
@@ -327,56 +332,56 @@ public class GUI {
 		
 		//Set up Place Rabbit Button
 		JButton placeRabbitButton = createButton("Place Rabbit", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 150,
-				null);
+				new PlaceRabbitListener());
 		piecePanel.add(placeRabbitButton);
 		placeRabbitButton.setVisible(true);
 
 		//Set up Place Cat Button
 		JButton placeCatButton = createButton("Place Cat", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 115,
-				null);
+				new PlaceCatListener());
 		piecePanel.add(placeCatButton);
 		placeCatButton.setVisible(true);
 		
 		//Set up Place Dog Button
 		JButton placeDogButton = createButton("Place Dog", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 80,
-				null);
+				new PlaceDogListener());
 		piecePanel.add(placeDogButton);
 		placeDogButton.setVisible(true);
 		
 		//Set up Place Horse Button
 		JButton placeHorseButton = createButton("Place Horse", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 45,
-				null);
+				new PlaceHorseListener());
 		piecePanel.add(placeHorseButton);
 		placeHorseButton.setVisible(true);
 		
 		//Set up Place Camel Button
 		JButton placeCamelButton = createButton("Place Camel", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 10,
-				null);
+				new PlaceCamelListener());
 		piecePanel.add(placeCamelButton);
 		placeCamelButton.setVisible(true);
 		
 		//Set up Place Elephant Button
 		JButton placeElephantButton = createButton("Place Elephant", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 25,
-				null);
+				new PlaceElephantListener());
 		piecePanel.add(placeElephantButton);
 		placeElephantButton.setVisible(true);
 		
 		//Set up Remove Button
 		JButton removeButton = createButton("Remove", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 60,
-				null);
+				new RemovePieceListener());
 		piecePanel.add(removeButton);
 		removeButton.setVisible(true);
 		
 		//Set up Switch Player Button
 		JButton switchPlayerButton = createButton("Switch Player", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 95,
-				null);
+				new SwitchPlayerListener());
 		piecePanel.add(switchPlayerButton);
 		switchPlayerButton.setVisible(true);
 		
 		
 		//Set up Done Button
 		JButton doneButton = createButton("Done", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 130,
-				null);
+				new FinishPiecePlacementListener());
 		piecePanel.add(doneButton);
 		doneButton.setVisible(true);
 				
@@ -566,6 +571,28 @@ public class GUI {
 			}
 		}
 	}
+	
+	private class SwitchPlayerListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (playerCurrentlyPlacingPieces == 1) {
+				playerCurrentlyPlacingPieces = 2;
+			} else if (playerCurrentlyPlacingPieces == 2) {
+				playerCurrentlyPlacingPieces = 1;
+			}
+		}
+	}
+	
+	private class FinishPiecePlacementListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			playerCurrentlyPlacingPieces = 0;
+			activeFrames.get(1).dispose();
+			timePanel.unpause();
+		}
+	}
 
 	private class LoadGameListener implements ActionListener {
 
@@ -712,6 +739,8 @@ public class GUI {
 			int columnClicked = (sourceX - 10) / 80;
 			
 			if (playerCurrentlyPlacingPieces != 0) {
+				System.out.println("Piece to be placed: " + pieceToBePlaced);
+				System.out.println("Player: " + playerCurrentlyPlacingPieces);
 				if (pieceToBePlaced == '!') {
 					return;
 				} else if (pieceToBePlaced != ' ') {
@@ -719,6 +748,7 @@ public class GUI {
 				} else {
 					game.removePiece(rowClicked, columnClicked);
 				}
+				renderBoard();
 				pieceToBePlaced = '!';
 				return;
 			}
