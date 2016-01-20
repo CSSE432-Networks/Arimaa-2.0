@@ -19,10 +19,11 @@ public class TestTimePanel {
 		TimePanel tp = new TimePanel(new GUI(), new Game(), 15, new JLabel());
 		assertNotNull(tp);
 	}
-	
+
 	@Test
 	public void testUpdate() {
 		TimePanel tp = new TimePanel(new GUI(), new Game(), 15, new JLabel());
+		tp.unpause();
 		//tp.update(5, 0);
 		try {
 			Thread.sleep(500);
@@ -31,12 +32,12 @@ public class TestTimePanel {
 		}
 		assertEquals("<html> <b>" + 0 + ":" + 14 + "</b> </html>", tp.getTimerLabel().getText());
 	}
-	
+
 	@Test
-	public void testCancelTimer(){
-		GUI gui=new GUI();
-		Game game=new Game();
-		TimePanel tp= new TimePanel(gui, game, 3, new JLabel());
+	public void testCancelTimer() {
+		GUI gui = new GUI();
+		Game game = new Game();
+		TimePanel tp = new TimePanel(gui, game, 3, new JLabel());
 		game.setWinner(1);
 		try {
 			Thread.sleep(3500);
@@ -51,31 +52,31 @@ public class TestTimePanel {
 		GUI gui=new GUI();
 		Game game=new Game();
 		TimePanel tp= new TimePanel(gui, game, 9, new JLabel());
-
+		tp.unpause();
 		game.setPlayerTurn(2);
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 		Field playerTurn = null;
 		try {
 			playerTurn = TimePanel.class.getDeclaredField("playerTurn");
 		} catch (NoSuchFieldException | SecurityException e1) {
-			//e1.printStackTrace();
+			// e1.printStackTrace();
 		}
 		playerTurn.setAccessible(true);
 		int fieldValue = 0;
 		try {
-			fieldValue = (int)playerTurn.get(tp);
+			fieldValue = (int) playerTurn.get(tp);
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
-		assertEquals(2,  fieldValue);
+		assertEquals(2, fieldValue);
 	}
 }

@@ -117,30 +117,30 @@ public class TestPiece {
 		Piece p2 = new Piece('d');
 		assertFalse(p1.isStrongerThan(p2));
 	}
-	
+
 	@Test
-	public void testThatConstructorHandlesDefaultCase(){
+	public void testThatConstructorHandlesDefaultCase() {
 		Piece p = new Piece('g');
 		assertEquals(null, p.getOwner());
 		assertEquals(null, p.getType());
 	}
-	
+
 	@Test
-	public void testThatConstructorHandlesDefaultCase2(){
+	public void testThatConstructorHandlesDefaultCase2() {
 		Piece p = new Piece('G');
 		assertEquals(null, p.getOwner());
 		assertEquals(null, p.getType());
 	}
-	
+
 	@Test
-	public void testEqualsReturnsFalseForOtherObject(){
+	public void testEqualsReturnsFalseForOtherObject() {
 		Piece p = new Piece('E');
 		ArrayList<Integer> notAPiece = new ArrayList<Integer>();
 		assertFalse(p.equals(notAPiece));
 	}
-	
+
 	@Test
-	public void testSetRank(){
+	public void testSetRank() {
 		Piece p = new Piece('C');
 		p.setRank(1);
 		assertEquals(1, p.getRank());
