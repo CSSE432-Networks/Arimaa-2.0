@@ -30,35 +30,40 @@ public class Game {
 		currentBoard = b;
 	}
 
+	public boolean pieceInventoryEmpty(int player) {
+		if (player == 1) {
+			if ((this.pieceInventory.get('E') == 0) && (this.pieceInventory.get('C') == 0)
+					&& (this.pieceInventory.get('H') == 0) && (this.pieceInventory.get('D') == 0)
+					&& (this.pieceInventory.get('K') == 0) && (this.pieceInventory.get('R') == 0)) {
+				return true;
+			}	
+		}
+		return false;
+	}
+
 	/**
 	 * Creates a board with a default starting layout
 	 */
 	public Game() {
 		/*
-		currentBoard = new BoardState(new char[][] {
-				{ 'K', 'D', 'H', 'C', 'E', 'H', 'D', 'K' },
-				{ 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ 'r', 'r', 'r', 'r', 'r', 'r', 'r', 'r' },
-				{ 'k', 'd', 'h', 'c', 'e', 'h', 'd', 'k' }, }, 0);
-				*/
-		currentBoard = new BoardState(new char[][] {
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, }, 0);
+		 * currentBoard = new BoardState(new char[][] { { 'K', 'D', 'H', 'C',
+		 * 'E', 'H', 'D', 'K' }, { 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R' }, { '
+		 * ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', '
+		 * ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', '
+		 * ', ' ', ' ', ' ', ' ', ' ', ' ' }, { 'r', 'r', 'r', 'r', 'r', 'r',
+		 * 'r', 'r' }, { 'k', 'd', 'h', 'c', 'e', 'h', 'd', 'k' }, }, 0);
+		 */
+		currentBoard = new BoardState(
+				new char[][] { { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+						{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+						{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+						{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, },
+				0);
 		initializeInventory();
 	}
-	
+
 	/**
-	 *  Initializes player inventories at the start of the game.
+	 * Initializes player inventories at the start of the game.
 	 */
 	private void initializeInventory() {
 		this.pieceInventory = new HashMap<Character, Integer>();
@@ -75,22 +80,22 @@ public class Game {
 		this.pieceInventory.put('k', 2);
 		this.pieceInventory.put('r', 8);
 	}
-	
+
 	public boolean placePiece(int row, int column, char piece) {
 		if (pieceInventory.get(piece) <= 0) {
 			return false;
 		}
-		
+
 		char[][] boardArray = this.currentBoard.getBoardArray();
 		if (boardArray[row][column] != ' ') {
 			return false;
 		}
 
 		this.pieceInventory.put(piece, this.pieceInventory.get(piece) - 1);
-		
+
 		boardArray[row][column] = piece;
 		this.currentBoard.setBoardArray(boardArray);
-		
+
 		return true;
 	}
 	
@@ -100,14 +105,14 @@ public class Game {
 		if (boardArray[row][column] == ' ') {
 			return false;
 		}
-		
+
 		char removedPiece = boardArray[row][column];
 		
 		this.pieceInventory.put(removedPiece, this.pieceInventory.get(removedPiece) + 1);
-		
+
 		boardArray[row][column] = ' ';
 		this.currentBoard.setBoardArray(boardArray);
-		
+
 		return true;
 	}
 
@@ -232,19 +237,19 @@ public class Game {
 
 	// This method checks both rows for rabbits of the opposite side
 	private void checkWin() {
-		
-		if(checkTopAndBottomRows())
+
+		if (checkTopAndBottomRows())
 			return;
-		
-		if(checkIfRabbitsExist(Piece.Owner.Player1))
+
+		if (checkIfRabbitsExist(Piece.Owner.Player1))
 			return;
-		
+
 		checkIfRabbitsExist(Piece.Owner.Player2);
-		
+
 	}
-	
+
 	// Checks if a player has gotten a rabbit to the opponents home row
-	private boolean checkTopAndBottomRows(){
+	private boolean checkTopAndBottomRows() {
 		// check top row
 		for (int i = 0; i < 8; i++) {
 			if (getSpace(0, i) != null) {
@@ -253,7 +258,7 @@ public class Game {
 					return true;
 				}
 			}
-			
+
 			if (getSpace(7, i) != null) {
 				if (getSpace(7, i).equals(new Piece(PieceType.Rabbit, null, Piece.Owner.Player1))) {
 					winner = 1;
@@ -263,20 +268,20 @@ public class Game {
 		}
 		return false;
 	}
-	
+
 	// Checks to see if players are out of rabbits
-	private boolean checkIfRabbitsExist(Owner player){
-		for(int i=0;i<8;i++){
-			for(int j=0;j<8;j++){
-				//and short circuits if null preventing nullpointerexception
-				if(getSpace(i,j)!=null&&getSpace(i, j).equals(new Piece(PieceType.Rabbit, null, player))){
+	private boolean checkIfRabbitsExist(Owner player) {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				// and short circuits if null preventing nullpointerexception
+				if (getSpace(i, j) != null && getSpace(i, j).equals(new Piece(PieceType.Rabbit, null, player))) {
 					return false;
 				}
 			}
 		}
-		if(player.equals(Piece.Owner.Player1))
+		if (player.equals(Piece.Owner.Player1))
 			winner = 2;
-		else 
+		else
 			winner = 1;
 		return true;
 	}
@@ -408,12 +413,11 @@ public class Game {
 		isPushPull = false;
 		return false;
 	}
-	
-	private boolean enactPush(int rowPushing, int columnPushing, int rowPushed, int columnPushed, int dir1, int dir2){
+
+	private boolean enactPush(int rowPushing, int columnPushing, int rowPushed, int columnPushed, int dir1, int dir2) {
 		Piece pushingPiece = getSpace(rowPushing, columnPushing);
 		Piece pushedPiece = getSpace(rowPushed, columnPushed);
-		if (pieceCanPush(pushingPiece, pushedPiece)
-				&& move(rowPushed, columnPushed, dir2)) {
+		if (pieceCanPush(pushingPiece, pushedPiece) && move(rowPushed, columnPushed, dir2)) {
 			isPushPull = false;
 			// should always be true
 			return move(rowPushing, columnPushing, dir1);
