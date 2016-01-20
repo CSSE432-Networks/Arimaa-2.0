@@ -94,13 +94,15 @@ public class Game {
 		return true;
 	}
 	
-	public boolean removePiece(int row, int column) {
+	//TODO: check that player 1 can only remove player 1 pieces
+	public boolean removePiece(int row, int column, int player) {
 		char[][] boardArray = this.currentBoard.getBoardArray();
 		if (boardArray[row][column] == ' ') {
 			return false;
 		}
 		
 		char removedPiece = boardArray[row][column];
+		
 		this.pieceInventory.put(removedPiece, this.pieceInventory.get(removedPiece) + 1);
 		
 		boardArray[row][column] = ' ';

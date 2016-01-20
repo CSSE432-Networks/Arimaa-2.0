@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -182,7 +183,7 @@ public class GUI {
 			for (int k = 0; k < 8; k++) {
 				if (boardPieces[i][k] != null) {
 					this.gameBoardPanel.remove(this.boardPieces[i][k]);
-			}
+				}
 				this.boardPieces[i][k] = null;
 			}
 		}
@@ -752,9 +753,10 @@ public class GUI {
 					if(playerCurrentlyPlacingPieces == 2 && rowClicked > 5)
 						game.placePiece(rowClicked, columnClicked, pieceToBePlaced);
 				} else {
-					game.removePiece(rowClicked, columnClicked);
+					game.removePiece(rowClicked, columnClicked, playerCurrentlyPlacingPieces);
 				}
 				renderBoard();
+				gameBoardPanel.repaint();
 				pieceToBePlaced = '!';
 				return;
 			}
