@@ -24,6 +24,8 @@ import java.util.Scanner;
 public class GUI {
 	private String p1Name;
 	private String p2Name;
+	private int playerCurrentlyPlacingPieces;
+	private char pieceToBePlaced;
 	private ArrayList<JFrame> activeFrames;
 	private Game game;
 	private ImagePanel gameBoardPanel = null;
@@ -405,6 +407,90 @@ public class GUI {
 			panel.add(cancelButton);
 		}
 	}
+	
+	private class PlaceRabbitListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (playerCurrentlyPlacingPieces == 1) {
+				pieceToBePlaced = 'R';
+			} else if (playerCurrentlyPlacingPieces == 2) {
+				pieceToBePlaced = 'r';
+			}
+		}
+	}
+	
+	private class PlaceCatListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (playerCurrentlyPlacingPieces == 1) {
+				pieceToBePlaced = 'K';
+			} else if (playerCurrentlyPlacingPieces == 2) {
+				pieceToBePlaced = 'k';
+			}
+		}
+	}
+	
+	private class PlaceDogListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (playerCurrentlyPlacingPieces == 1) {
+				pieceToBePlaced = 'D';
+			} else if (playerCurrentlyPlacingPieces == 2) {
+				pieceToBePlaced = 'd';
+			}
+		}
+	}
+	
+	private class PlaceHorseListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (playerCurrentlyPlacingPieces == 1) {
+				pieceToBePlaced = 'H';
+			} else if (playerCurrentlyPlacingPieces == 2) {
+				pieceToBePlaced = 'h';
+			}
+		}
+	}
+	
+	private class PlaceCamelListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (playerCurrentlyPlacingPieces == 1) {
+				pieceToBePlaced = 'C';
+			} else if (playerCurrentlyPlacingPieces == 2) {
+				pieceToBePlaced = 'c';
+			}
+		}
+	}
+	
+	private class PlaceElephantListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (playerCurrentlyPlacingPieces == 1) {
+				pieceToBePlaced = 'E';
+			} else if (playerCurrentlyPlacingPieces == 2) {
+				pieceToBePlaced = 'e';
+			}
+		}
+	}
+	
+	private class RemovePieceListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (playerCurrentlyPlacingPieces == 1) {
+				pieceToBePlaced = ' ';
+			} else if (playerCurrentlyPlacingPieces == 2) {
+				pieceToBePlaced = ' ';
+			}
+		}
+	}
 
 	// TODO Extract?
 	private class LoadGameListener implements ActionListener {
@@ -553,6 +639,18 @@ public class GUI {
 			// Get rid of X and Y ASAP!!!
 			int rowClicked = (sourceY - 10) / 80;
 			int columnClicked = (sourceX - 10) / 80;
+			
+			if (playerCurrentlyPlacingPieces != 0) {
+				if (pieceToBePlaced == '!') {
+					return;
+				} else if (pieceToBePlaced != ' ') {
+					game.placePiece(rowClicked, columnClicked, pieceToBePlaced);
+				} else {
+					game.removePiece(rowClicked, columnClicked);
+				}
+				pieceToBePlaced = '!';
+				return;
+			}
 
 			// Beginning movement, nothing yet selected
 			// Selecting piece to interact with
