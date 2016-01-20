@@ -68,6 +68,7 @@ public class GUI {
 		this.activeFrames.add(mainMenuFrame);
 		mainMenuFrame.setTitle("Welcome to Arimaa!");
 		mainMenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainMenuFrame.setResizable(false);
 	}
 
 	public static void main(String[] args) {
@@ -206,6 +207,7 @@ public class GUI {
 		ImagePanel panel = new ImagePanel(WINNER_BACKGROUND);
 		winnerFrame.getContentPane().add(panel);
 		winnerFrame.pack();
+		winnerFrame.setResizable(false);
 		panel.setVisible(true);
 
 		// Set Up winner name Label
@@ -323,6 +325,7 @@ public class GUI {
 		piecePlacingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		activeFrames.add(piecePlacingFrame);
 		piecePlacingFrame.setVisible(true);
+		piecePlacingFrame.setResizable(false);
 		
 		//Construct a panel for piece placing shenanigans  <--- totally spelled right, eclipse is silly
 		ImagePanel piecePanel = new ImagePanel(WINNER_BACKGROUND);
