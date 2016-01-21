@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +25,8 @@ import java.util.Scanner;
 public class GUI {
 	private String p1Name;
 	private String p2Name;
+	private int playerCurrentlyPlacingPieces;
+	private char pieceToBePlaced;
 	private ArrayList<JFrame> activeFrames;
 	private Game game;
 	private ImagePanel gameBoardPanel = null;
@@ -35,6 +38,7 @@ public class GUI {
 	private JLabel turnCountLabel;
 	private JLabel turnIndicatorLabel;
 	private JLabel timerLabel;
+	private TimePanel timePanel;
 
 	private final String WHITE_ELEPHANT_PIC_LOCATION = "resources/White elephant.png";
 	private final String WHITE_CAMEL_PIC_LOCATION = "resources/White camel.png";
@@ -65,10 +69,10 @@ public class GUI {
 		this.activeFrames.add(mainMenuFrame);
 		mainMenuFrame.setTitle("Welcome to Arimaa!");
 		mainMenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainMenuFrame.setResizable(false);
 	}
 
 	public static void main(String[] args) {
-		// TODO: Long method, possible refactoring?
 		GUI g = new GUI();
 
 		// Add MAIN MENU panel with appropriate background image
@@ -177,8 +181,9 @@ public class GUI {
 	protected void renderBoard() {
 		for (int i = 0; i < 8; i++) {
 			for (int k = 0; k < 8; k++) {
-				if (boardPieces[i][k] != null)
+				if (boardPieces[i][k] != null) {
 					this.gameBoardPanel.remove(this.boardPieces[i][k]);
+				}
 				this.boardPieces[i][k] = null;
 			}
 		}
@@ -203,6 +208,7 @@ public class GUI {
 		ImagePanel panel = new ImagePanel(WINNER_BACKGROUND);
 		winnerFrame.getContentPane().add(panel);
 		winnerFrame.pack();
+		//winnerFrame.setResizable(false);
 		panel.setVisible(true);
 
 		// Set Up winner name Label
@@ -284,7 +290,7 @@ public class GUI {
 		gameBoardPanel.add(timerLabel);
 
 		// P1 Time Panel
-		TimePanel timePanel = new TimePanel(GUI.this, game, game.getTurnTimer(), timerLabel);
+		this.timePanel = new TimePanel(GUI.this, game, game.getTurnTimer(), timerLabel);
 
 		// Set up Save Game Button
 		JButton saveButton = createButton("Save", 1, 12, 65, 50, 657, gameFrame.getHeight() / 2 - 90,
@@ -300,8 +306,90 @@ public class GUI {
 		JButton endTurnButton = createButton("End Turn", 1, 12, 137, 50, 655, gameFrame.getHeight() / 2 - 37,
 				new EndTurnListener());
 		gameBoardPanel.add(endTurnButton);
+		
+		setupPiecePlacingWindow();
 
-		renderInitialBoard();
+		//renderInitialBoard();
+	}
+
+	private void setupPiecePlacingWindow() {
+		//set up internal stuff
+		this.playerCurrentlyPlacingPieces = 1;
+		this.pieceToBePlaced = '!';
+		
+		//Construct a frame to display piece placing mechanics.
+		JFrame piecePlacingFrame = new JFrame();
+		//piecePlacingFrame.setResizable(false);
+		//activeFrames.add(piecePlacingFrame);
+		piecePlacingFrame.setTitle("Piece Placing Controls");
+		piecePlacingFrame.setLocation(850, 325);
+		piecePlacingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		activeFrames.add(piecePlacingFrame);
+		piecePlacingFrame.setVisible(true);
+		piecePlacingFrame.setResizable(false);
+		
+		//Construct a panel for piece placing shenanigans  <--- totally spelled right, eclipse is silly
+		ImagePanel piecePanel = new ImagePanel(WINNER_BACKGROUND);
+		activeFrames.get(1).getContentPane().add(piecePanel);
+		
+		piecePanel.setVisible(true);
+		
+		//Set up Place Rabbit Button
+		JButton placeRabbitButton = createButton("Place Rabbit", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 150,
+				new PlaceRabbitListener());
+		piecePanel.add(placeRabbitButton);
+		placeRabbitButton.setVisible(true);
+
+		//Set up Place Cat Button
+		JButton placeCatButton = createButton("Place Cat", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 115,
+				new PlaceCatListener());
+		piecePanel.add(placeCatButton);
+		placeCatButton.setVisible(true);
+		
+		//Set up Place Dog Button
+		JButton placeDogButton = createButton("Place Dog", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 80,
+				new PlaceDogListener());
+		piecePanel.add(placeDogButton);
+		placeDogButton.setVisible(true);
+		
+		//Set up Place Horse Button
+		JButton placeHorseButton = createButton("Place Horse", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 45,
+				new PlaceHorseListener());
+		piecePanel.add(placeHorseButton);
+		placeHorseButton.setVisible(true);
+		
+		//Set up Place Camel Button
+		JButton placeCamelButton = createButton("Place Camel", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 10,
+				new PlaceCamelListener());
+		piecePanel.add(placeCamelButton);
+		placeCamelButton.setVisible(true);
+		
+		//Set up Place Elephant Button
+		JButton placeElephantButton = createButton("Place Elephant", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 25,
+				new PlaceElephantListener());
+		piecePanel.add(placeElephantButton);
+		placeElephantButton.setVisible(true);
+		
+		//Set up Remove Button
+		JButton removeButton = createButton("Remove", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 60,
+				new RemovePieceListener());
+		piecePanel.add(removeButton);
+		removeButton.setVisible(true);
+		
+		//Set up Switch Player Button
+		JButton switchPlayerButton = createButton("Switch Player", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 95,
+				new SwitchPlayerListener());
+		piecePanel.add(switchPlayerButton);
+		switchPlayerButton.setVisible(true);
+		
+		
+		//Set up Done Button
+		JButton doneButton = createButton("Done", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 130,
+				new FinishPiecePlacementListener());
+		piecePanel.add(doneButton);
+		doneButton.setVisible(true);
+				
+		piecePlacingFrame.pack();
 	}
 
 	// Label & Button create for convenience in Action Listeners
@@ -345,37 +433,20 @@ public class GUI {
 	}
 
 	// ACTION LISTENERS
-	// TODO Extract?
 	private class NewGameListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JFrame settingsFrame = new JFrame();
-			activeFrames.add(settingsFrame);
-			settingsFrame.setTitle("New Game Options");
-			settingsFrame.setLocation(650 / 2 - 324 / 2 + 5, 650 / 2 - 324 / 2 + 44);
-			settingsFrame.setVisible(true);
-
+			JFrame settingsFrame = createFrame("New Game Options", 650 / 2 - 324 / 2 + 5, 650 / 2 - 324 / 2 + 44);
 			ImagePanel panel = new ImagePanel(NEW_GAME_SETTINGS_BACKGROUND);
 			settingsFrame.getContentPane().add(panel);
 			settingsFrame.pack();
 			panel.setVisible(true);
 
 			// Set up Player 1 Name Label and Text Field
-			JLabel p1NameLabel = new JLabel();
-
-			// On Mac, the bolded text causes layout issues
-			p1NameLabel.setText("<html><b>Player 1 Name:</b><html>");
-			p1NameLabel.setForeground(Color.WHITE);
-			Font p1NameFont = p1NameLabel.getFont();
-			p1NameLabel.setFont(new Font(p1NameFont.getName(), 4, 14));
-			p1NameLabel.setSize(110, 25);
+			JLabel p1NameLabel = createLabel("<html><b>Player 1 Name:</b><html>", Color.WHITE, 14, 110, 25, panel.getWidth() / 2 - 110, panel.getHeight() / 2 - 25 * 2);
 			panel.add(p1NameLabel);
-			p1NameLabel.setLocation(panel.getWidth() / 2 - p1NameLabel.getWidth(),
-					panel.getHeight() / 2 - p1NameLabel.getHeight() * 2);
-
-			p1NameLabel.setVisible(true);
-
+			
 			JTextField p1NameField = new JTextField();
 			p1NameField.setSize(110, 25);
 			Font p1FieldFont = p1NameField.getFont();
@@ -386,17 +457,9 @@ public class GUI {
 			p1NameField.setVisible(true);
 
 			// Set up Player 2 Name Label and Text Field
-			JLabel p2NameLabel = new JLabel();
-			p2NameLabel.setText("<html><b>Player 2 Name:</b></hmtl>");
-			p2NameLabel.setForeground(Color.WHITE);
-			Font p2NameFont = p2NameLabel.getFont();
-			p2NameLabel.setFont(new Font(p2NameFont.getName(), 4, 14));
-			p2NameLabel.setSize(110, 25);
+			JLabel p2NameLabel = createLabel("<html><b>Player 2 Name:</b></hmtl>", Color.WHITE, 14, 110, 25, panel.getWidth() / 2 - 110, panel.getHeight() / 2 - 25);
 			panel.add(p2NameLabel);
-			p2NameLabel.setLocation(panel.getWidth() / 2 - p2NameLabel.getWidth(),
-					panel.getHeight() / 2 - p2NameLabel.getHeight());
-			p2NameLabel.setVisible(true);
-
+			
 			JTextField p2NameField = new JTextField();
 			p2NameField.setSize(110, 25);
 			Font p2FieldFont = p2NameField.getFont();
@@ -407,15 +470,8 @@ public class GUI {
 			p2NameField.setVisible(true);
 
 			// Set up Turn Timer Label and Text Field
-			JLabel turnTimerLabel = new JLabel();
-			turnTimerLabel.setText("<html><b>Turn Timer:</b></html>");
-			turnTimerLabel.setForeground(Color.WHITE);
-			Font turnTimerFont = turnTimerLabel.getFont();
-			turnTimerLabel.setFont(new Font(turnTimerFont.getName(), 4, 14));
-			turnTimerLabel.setSize(110, 25);
+			JLabel turnTimerLabel = createLabel("<html><b>Turn Timer:</b></html>", Color.WHITE, 14, 110, 25, panel.getWidth() / 2 - 110, panel.getHeight() / 2);
 			panel.add(turnTimerLabel);
-			turnTimerLabel.setLocation(panel.getWidth() / 2 - turnTimerLabel.getWidth(), panel.getHeight() / 2);
-			turnTimerLabel.setVisible(true);
 
 			Integer[] turnTimerPresets = { 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180 };
 			JComboBox<Integer> turnTimerComboBox = new JComboBox<Integer>(turnTimerPresets);
@@ -427,27 +483,119 @@ public class GUI {
 			turnTimerComboBox.setVisible(true);
 
 			// Set up Start Game Button
-			JButton startGameButton = new JButton();
-			startGameButton.setSize(110, 25);
-			startGameButton.setText("Start Game");
-			startGameButton.setLocation((panel.getWidth() / 2) - startGameButton.getWidth(),
-					(panel.getHeight() / 2) + (2 * startGameButton.getHeight()));
+			JButton startGameButton = createButton("Start Game", 1, 12, 110, 25, (panel.getWidth() / 2) - 110, (panel.getHeight() / 2) + (2 * 25), new StartGameListener());
 			panel.add(startGameButton);
-			startGameButton.addActionListener(new StartGameListener());
-			startGameButton.setVisible(true);
 
 			// Set up Cancel Button
-			JButton cancelButton = new JButton();
-			cancelButton.setSize(110, 25);
-			cancelButton.setText("Cancel");
-			cancelButton.setLocation((panel.getWidth() / 2), (panel.getHeight() / 2) + (2 * cancelButton.getHeight()));
+			JButton cancelButton = createButton("Cancel", 1, 12, 110, 25, (panel.getWidth() / 2), (panel.getHeight() / 2) + (2 * 25), new CancelListener());
 			panel.add(cancelButton);
-			cancelButton.addActionListener(new CancelListener());
-			cancelButton.setVisible(true);
+		}
+	}
+	
+	private class PlaceRabbitListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (playerCurrentlyPlacingPieces == 1) {
+				pieceToBePlaced = 'R';
+			} else if (playerCurrentlyPlacingPieces == 2) {
+				pieceToBePlaced = 'r';
+			}
+		}
+	}
+	
+	private class PlaceCatListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (playerCurrentlyPlacingPieces == 1) {
+				pieceToBePlaced = 'K';
+			} else if (playerCurrentlyPlacingPieces == 2) {
+				pieceToBePlaced = 'k';
+			}
+		}
+	}
+	
+	private class PlaceDogListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (playerCurrentlyPlacingPieces == 1) {
+				pieceToBePlaced = 'D';
+			} else if (playerCurrentlyPlacingPieces == 2) {
+				pieceToBePlaced = 'd';
+			}
+		}
+	}
+	
+	private class PlaceHorseListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (playerCurrentlyPlacingPieces == 1) {
+				pieceToBePlaced = 'H';
+			} else if (playerCurrentlyPlacingPieces == 2) {
+				pieceToBePlaced = 'h';
+			}
+		}
+	}
+	
+	private class PlaceCamelListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (playerCurrentlyPlacingPieces == 1) {
+				pieceToBePlaced = 'C';
+			} else if (playerCurrentlyPlacingPieces == 2) {
+				pieceToBePlaced = 'c';
+			}
+		}
+	}
+	
+	private class PlaceElephantListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (playerCurrentlyPlacingPieces == 1) {
+				pieceToBePlaced = 'E';
+			} else if (playerCurrentlyPlacingPieces == 2) {
+				pieceToBePlaced = 'e';
+			}
+		}
+	}
+	
+	private class RemovePieceListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (playerCurrentlyPlacingPieces == 1) {
+				pieceToBePlaced = ' ';
+			} else if (playerCurrentlyPlacingPieces == 2) {
+				pieceToBePlaced = ' ';
+			}
+		}
+	}
+	
+	private class SwitchPlayerListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if ((playerCurrentlyPlacingPieces == 1) && game.pieceInventoryEmpty(playerCurrentlyPlacingPieces)) {
+				playerCurrentlyPlacingPieces = 2;
+			} 
+		}
+	}
+	
+	private class FinishPiecePlacementListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			playerCurrentlyPlacingPieces = 0;
+			activeFrames.get(1).dispose();
+			timePanel.unpause();
 		}
 	}
 
-	// TODO Extract?
 	private class LoadGameListener implements ActionListener {
 
 		@Override
@@ -471,6 +619,7 @@ public class GUI {
 			Scanner scanner = new Scanner(file);
 			if (game.loadFile(scanner)) {
 				setupForGame();
+				timePanel.unpause();
 
 			} else {
 				System.err.println("Invalid game state");
@@ -488,7 +637,6 @@ public class GUI {
 		}
 	}
 
-	// TODO Extract to another class?
 	private class StartGameListener implements ActionListener {
 
 		@Override
@@ -512,7 +660,6 @@ public class GUI {
 		}
 	}
 
-	// TODO Extract to another class?
 	private class SaveGameListener implements ActionListener {
 
 		@Override
@@ -520,6 +667,7 @@ public class GUI {
 			File selectedFile = null;
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+			timePanel.pause();
 			int result = fileChooser.showOpenDialog(gameBoardPanel);
 			if (result == JFileChooser.APPROVE_OPTION) {
 				selectedFile = fileChooser.getSelectedFile();
@@ -532,6 +680,7 @@ public class GUI {
 				}
 				game.saveFile(fw);
 			}
+			timePanel.unpause();
 		}
 	}
 
@@ -553,7 +702,6 @@ public class GUI {
 		}
 	}
 
-	// TODO Extract to seperate class?
 	private class MovementListener implements MouseListener {
 		ImagePanel selectedPiece;
 		ImagePanel secondSelectedPiece;
@@ -591,6 +739,23 @@ public class GUI {
 			// Get rid of X and Y ASAP!!!
 			int rowClicked = (sourceY - 10) / 80;
 			int columnClicked = (sourceX - 10) / 80;
+			
+			if (playerCurrentlyPlacingPieces != 0) {
+				if (pieceToBePlaced == '!') {
+					return;
+				} else if (pieceToBePlaced != ' ') {
+					if(playerCurrentlyPlacingPieces == 1 && rowClicked < 2)
+						game.placePiece(rowClicked, columnClicked, pieceToBePlaced);
+					if(playerCurrentlyPlacingPieces == 2 && rowClicked > 5)
+						game.placePiece(rowClicked, columnClicked, pieceToBePlaced);
+				} else {
+					game.removePiece(rowClicked, columnClicked, playerCurrentlyPlacingPieces);
+				}
+				renderBoard();
+				gameBoardPanel.repaint();
+				pieceToBePlaced = '!';
+				return;
+			}
 
 			// Beginning movement, nothing yet selected
 			// Selecting piece to interact with
@@ -638,7 +803,6 @@ public class GUI {
 				calculatedDirection1 = moveDirectionOnePush(selectedPiece, secondSelectedPiece);
 				calculatedDirection2 = moveDirectionTwoPush(secondSelectedPiece, rowClicked, columnClicked);
 			} catch (ArimaaException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 

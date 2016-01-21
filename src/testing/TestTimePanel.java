@@ -23,7 +23,8 @@ public class TestTimePanel {
 	@Test
 	public void testUpdate() {
 		TimePanel tp = new TimePanel(new GUI(), new Game(), 15, new JLabel());
-		// tp.update(5, 0);
+		tp.unpause();
+		//tp.update(5, 0);
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
@@ -47,11 +48,11 @@ public class TestTimePanel {
 	}
 
 	@Test
-	public void testSwitchMove() {
-		GUI gui = new GUI();
-		Game game = new Game();
-		TimePanel tp = new TimePanel(gui, game, 9, new JLabel());
-
+	public void testSwitchMove(){
+		GUI gui=new GUI();
+		Game game=new Game();
+		TimePanel tp= new TimePanel(gui, game, 9, new JLabel());
+		tp.unpause();
 		game.setPlayerTurn(2);
 		try {
 			Thread.sleep(100);
