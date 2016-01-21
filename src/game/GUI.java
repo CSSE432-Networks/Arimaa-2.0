@@ -741,8 +741,6 @@ public class GUI {
 			int columnClicked = (sourceX - 10) / 80;
 			
 			if (playerCurrentlyPlacingPieces != 0) {
-				System.out.println("Piece to be placed: " + pieceToBePlaced);
-				System.out.println("Player: " + playerCurrentlyPlacingPieces);
 				if (pieceToBePlaced == '!') {
 					return;
 				} else if (pieceToBePlaced != ' ') {

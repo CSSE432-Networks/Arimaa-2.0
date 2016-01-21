@@ -105,8 +105,11 @@ public class Game {
 		if (boardArray[row][column] == ' ') {
 			return false;
 		}
-
+		
 		char removedPiece = boardArray[row][column];
+		
+		if (player == 1 && !Character.isUpperCase(removedPiece)) return false;
+		if (player == 2 && !Character.isLowerCase(removedPiece)) return false;
 		
 		this.pieceInventory.put(removedPiece, this.pieceInventory.get(removedPiece) + 1);
 
