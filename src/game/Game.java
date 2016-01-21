@@ -28,6 +28,7 @@ public class Game {
 
 	public Game(BoardState b) {
 		currentBoard = b;
+		initializeInventory();
 	}
 
 	public boolean pieceInventoryEmpty(int player) {

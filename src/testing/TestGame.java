@@ -14,6 +14,16 @@ import game.Piece.PieceType;
 import org.junit.Test;
 
 public class TestGame {
+	BoardState blank = new BoardState(new char[][] { 
+		{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, 
+		{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+		{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, 
+		{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+		{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, 
+		{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+		{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, 
+		{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, }, 0);
+	
 	BoardState b = new BoardState(new char[][] {
 			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
 			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
@@ -1042,4 +1052,90 @@ public class TestGame {
 		assertTrue(g.move(1, 5, 3));
 		assertFalse(g.push(1, 4, 3, 3));
 	}
+	
+	@Test
+	public void testSetTurnTimer(){
+		Game g = new Game(standard);
+		g.setTurnTimer(15);
+		assertTrue(g.getTurnTimer() == 15);
+	}
+	
+	@Test
+	public void testPieceInventoryEmpty(){
+		Game g = new Game(blank);
+		assertFalse(g.pieceInventoryEmpty(1));
+	}
+	
+	@Test
+	public void testPieceInventoryEmpty2(){
+		Game g = new Game(blank);
+		assertTrue(g.placePiece(0, 0, 'R'));
+		assertTrue(g.placePiece(0, 1, 'R'));
+		assertTrue(g.placePiece(0, 2, 'R'));
+		assertTrue(g.placePiece(0, 3, 'R'));
+		assertTrue(g.placePiece(0, 4, 'R'));
+		assertTrue(g.placePiece(0, 5, 'R'));
+		assertTrue(g.placePiece(0, 6, 'R'));
+		assertTrue(g.placePiece(0, 7, 'R'));
+		
+		assertTrue(g.placePiece(1, 0, 'C'));
+		assertTrue(g.placePiece(1, 1, 'E'));
+		assertTrue(g.placePiece(1, 2, 'H'));
+		assertTrue(g.placePiece(1, 3, 'H'));
+		assertTrue(g.placePiece(1, 4, 'K'));
+		assertTrue(g.placePiece(1, 5, 'K'));
+		assertTrue(g.placePiece(1, 6, 'D'));
+		assertTrue(g.placePiece(1, 7, 'D'));
+		assertTrue(g.pieceInventoryEmpty(1));
+	}
+	
+	@Test
+	public void testPlacePiece(){
+		Game g = new Game(blank);
+		assertTrue(g.placePiece(0, 2, 'K')); //K for kat...
+		assertTrue(g.placePiece(1, 2, 'K'));
+	}
+	
+	@Test
+	public void testPlacePieceOnOccupiedSpace(){
+		Game g = new Game(blank);
+		assertTrue(g.placePiece(0, 2, 'K')); //K for kat...
+		assertFalse(g.placePiece(0, 2, 'K'));
+	}
+	
+	@Test
+	public void testPlacePieceWhenAllPiecesPlaced(){
+		Game g = new Game(blank);
+		assertTrue(g.placePiece(0, 2, 'K'));
+		assertTrue(g.placePiece(1, 2, 'K'));
+		assertFalse(g.placePiece(1, 3, 'K'));
+	}
+	
+	@Test
+	public void testRemovePiece() {
+		Game g = new Game(blank);
+		g.placePiece(0, 2, 'K');
+		assertTrue(g.removePiece(0, 2, 1));
+	}
+	
+	@Test
+	public void testRemovePieceOnEmptySpace() {
+		Game g = new Game(blank);
+		assertFalse(g.removePiece(0, 1, 1));
+	}
+	
+	@Test
+	public void testRemovePieceP1CantRemoveP2() {
+		Game g = new Game(blank);
+		g.placePiece(7, 1, 'c');
+		assertFalse(g.removePiece(7, 1, 1));
+	}
+	
+	@Test
+	public void testRemovePieceP2CantRemoveP1() {
+		Game g = new Game(blank);
+		g.placePiece(7, 1, 'C');
+		assertFalse(g.removePiece(7, 1, 2));
+	}
+	
 }
