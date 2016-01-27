@@ -3,13 +3,11 @@
  */
 package game;
 
-import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JLabel;
 
 public class TimePanel {
 	private JLabel timerLabel;
-	private Timer timer;
 	private int playerTurn;
 	private boolean paused;
 

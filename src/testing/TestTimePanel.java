@@ -68,6 +68,7 @@ public class TestTimePanel {
 		GUI gui = new GUI();
 		Game game = new Game(standard);
 		TimePanel tp = new TimePanel(gui, game, 3, new JLabel());
+		tp.unpause();
 		game.setWinner(1);
 		try {
 			Thread.sleep(3500);
