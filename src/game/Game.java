@@ -398,7 +398,6 @@ public class Game {
 			if (row - 1 >= 0) {
 				return enactPush(row, column, row - 1, column, dir1, dir2);
 			}
-
 			break;
 		case 1:
 			if (column + 1 <= 7) {
@@ -414,7 +413,6 @@ public class Game {
 			if (column - 1 >= 0) {
 				return enactPush(row, column, row, column - 1, dir1, dir2);
 			}
-
 			break;
 		}
 		isPushPull = false;
@@ -425,7 +423,7 @@ public class Game {
 		Piece pushingPiece = getSpace(rowPushing, columnPushing);
 		Piece pushedPiece = getSpace(rowPushed, columnPushed);
 		if (pieceCanPush(pushingPiece, pushedPiece) && move(rowPushed, columnPushed, dir2)) {
-			isPushPull = false;
+			isPushPull = true;
 			// should always be true
 			return move(rowPushing, columnPushing, dir1);
 		}
@@ -472,35 +470,30 @@ public class Game {
 		// Attempt to perform move operations on both pieces
 		switch (direction1) {
 		case 0:
-			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {// pieceCanPush(getSpace(row1,
-																										// column1),getSpace(row2,
-																										// column2))&&
-																										// move(row1,
-																										// column1,
-																										// direction1)
+			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {// pieceCanPush(getSpace(row1, direction1)
 				move(row2, column2, direction2);
-				isPushPull = false;
+				isPushPull = true;
 				return true;
 			}
 			break;
 		case 1:
 			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {
 				move(row2, column2, direction2);
-				isPushPull = false;
+				isPushPull = true;
 				return true;
 			}
 			break;
 		case 2:
 			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {
 				move(row2, column2, direction2);
-				isPushPull = false;
+				isPushPull = true;
 				return true;
 			}
 			break;
 		case 3:
 			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {
 				move(row2, column2, direction2);
-				isPushPull = false;
+				isPushPull = true;
 				return true;
 			}
 			break;
@@ -566,9 +559,13 @@ public class Game {
 		if (this.numMoves == 4)
 			return;
 
+		if(this.isPushPull){
+			this.currentBoard = this.boards.get(boards.size() - 1);
+			this.boards.remove(this.boards.size() - 1);
+			this.numMoves += 1;
+		}
 		this.currentBoard = this.boards.get(boards.size() - 1);
 		this.boards.remove(this.boards.size() - 1);
-
 		this.numMoves += 1;
 	}
 
