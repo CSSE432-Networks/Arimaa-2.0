@@ -222,10 +222,7 @@ public class Game {
 	 */
 	private void endMove() {
 		// check(2,2)
-		checkDeaths(2, 2);
-		checkDeaths(2, 5);
-		checkDeaths(5, 2);
-		checkDeaths(5, 5);
+		checkTrapSquares();
 		checkWin();
 		numMoves--;
 	}
@@ -238,6 +235,11 @@ public class Game {
 		}
 		numMoves = 4;
 		turnCounter++;
+		checkTrapSquares();
+	}
+	
+	//DOCME: extracted this into its own method! tests still work - Tayler
+	private void checkTrapSquares() {
 		checkDeaths(2, 2);
 		checkDeaths(2, 5);
 		checkDeaths(5, 2);
@@ -572,22 +574,6 @@ public class Game {
 		this.boards.remove(this.boards.size() - 1);
 
 		this.numMoves += 1;
-
-		/*
-		 * if(this.numMoves == 3) { this.currentBoard =
-		 * this.boards.get(boards.size()-1);
-		 * this.boards.remove(this.boards.size()-1); }
-		 * 
-		 * if(this.numMoves == 2) { this.currentBoard =
-		 * this.boards.get(boards.size()-2);
-		 * this.boards.remove(this.boards.size()-2); }
-		 * 
-		 * if(this.numMoves == 1) { this.currentBoard =
-		 * this.boards.get(boards.size()-3);
-		 * this.boards.remove(this.boards.size()-3); }
-		 * 
-		 * this.numMoves = 4;
-		 */
 	}
 
 	public boolean loadFile(Scanner scanner) {
@@ -599,6 +585,41 @@ public class Game {
 						{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
 						{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, },
 				0);
+		if (!parseLoadedBoardState(scanner, boardToSet)) return false;
+		
+
+		// Parse turnCounter, p1Name, p2Name
+		if (!verifyScanner(scanner)) return false;
+		int turnCounter = scanner.nextInt();
+
+		if (!verifyScanner(scanner)) return false;
+		int turnTimer = scanner.nextInt();
+
+		if (!verifyScanner(scanner)) return false;
+		String p1name = scanner.next();
+
+		if (!verifyScanner(scanner)) return false;
+		String p2name = scanner.next();
+
+		scanner.close();
+
+		// Successful load! Push all changes to game permanently
+		this.currentBoard = boardToSet;
+		this.turnCounter = turnCounter;
+		this.moveTimer = turnTimer;
+		this.p1Name = p1name;
+		this.p2Name = p2name;
+
+		if (this.turnCounter % 2 == 1) {
+			this.playerTurn = 2;
+		} else {
+			this.playerTurn = 1;
+		}
+		return true;
+	}
+	
+	//DOCME: extracted this! - Tayler
+	private boolean parseLoadedBoardState(Scanner scanner, BoardState bs) {
 		String[] validBoardCharactersArray = { " ", "E", "C", "H", "D", "K", "R", "e", "c", "h", "d", "k", "r" };
 		ArrayList<String> vbc = new ArrayList<String>();
 		for (String s : validBoardCharactersArray) {
@@ -617,50 +638,18 @@ public class Game {
 					scanner.close();
 					return false;
 				}
-				boardToSet.setBoardSpace(i, k, next);
+				bs.setBoardSpace(i, k, next);
 			}
 		}
-
-		// Parse turnCounter, p1Name, p2Name
+		
+		return true;
+	}
+	
+	//DOCME: and this! - Tayler
+	private boolean verifyScanner(Scanner scanner) {
 		if (!scanner.hasNext()) {
 			scanner.close();
 			return false;
-		}
-		int turnCounter = scanner.nextInt();
-
-		if (!scanner.hasNext()) {
-			scanner.close();
-			return false;
-		}
-		int turnTimer = scanner.nextInt();
-
-		if (!scanner.hasNext()) {
-			scanner.close();
-			return false;
-		}
-		String p1name = scanner.next();
-
-		if (!scanner.hasNext()) {
-			scanner.close();
-			return false;
-		}
-		String p2name = scanner.next();
-
-		scanner.close();
-
-		// Successful load! Push all changes to game permanently
-		this.currentBoard = boardToSet;
-		this.turnCounter = turnCounter;
-		this.moveTimer = turnTimer;
-		this.p1Name = p1name;
-		this.p2Name = p2name;
-
-		if (this.turnCounter % 2 == 1) {
-			this.playerTurn = 2;
-			// System.out.println("It's player 2's turn");
-		} else {
-			this.playerTurn = 1;
-			// System.out.println("It's player 1's turn");
 		}
 		return true;
 	}
