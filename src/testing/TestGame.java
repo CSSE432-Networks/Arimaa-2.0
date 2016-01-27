@@ -1071,13 +1071,19 @@ public class TestGame {
 	}
 	
 	@Test
-	public void testPieceInventoryEmpty(){
+	public void testP1PieceInventoryEmpty(){
 		Game g = new Game(blank);
 		assertFalse(g.pieceInventoryEmpty(1));
 	}
 	
 	@Test
-	public void testPieceInventoryEmpty2(){
+	public void testP2PieceInventoryEmpty(){
+		Game g = new Game(blank);
+		assertFalse(g.pieceInventoryEmpty(2));
+	}
+	
+	@Test
+	public void testP1PieceInventoryEmpty2(){
 		Game g = new Game(blank);
 		assertTrue(g.placePiece(0, 0, 'R'));
 		assertTrue(g.placePiece(0, 1, 'R'));
@@ -1087,16 +1093,55 @@ public class TestGame {
 		assertTrue(g.placePiece(0, 5, 'R'));
 		assertTrue(g.placePiece(0, 6, 'R'));
 		assertTrue(g.placePiece(0, 7, 'R'));
+		assertFalse(g.pieceInventoryEmpty(1));
 		
 		assertTrue(g.placePiece(1, 0, 'C'));
+		assertFalse(g.pieceInventoryEmpty(1));
 		assertTrue(g.placePiece(1, 1, 'E'));
+		assertFalse(g.pieceInventoryEmpty(1));
 		assertTrue(g.placePiece(1, 2, 'H'));
 		assertTrue(g.placePiece(1, 3, 'H'));
+		assertFalse(g.pieceInventoryEmpty(1));
 		assertTrue(g.placePiece(1, 4, 'K'));
 		assertTrue(g.placePiece(1, 5, 'K'));
+		assertFalse(g.pieceInventoryEmpty(1));
 		assertTrue(g.placePiece(1, 6, 'D'));
 		assertTrue(g.placePiece(1, 7, 'D'));
 		assertTrue(g.pieceInventoryEmpty(1));
+	}
+	
+	@Test
+	public void testP2PieceInventoryEmpty2(){
+		Game g = new Game(blank);
+		assertTrue(g.placePiece(6, 0, 'r'));
+		assertTrue(g.placePiece(6, 1, 'r'));
+		assertTrue(g.placePiece(6, 2, 'r'));
+		assertTrue(g.placePiece(6, 3, 'r'));
+		assertTrue(g.placePiece(6, 4, 'r'));
+		assertTrue(g.placePiece(6, 5, 'r'));
+		assertTrue(g.placePiece(6, 6, 'r'));
+		assertTrue(g.placePiece(6, 7, 'r'));
+		assertFalse(g.pieceInventoryEmpty(2));
+		
+		assertTrue(g.placePiece(7, 0, 'c'));
+		assertFalse(g.pieceInventoryEmpty(2));
+		assertTrue(g.placePiece(7, 1, 'e'));
+		assertFalse(g.pieceInventoryEmpty(2));
+		assertTrue(g.placePiece(7, 2, 'h'));
+		assertTrue(g.placePiece(7, 3, 'h'));
+		assertFalse(g.pieceInventoryEmpty(2));
+		assertTrue(g.placePiece(7, 4, 'k'));
+		assertTrue(g.placePiece(7, 5, 'k'));
+		assertFalse(g.pieceInventoryEmpty(2));
+		assertTrue(g.placePiece(7, 6, 'd'));
+		assertTrue(g.placePiece(7, 7, 'd'));
+		assertTrue(g.pieceInventoryEmpty(2));
+	}
+	
+	@Test
+	public void testPieceInventoryEmptyInvalid(){
+		Game g = new Game(blank);
+		assertFalse(g.pieceInventoryEmpty(3));
 	}
 	
 	@Test

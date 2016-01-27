@@ -321,7 +321,7 @@ public class GUI {
 		//piecePlacingFrame.setResizable(false);
 		//activeFrames.add(piecePlacingFrame);
 		piecePlacingFrame.setTitle("Piece Placing Controls");
-		piecePlacingFrame.setLocation(850, 325);
+		piecePlacingFrame.setLocation(900, 325);
 		piecePlacingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		activeFrames.add(piecePlacingFrame);
 		piecePlacingFrame.setVisible(true);
@@ -589,9 +589,11 @@ public class GUI {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			playerCurrentlyPlacingPieces = 0;
-			activeFrames.get(1).dispose();
-			timePanel.unpause();
+			if (game.pieceInventoryEmpty(1) && game.pieceInventoryEmpty(2)) {
+				playerCurrentlyPlacingPieces = 0;
+				activeFrames.get(1).dispose();
+				timePanel.unpause();
+			}
 		}
 	}
 
