@@ -100,7 +100,6 @@ public class Game {
 		return true;
 	}
 	
-	//TODO: check that player 1 can only remove player 1 pieces
 	public boolean removePiece(int row, int column, int player) {
 		char[][] boardArray = this.currentBoard.getBoardArray();
 		if (boardArray[row][column] == ' ') {

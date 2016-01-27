@@ -202,6 +202,16 @@ public class TestGame {
 	}
 	
 	@Test
+	public void testCannotMoveOtherPlayersPieces() {
+		Game g = new Game(standard);
+		assertEquals(new Piece(PieceType.Rabbit, null, Piece.Owner.Player2),
+				g.getSpace(6, 1));
+		assertFalse(g.move(6, 1, 0));
+		assertEquals(new Piece(PieceType.Rabbit, null, Piece.Owner.Player2),
+				g.getSpace(6, 1));
+	}
+	
+	@Test
 	public void testEndTurn(){
 		Game g = new Game();
 		assertTrue(1 == g.getPlayerTurn());

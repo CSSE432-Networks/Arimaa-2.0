@@ -2,8 +2,6 @@ package testing;
 
 import static org.junit.Assert.*;
 
-import javax.swing.ImageIcon;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
