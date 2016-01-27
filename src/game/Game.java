@@ -33,9 +33,15 @@ public class Game {
 
 	public boolean pieceInventoryEmpty(int player) {
 		if (player == 1) {
-			if ((this.pieceInventory.get('E') == 0) && (this.pieceInventory.get('C') == 0)
-					&& (this.pieceInventory.get('H') == 0) && (this.pieceInventory.get('D') == 0)
-					&& (this.pieceInventory.get('K') == 0) && (this.pieceInventory.get('R') == 0)) {
+			if ((this.pieceInventory.get('R') == 0) && (this.pieceInventory.get('C') == 0)
+					&& (this.pieceInventory.get('E') == 0) && (this.pieceInventory.get('H') == 0)
+					&& (this.pieceInventory.get('K') == 0) && (this.pieceInventory.get('D') == 0)) {
+				return true;
+			}	
+		} else if (player == 2) {
+			if ((this.pieceInventory.get('r') == 0) && (this.pieceInventory.get('c') == 0)
+					&& (this.pieceInventory.get('e') == 0) && (this.pieceInventory.get('h') == 0)
+					&& (this.pieceInventory.get('k') == 0) && (this.pieceInventory.get('d') == 0)) {
 				return true;
 			}	
 		}
