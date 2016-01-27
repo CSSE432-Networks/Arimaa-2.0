@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 
 import javax.swing.JLabel;
 
+import game.BoardState;
 import game.GUI;
 import game.Game;
 import game.TimePanel;
@@ -13,16 +14,26 @@ import game.TimePanel;
 import org.junit.Test;
 
 public class TestTimePanel {
+	
+	BoardState standard = new BoardState(new char[][] {
+		{ 'K', 'D', 'H', 'C', 'E', 'H', 'D', 'K' },
+		{ 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R' },
+		{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+		{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+		{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+		{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+		{ 'r', 'r', 'r', 'r', 'r', 'r', 'r', 'r' },
+		{ 'k', 'd', 'h', 'c', 'e', 'h', 'd', 'k' }, }, 0);
 
 	@Test
 	public void testInitializes() {
-		TimePanel tp = new TimePanel(new GUI(), new Game(), 15, new JLabel());
+		TimePanel tp = new TimePanel(new GUI(), new Game(standard), 15, new JLabel());
 		assertNotNull(tp);
 	}
 
 	@Test
 	public void testUpdate() {
-		TimePanel tp = new TimePanel(new GUI(), new Game(), 15, new JLabel());
+		TimePanel tp = new TimePanel(new GUI(), new Game(standard), 15, new JLabel());
 		tp.unpause();
 		//tp.update(5, 0);
 		try {
@@ -32,11 +43,30 @@ public class TestTimePanel {
 		}
 		assertEquals("<html> <b>" + 0 + ":" + 14 + "</b> </html>", tp.getTimerLabel().getText());
 	}
+	
+	@Test
+	public void testPause() {
+		TimePanel tp = new TimePanel(new GUI(), new Game(standard), 15, new JLabel());
+		tp.unpause();
+		//tp.update(5, 0);
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		tp.pause();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		assertEquals("<html> <b>" + 0 + ":" + 14 + "</b> </html>", tp.getTimerLabel().getText());
+	}
 
 	@Test
 	public void testCancelTimer() {
 		GUI gui = new GUI();
-		Game game = new Game();
+		Game game = new Game(standard);
 		TimePanel tp = new TimePanel(gui, game, 3, new JLabel());
 		game.setWinner(1);
 		try {
@@ -50,7 +80,7 @@ public class TestTimePanel {
 	@Test
 	public void testSwitchMove(){
 		GUI gui=new GUI();
-		Game game=new Game();
+		Game game=new Game(standard);
 		TimePanel tp= new TimePanel(gui, game, 9, new JLabel());
 		tp.unpause();
 		game.setPlayerTurn(2);
