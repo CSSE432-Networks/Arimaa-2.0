@@ -12,7 +12,6 @@ public class Game {
 	// fields
 	ArrayList<BoardState> boards = new ArrayList<BoardState>();
 	public BoardState currentBoard = null;
-	// int numMovesLeft = 0;
 	int moveTimer = 0;
 	int p1TimeBank = 0;
 	int p2TimeBank = 0;
@@ -221,7 +220,6 @@ public class Game {
 	 * This methods checks piece death and victory conditions
 	 */
 	private void endMove() {
-		// check(2,2)
 		checkTrapSquares();
 		checkWin();
 		numMoves--;
@@ -347,8 +345,6 @@ public class Game {
 		Piece down = this.getSpace(row + 1, col);
 		Piece left = this.getSpace(row, col - 1);
 		Piece right = this.getSpace(row, col + 1);
-		@SuppressWarnings("unused")
-		Owner own = cen.getOwner();
 		boolean foo = false;
 		if (up != null) {
 			foo = checkStrong(up, cen);
