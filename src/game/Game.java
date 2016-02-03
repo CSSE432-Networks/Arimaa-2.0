@@ -12,7 +12,6 @@ public class Game {
 	// fields
 	ArrayList<BoardState> boards = new ArrayList<BoardState>();
 	public BoardState currentBoard = null;
-	// int numMovesLeft = 0;
 	int moveTimer = 0;
 	int p1TimeBank = 0;
 	int p2TimeBank = 0;
@@ -221,11 +220,7 @@ public class Game {
 	 * This methods checks piece death and victory conditions
 	 */
 	private void endMove() {
-		// check(2,2)
-		checkDeaths(2, 2);
-		checkDeaths(2, 5);
-		checkDeaths(5, 2);
-		checkDeaths(5, 5);
+		checkTrapSquares();
 		checkWin();
 		numMoves--;
 	}
@@ -238,6 +233,11 @@ public class Game {
 		}
 		numMoves = 4;
 		turnCounter++;
+		checkTrapSquares();
+	}
+	
+	//DOCME: extracted this into its own method! tests still work - Tayler
+	private void checkTrapSquares() {
 		checkDeaths(2, 2);
 		checkDeaths(2, 5);
 		checkDeaths(5, 2);
@@ -345,8 +345,6 @@ public class Game {
 		Piece down = this.getSpace(row + 1, col);
 		Piece left = this.getSpace(row, col - 1);
 		Piece right = this.getSpace(row, col + 1);
-		@SuppressWarnings("unused")
-		Owner own = cen.getOwner();
 		boolean foo = false;
 		if (up != null) {
 			foo = checkStrong(up, cen);
@@ -400,7 +398,6 @@ public class Game {
 			if (row - 1 >= 0) {
 				return enactPush(row, column, row - 1, column, dir1, dir2);
 			}
-
 			break;
 		case 1:
 			if (column + 1 <= 7) {
@@ -416,7 +413,6 @@ public class Game {
 			if (column - 1 >= 0) {
 				return enactPush(row, column, row, column - 1, dir1, dir2);
 			}
-
 			break;
 		}
 		isPushPull = false;
@@ -427,7 +423,7 @@ public class Game {
 		Piece pushingPiece = getSpace(rowPushing, columnPushing);
 		Piece pushedPiece = getSpace(rowPushed, columnPushed);
 		if (pieceCanPush(pushingPiece, pushedPiece) && move(rowPushed, columnPushed, dir2)) {
-			isPushPull = false;
+			isPushPull = true;
 			// should always be true
 			return move(rowPushing, columnPushing, dir1);
 		}
@@ -474,35 +470,30 @@ public class Game {
 		// Attempt to perform move operations on both pieces
 		switch (direction1) {
 		case 0:
-			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {// pieceCanPush(getSpace(row1,
-																										// column1),getSpace(row2,
-																										// column2))&&
-																										// move(row1,
-																										// column1,
-																										// direction1)
+			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {// pieceCanPush(getSpace(row1, direction1)
 				move(row2, column2, direction2);
-				isPushPull = false;
+				isPushPull = true;
 				return true;
 			}
 			break;
 		case 1:
 			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {
 				move(row2, column2, direction2);
-				isPushPull = false;
+				isPushPull = true;
 				return true;
 			}
 			break;
 		case 2:
 			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {
 				move(row2, column2, direction2);
-				isPushPull = false;
+				isPushPull = true;
 				return true;
 			}
 			break;
 		case 3:
 			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {
 				move(row2, column2, direction2);
-				isPushPull = false;
+				isPushPull = true;
 				return true;
 			}
 			break;
@@ -568,26 +559,14 @@ public class Game {
 		if (this.numMoves == 4)
 			return;
 
+		if(this.isPushPull){
+			this.currentBoard = this.boards.get(boards.size() - 1);
+			this.boards.remove(this.boards.size() - 1);
+			this.numMoves += 1;
+		}
 		this.currentBoard = this.boards.get(boards.size() - 1);
 		this.boards.remove(this.boards.size() - 1);
-
 		this.numMoves += 1;
-
-		/*
-		 * if(this.numMoves == 3) { this.currentBoard =
-		 * this.boards.get(boards.size()-1);
-		 * this.boards.remove(this.boards.size()-1); }
-		 * 
-		 * if(this.numMoves == 2) { this.currentBoard =
-		 * this.boards.get(boards.size()-2);
-		 * this.boards.remove(this.boards.size()-2); }
-		 * 
-		 * if(this.numMoves == 1) { this.currentBoard =
-		 * this.boards.get(boards.size()-3);
-		 * this.boards.remove(this.boards.size()-3); }
-		 * 
-		 * this.numMoves = 4;
-		 */
 	}
 
 	public boolean loadFile(Scanner scanner) {
@@ -599,6 +578,41 @@ public class Game {
 						{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
 						{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }, },
 				0);
+		if (!parseLoadedBoardState(scanner, boardToSet)) return false;
+		
+
+		// Parse turnCounter, p1Name, p2Name
+		if (!verifyScanner(scanner)) return false;
+		int turnCounter = scanner.nextInt();
+
+		if (!verifyScanner(scanner)) return false;
+		int turnTimer = scanner.nextInt();
+
+		if (!verifyScanner(scanner)) return false;
+		String p1name = scanner.next();
+
+		if (!verifyScanner(scanner)) return false;
+		String p2name = scanner.next();
+
+		scanner.close();
+
+		// Successful load! Push all changes to game permanently
+		this.currentBoard = boardToSet;
+		this.turnCounter = turnCounter;
+		this.moveTimer = turnTimer;
+		this.p1Name = p1name;
+		this.p2Name = p2name;
+
+		if (this.turnCounter % 2 == 1) {
+			this.playerTurn = 2;
+		} else {
+			this.playerTurn = 1;
+		}
+		return true;
+	}
+	
+	//DOCME: extracted this! - Tayler
+	private boolean parseLoadedBoardState(Scanner scanner, BoardState bs) {
 		String[] validBoardCharactersArray = { " ", "E", "C", "H", "D", "K", "R", "e", "c", "h", "d", "k", "r" };
 		ArrayList<String> vbc = new ArrayList<String>();
 		for (String s : validBoardCharactersArray) {
@@ -617,50 +631,18 @@ public class Game {
 					scanner.close();
 					return false;
 				}
-				boardToSet.setBoardSpace(i, k, next);
+				bs.setBoardSpace(i, k, next);
 			}
 		}
-
-		// Parse turnCounter, p1Name, p2Name
+		
+		return true;
+	}
+	
+	//DOCME: and this! - Tayler
+	private boolean verifyScanner(Scanner scanner) {
 		if (!scanner.hasNext()) {
 			scanner.close();
 			return false;
-		}
-		int turnCounter = scanner.nextInt();
-
-		if (!scanner.hasNext()) {
-			scanner.close();
-			return false;
-		}
-		int turnTimer = scanner.nextInt();
-
-		if (!scanner.hasNext()) {
-			scanner.close();
-			return false;
-		}
-		String p1name = scanner.next();
-
-		if (!scanner.hasNext()) {
-			scanner.close();
-			return false;
-		}
-		String p2name = scanner.next();
-
-		scanner.close();
-
-		// Successful load! Push all changes to game permanently
-		this.currentBoard = boardToSet;
-		this.turnCounter = turnCounter;
-		this.moveTimer = turnTimer;
-		this.p1Name = p1name;
-		this.p2Name = p2name;
-
-		if (this.turnCounter % 2 == 1) {
-			this.playerTurn = 2;
-			// System.out.println("It's player 2's turn");
-		} else {
-			this.playerTurn = 1;
-			// System.out.println("It's player 1's turn");
 		}
 		return true;
 	}
@@ -668,24 +650,25 @@ public class Game {
 	public boolean saveFile(FileWriter fw) {
 		if (fw == null)
 			return false;
+		StringBuilder str = new StringBuilder();
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				String s = "" + this.currentBoard.getBoardArray()[i][j] + ",";
-				try {
-					fw.write(s);
-				} catch (IOException e) {
-					return false;
-				}
+				str.append("" + this.currentBoard.getBoardArray()[i][j]);
+				str.append(",");	
 			}
 		}
 
-		String s2 = "" + this.turnCounter + ",";
+		str.append("" + this.turnCounter);
+		str.append(",");
+		str.append(this.moveTimer);
+		str.append(",");
+		str.append(this.p1Name);
+		str.append(",");
+		str.append(this.p2Name);
+		String s = str.toString();
 
 		try {
-			fw.write(s2);
-			fw.write(this.moveTimer + ",");
-			fw.write(this.p1Name + ",");
-			fw.write(this.p2Name);
+			fw.write(s);
 			fw.close();
 		} catch (IOException e) {
 			return false;

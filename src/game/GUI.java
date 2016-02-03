@@ -306,9 +306,7 @@ public class GUI {
 				new EndTurnListener());
 		gameBoardPanel.add(endTurnButton);
 		
-		setupPiecePlacingWindow();
-
-		//renderInitialBoard();
+		renderBoard();
 	}
 
 	private void setupPiecePlacingWindow() {
@@ -657,7 +655,8 @@ public class GUI {
 
 			game.setTurnTimer((int) timerComboBox.getSelectedItem());
 			setupForGame();
-
+			
+			setupPiecePlacingWindow();
 		}
 	}
 
@@ -912,7 +911,9 @@ public class GUI {
 			else if (selectedPiece.getColumn() - 1 == columnClicked && selectedPiece.getRow() == rowClicked)
 				return 3;
 			else {
-				throw new ArimaaException("GUI.moveDirection(): Invalid direction :(");
+				return -1;
+				//Removed 
+				//throw new ArimaaException("GUI.moveDirection(): Invalid direction :(");
 			}
 		}
 
