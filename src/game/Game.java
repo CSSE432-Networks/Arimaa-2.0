@@ -650,24 +650,25 @@ public class Game {
 	public boolean saveFile(FileWriter fw) {
 		if (fw == null)
 			return false;
+		StringBuilder str = new StringBuilder();
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				String s = "" + this.currentBoard.getBoardArray()[i][j] + ",";
-				try {
-					fw.write(s);
-				} catch (IOException e) {
-					return false;
-				}
+				str.append("" + this.currentBoard.getBoardArray()[i][j]);
+				str.append(",");	
 			}
 		}
 
-		String s2 = "" + this.turnCounter + ",";
+		str.append("" + this.turnCounter);
+		str.append(",");
+		str.append(this.moveTimer);
+		str.append(",");
+		str.append(this.p1Name);
+		str.append(",");
+		str.append(this.p2Name);
+		String s = str.toString();
 
 		try {
-			fw.write(s2);
-			fw.write(this.moveTimer + ",");
-			fw.write(this.p1Name + ",");
-			fw.write(this.p2Name);
+			fw.write(s);
 			fw.close();
 		} catch (IOException e) {
 			return false;
