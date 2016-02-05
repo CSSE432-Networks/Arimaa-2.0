@@ -315,14 +315,8 @@ public class GUI {
 		this.pieceToBePlaced = '!';
 		
 		//Construct a frame to display piece placing mechanics.
-		JFrame piecePlacingFrame = new JFrame();
-		//piecePlacingFrame.setResizable(false);
-		//activeFrames.add(piecePlacingFrame);
-		piecePlacingFrame.setTitle("Piece Placing Controls");
-		piecePlacingFrame.setLocation(900, 325);
+		JFrame piecePlacingFrame = createFrame("Piece Placing Controls", 900, 325);
 		piecePlacingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		activeFrames.add(piecePlacingFrame);
-		piecePlacingFrame.setVisible(true);
 		piecePlacingFrame.setResizable(false);
 		
 		//Construct a panel for piece placing shenanigans  <--- totally spelled right, eclipse is silly
@@ -333,43 +327,43 @@ public class GUI {
 		
 		//Set up Place Rabbit Button
 		JButton placeRabbitButton = createButton("Place Rabbit", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 150,
-				new PlaceRabbitListener());
+				new PlacePieceListener("r"));
 		piecePanel.add(placeRabbitButton);
 		placeRabbitButton.setVisible(true);
 
 		//Set up Place Cat Button
 		JButton placeCatButton = createButton("Place Cat", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 115,
-				new PlaceCatListener());
+				new PlacePieceListener("k"));
 		piecePanel.add(placeCatButton);
 		placeCatButton.setVisible(true);
 		
 		//Set up Place Dog Button
 		JButton placeDogButton = createButton("Place Dog", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 80,
-				new PlaceDogListener());
+				new PlacePieceListener("d"));
 		piecePanel.add(placeDogButton);
 		placeDogButton.setVisible(true);
 		
 		//Set up Place Horse Button
 		JButton placeHorseButton = createButton("Place Horse", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 45,
-				new PlaceHorseListener());
+				new PlacePieceListener("h"));
 		piecePanel.add(placeHorseButton);
 		placeHorseButton.setVisible(true);
 		
 		//Set up Place Camel Button
 		JButton placeCamelButton = createButton("Place Camel", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 10,
-				new PlaceCamelListener());
+				new PlacePieceListener("c"));
 		piecePanel.add(placeCamelButton);
 		placeCamelButton.setVisible(true);
 		
 		//Set up Place Elephant Button
 		JButton placeElephantButton = createButton("Place Elephant", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 25,
-				new PlaceElephantListener());
+				new PlacePieceListener("e"));
 		piecePanel.add(placeElephantButton);
 		placeElephantButton.setVisible(true);
 		
 		//Set up Remove Button
 		JButton removeButton = createButton("Remove", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 60,
-				new RemovePieceListener());
+				new PlacePieceListener(" "));
 		piecePanel.add(removeButton);
 		removeButton.setVisible(true);
 		
@@ -428,6 +422,14 @@ public class GUI {
 		
 		return frame;
 	}
+	
+	public JTextField createField(int width, int height, int x, int y){
+		JTextField field = new JTextField();
+		field.setSize(width, height);
+		field.setLocation(x, y);
+		field.setVisible(true);
+		return field;
+	}
 
 	// ACTION LISTENERS
 	private class NewGameListener implements ActionListener {
@@ -444,27 +446,19 @@ public class GUI {
 			JLabel p1NameLabel = createLabel("<html><b>Player 1 Name:</b><html>", Color.WHITE, 14, 110, 25, panel.getWidth() / 2 - 110, panel.getHeight() / 2 - 25 * 2);
 			panel.add(p1NameLabel);
 			
-			JTextField p1NameField = new JTextField();
-			p1NameField.setSize(110, 25);
-			Font p1FieldFont = p1NameField.getFont();
-			p1NameLabel.setFont(new Font(p1FieldFont.getName(), 4, 14));
+			JTextField p1NameField = createField(110, 25, panel.getWidth() / 2, panel.getHeight() / 2 - 25 * 2);
+			p1NameLabel.setFont(new Font(p1NameField.getFont().getName(), 4, 14));
 			panel.add(p1NameField);
-			p1NameField.setLocation(panel.getWidth() / 2, panel.getHeight() / 2 - p1NameField.getHeight() * 2);
 			p1TextField = p1NameField;
-			p1NameField.setVisible(true);
 
 			// Set up Player 2 Name Label and Text Field
 			JLabel p2NameLabel = createLabel("<html><b>Player 2 Name:</b></hmtl>", Color.WHITE, 14, 110, 25, panel.getWidth() / 2 - 110, panel.getHeight() / 2 - 25);
 			panel.add(p2NameLabel);
 			
-			JTextField p2NameField = new JTextField();
-			p2NameField.setSize(110, 25);
-			Font p2FieldFont = p2NameField.getFont();
-			p2NameLabel.setFont(new Font(p2FieldFont.getName(), 4, 14));
+			JTextField p2NameField = createField(110, 25, panel.getWidth() / 2, panel.getHeight() /2 - 25);
+			p2NameLabel.setFont(new Font(p2NameField.getFont().getName(), 4, 14));
 			panel.add(p2NameField);
-			p2NameField.setLocation(panel.getWidth() / 2, panel.getHeight() / 2 - p2NameField.getHeight());
 			p2TextField = p2NameField;
-			p2NameField.setVisible(true);
 
 			// Set up Turn Timer Label and Text Field
 			JLabel turnTimerLabel = createLabel("<html><b>Turn Timer:</b></html>", Color.WHITE, 14, 110, 25, panel.getWidth() / 2 - 110, panel.getHeight() / 2);
@@ -489,88 +483,27 @@ public class GUI {
 		}
 	}
 	
-	private class PlaceRabbitListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (playerCurrentlyPlacingPieces == 1) {
-				pieceToBePlaced = 'R';
-			} else if (playerCurrentlyPlacingPieces == 2) {
-				pieceToBePlaced = 'r';
-			}
+	public void setPlacementPiece(String character){
+		if (playerCurrentlyPlacingPieces == 1) {
+			pieceToBePlaced = character.toUpperCase().charAt(0);
+		} else if (playerCurrentlyPlacingPieces == 2) {
+			pieceToBePlaced = character.charAt(0);
 		}
 	}
 	
-	private class PlaceCatListener implements ActionListener {
+	private class PlacePieceListener implements ActionListener {
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (playerCurrentlyPlacingPieces == 1) {
-				pieceToBePlaced = 'K';
-			} else if (playerCurrentlyPlacingPieces == 2) {
-				pieceToBePlaced = 'k';
-			}
+		String pieceChar;
+		
+		public PlacePieceListener(String pieceChar){
+			this.pieceChar = pieceChar;
 		}
-	}
-	
-	private class PlaceDogListener implements ActionListener {
-
+		
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (playerCurrentlyPlacingPieces == 1) {
-				pieceToBePlaced = 'D';
-			} else if (playerCurrentlyPlacingPieces == 2) {
-				pieceToBePlaced = 'd';
-			}
+		public void actionPerformed(ActionEvent arg0) {
+			setPlacementPiece(pieceChar);			
 		}
-	}
-	
-	private class PlaceHorseListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (playerCurrentlyPlacingPieces == 1) {
-				pieceToBePlaced = 'H';
-			} else if (playerCurrentlyPlacingPieces == 2) {
-				pieceToBePlaced = 'h';
-			}
-		}
-	}
-	
-	private class PlaceCamelListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (playerCurrentlyPlacingPieces == 1) {
-				pieceToBePlaced = 'C';
-			} else if (playerCurrentlyPlacingPieces == 2) {
-				pieceToBePlaced = 'c';
-			}
-		}
-	}
-	
-	private class PlaceElephantListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (playerCurrentlyPlacingPieces == 1) {
-				pieceToBePlaced = 'E';
-			} else if (playerCurrentlyPlacingPieces == 2) {
-				pieceToBePlaced = 'e';
-			}
-		}
-	}
-	
-	private class RemovePieceListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (playerCurrentlyPlacingPieces == 1) {
-				pieceToBePlaced = ' ';
-			} else if (playerCurrentlyPlacingPieces == 2) {
-				pieceToBePlaced = ' ';
-			}
-		}
+		
 	}
 	
 	private class SwitchPlayerListener implements ActionListener {
@@ -667,6 +600,7 @@ public class GUI {
 			File selectedFile = null;
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+			fileChooser.setApproveButtonText("Save");
 			timePanel.pause();
 			int result = fileChooser.showOpenDialog(gameBoardPanel);
 			if (result == JFileChooser.APPROVE_OPTION) {
