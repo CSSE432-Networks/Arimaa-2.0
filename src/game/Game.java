@@ -611,7 +611,7 @@ public class Game {
 		return true;
 	}
 	
-	//DOCME: extracted this! - Tayler
+	//extracted this! - Tayler
 	private boolean parseLoadedBoardState(Scanner scanner, BoardState bs) {
 		String[] validBoardCharactersArray = { " ", "E", "C", "H", "D", "K", "R", "e", "c", "h", "d", "k", "r" };
 		ArrayList<String> vbc = new ArrayList<String>();
@@ -638,7 +638,7 @@ public class Game {
 		return true;
 	}
 	
-	//DOCME: and this! - Tayler
+	//and this! - Tayler
 	private boolean verifyScanner(Scanner scanner) {
 		if (!scanner.hasNext()) {
 			scanner.close();
