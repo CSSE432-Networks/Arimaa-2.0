@@ -393,30 +393,31 @@ public class Game {
 		if (!isValidSquareToPushFrom(row, column))
 			return false;
 		isPushPull = true;
+		boolean worked = false;
 		switch (dir1) {
 		case 0:
 			if (row - 1 >= 0) {
-				return enactPush(row, column, row - 1, column, dir1, dir2);
+				worked = enactPush(row, column, row - 1, column, dir1, dir2);
 			}
 			break;
 		case 1:
 			if (column + 1 <= 7) {
-				return enactPush(row, column, row, column + 1, dir1, dir2);
+				worked = enactPush(row, column, row, column + 1, dir1, dir2);
 			}
 			break;
 		case 2:
 			if (row + 1 <= 7) {
-				return enactPush(row, column, row + 1, column, dir1, dir2);
+				worked = enactPush(row, column, row + 1, column, dir1, dir2);
 			}
 			break;
 		case 3:
 			if (column - 1 >= 0) {
-				return enactPush(row, column, row, column - 1, dir1, dir2);
+				worked = enactPush(row, column, row, column - 1, dir1, dir2);
 			}
 			break;
 		}
 		isPushPull = false;
-		return false;
+		return worked;
 	}
 
 	private boolean enactPush(int rowPushing, int columnPushing, int rowPushed, int columnPushed, int dir1, int dir2) {
