@@ -39,7 +39,8 @@ public class GUI {
 	private JLabel timerLabel;
 	private TimePanel timePanel;
 
-	//These used to be directly in the code. Refactored and pulled them out - Jesse
+	// These used to be directly in the code. Refactored and pulled them out -
+	// Jesse
 	private final String WHITE_ELEPHANT_PIC_LOCATION = "resources/White elephant.png";
 	private final String WHITE_CAMEL_PIC_LOCATION = "resources/White camel.png";
 	private final String WHITE_HORSE_PIC_LOCATION = "resources/White horse.png";
@@ -118,7 +119,7 @@ public class GUI {
 		this.activeFrames = frames;
 	}
 
-	//refactored this to clean up huge switch statement - Jesse
+	// refactored this to clean up huge switch statement - Jesse
 	private void renderInitialBoard() {
 		if (game.getWinner() != 0)
 			createWinWindow();
@@ -209,7 +210,7 @@ public class GUI {
 		ImagePanel panel = new ImagePanel(WINNER_BACKGROUND);
 		winnerFrame.getContentPane().add(panel);
 		winnerFrame.pack();
-		//winnerFrame.setResizable(false);
+		// winnerFrame.setResizable(false);
 		panel.setVisible(true);
 
 		// Set Up winner name Label
@@ -307,82 +308,82 @@ public class GUI {
 		JButton endTurnButton = createButton("End Turn", 1, 12, 137, 50, 655, gameFrame.getHeight() / 2 - 37,
 				new EndTurnListener());
 		gameBoardPanel.add(endTurnButton);
-		
+
 		renderBoard();
 	}
 
-	//Written for the addition of our new feature - Jesse
+	// Written for the addition of our new feature - Jesse
 	private void setupPiecePlacingWindow() {
-		//set up internal stuff
+		// set up internal stuff
 		this.playerCurrentlyPlacingPieces = 1;
 		this.pieceToBePlaced = '!';
-		
-		//Construct a frame to display piece placing mechanics.
+
+		// Construct a frame to display piece placing mechanics.
 		JFrame piecePlacingFrame = createFrame("Piece Placing Controls", 900, 325);
 		piecePlacingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		piecePlacingFrame.setResizable(false);
-		
-		//Construct a panel for piece placing shenanigans  <--- totally spelled right, eclipse is silly
+
+		// Construct a panel for piece placing shenanigans <--- totally spelled
+		// right, eclipse is silly
 		ImagePanel piecePanel = new ImagePanel(WINNER_BACKGROUND);
 		activeFrames.get(1).getContentPane().add(piecePanel);
-		
+
 		piecePanel.setVisible(true);
-		
-		//Set up Place Rabbit Button
-		JButton placeRabbitButton = createButton("Place Rabbit", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 150,
-				new PlacePieceListener("r"));
+
+		// Set up Place Rabbit Button
+		JButton placeRabbitButton = createButton("Place Rabbit", 1, 12, 125, 25, piecePanel.getWidth() / 2 - 62,
+				piecePanel.getHeight() / 2 - 150, new PlacePieceListener("r"));
 		piecePanel.add(placeRabbitButton);
 		placeRabbitButton.setVisible(true);
 
-		//Set up Place Cat Button
-		JButton placeCatButton = createButton("Place Cat", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 115,
-				new PlacePieceListener("k"));
+		// Set up Place Cat Button
+		JButton placeCatButton = createButton("Place Cat", 1, 12, 125, 25, piecePanel.getWidth() / 2 - 62,
+				piecePanel.getHeight() / 2 - 115, new PlacePieceListener("k"));
 		piecePanel.add(placeCatButton);
 		placeCatButton.setVisible(true);
-		
-		//Set up Place Dog Button
-		JButton placeDogButton = createButton("Place Dog", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 80,
-				new PlacePieceListener("d"));
+
+		// Set up Place Dog Button
+		JButton placeDogButton = createButton("Place Dog", 1, 12, 125, 25, piecePanel.getWidth() / 2 - 62,
+				piecePanel.getHeight() / 2 - 80, new PlacePieceListener("d"));
 		piecePanel.add(placeDogButton);
 		placeDogButton.setVisible(true);
-		
-		//Set up Place Horse Button
-		JButton placeHorseButton = createButton("Place Horse", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 45,
-				new PlacePieceListener("h"));
+
+		// Set up Place Horse Button
+		JButton placeHorseButton = createButton("Place Horse", 1, 12, 125, 25, piecePanel.getWidth() / 2 - 62,
+				piecePanel.getHeight() / 2 - 45, new PlacePieceListener("h"));
 		piecePanel.add(placeHorseButton);
 		placeHorseButton.setVisible(true);
-		
-		//Set up Place Camel Button
-		JButton placeCamelButton = createButton("Place Camel", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 - 10,
-				new PlacePieceListener("c"));
+
+		// Set up Place Camel Button
+		JButton placeCamelButton = createButton("Place Camel", 1, 12, 125, 25, piecePanel.getWidth() / 2 - 62,
+				piecePanel.getHeight() / 2 - 10, new PlacePieceListener("c"));
 		piecePanel.add(placeCamelButton);
 		placeCamelButton.setVisible(true);
-		
-		//Set up Place Elephant Button
-		JButton placeElephantButton = createButton("Place Elephant", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 25,
-				new PlacePieceListener("e"));
+
+		// Set up Place Elephant Button
+		JButton placeElephantButton = createButton("Place Elephant", 1, 12, 125, 25, piecePanel.getWidth() / 2 - 62,
+				piecePanel.getHeight() / 2 + 25, new PlacePieceListener("e"));
 		piecePanel.add(placeElephantButton);
 		placeElephantButton.setVisible(true);
-		
-		//Set up Remove Button
-		JButton removeButton = createButton("Remove", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 60,
-				new PlacePieceListener(" "));
+
+		// Set up Remove Button
+		JButton removeButton = createButton("Remove", 1, 12, 125, 25, piecePanel.getWidth() / 2 - 62,
+				piecePanel.getHeight() / 2 + 60, new PlacePieceListener(" "));
 		piecePanel.add(removeButton);
 		removeButton.setVisible(true);
-		
-		//Set up Switch Player Button
-		JButton switchPlayerButton = createButton("Switch Player", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 95,
-				new SwitchPlayerListener());
+
+		// Set up Switch Player Button
+		JButton switchPlayerButton = createButton("Switch Player", 1, 12, 125, 25, piecePanel.getWidth() / 2 - 62,
+				piecePanel.getHeight() / 2 + 95, new SwitchPlayerListener());
 		piecePanel.add(switchPlayerButton);
 		switchPlayerButton.setVisible(true);
-		
-		
-		//Set up Done Button
-		JButton doneButton = createButton("Done", 1, 12, 125, 25, piecePanel.getWidth() /2 - 62, piecePanel.getHeight() / 2 + 130,
-				new FinishPiecePlacementListener());
+
+		// Set up Done Button
+		JButton doneButton = createButton("Done", 1, 12, 125, 25, piecePanel.getWidth() / 2 - 62,
+				piecePanel.getHeight() / 2 + 130, new FinishPiecePlacementListener());
 		piecePanel.add(doneButton);
 		doneButton.setVisible(true);
-				
+
 		piecePlacingFrame.pack();
 	}
 
@@ -414,19 +415,19 @@ public class GUI {
 		return button;
 
 	}
-	
-	public JFrame createFrame(String text, int x, int y){
+
+	public JFrame createFrame(String text, int x, int y) {
 		JFrame frame = new JFrame();
 		activeFrames.add(frame);
 		frame.setTitle(text);
 		frame.setLocation(x, y);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
+
 		return frame;
 	}
-	
-	public JTextField createField(int width, int height, int x, int y){
+
+	public JTextField createField(int width, int height, int x, int y) {
 		JTextField field = new JTextField();
 		field.setSize(width, height);
 		field.setLocation(x, y);
@@ -446,25 +447,28 @@ public class GUI {
 			panel.setVisible(true);
 
 			// Set up Player 1 Name Label and Text Field
-			JLabel p1NameLabel = createLabel("<html><b>Player 1 Name:</b><html>", Color.WHITE, 14, 110, 25, panel.getWidth() / 2 - 110, panel.getHeight() / 2 - 25 * 2);
+			JLabel p1NameLabel = createLabel("<html><b>Player 1 Name:</b><html>", Color.WHITE, 14, 110, 25,
+					panel.getWidth() / 2 - 110, panel.getHeight() / 2 - 25 * 2);
 			panel.add(p1NameLabel);
-			
+
 			JTextField p1NameField = createField(110, 25, panel.getWidth() / 2, panel.getHeight() / 2 - 25 * 2);
 			p1NameLabel.setFont(new Font(p1NameField.getFont().getName(), 4, 14));
 			panel.add(p1NameField);
 			p1TextField = p1NameField;
 
 			// Set up Player 2 Name Label and Text Field
-			JLabel p2NameLabel = createLabel("<html><b>Player 2 Name:</b></hmtl>", Color.WHITE, 14, 110, 25, panel.getWidth() / 2 - 110, panel.getHeight() / 2 - 25);
+			JLabel p2NameLabel = createLabel("<html><b>Player 2 Name:</b></hmtl>", Color.WHITE, 14, 110, 25,
+					panel.getWidth() / 2 - 110, panel.getHeight() / 2 - 25);
 			panel.add(p2NameLabel);
-			
-			JTextField p2NameField = createField(110, 25, panel.getWidth() / 2, panel.getHeight() /2 - 25);
+
+			JTextField p2NameField = createField(110, 25, panel.getWidth() / 2, panel.getHeight() / 2 - 25);
 			p2NameLabel.setFont(new Font(p2NameField.getFont().getName(), 4, 14));
 			panel.add(p2NameField);
 			p2TextField = p2NameField;
 
 			// Set up Turn Timer Label and Text Field
-			JLabel turnTimerLabel = createLabel("<html><b>Turn Timer:</b></html>", Color.WHITE, 14, 110, 25, panel.getWidth() / 2 - 110, panel.getHeight() / 2);
+			JLabel turnTimerLabel = createLabel("<html><b>Turn Timer:</b></html>", Color.WHITE, 14, 110, 25,
+					panel.getWidth() / 2 - 110, panel.getHeight() / 2);
 			panel.add(turnTimerLabel);
 
 			Integer[] turnTimerPresets = { 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180 };
@@ -477,48 +481,50 @@ public class GUI {
 			turnTimerComboBox.setVisible(true);
 
 			// Set up Start Game Button
-			JButton startGameButton = createButton("Start Game", 1, 12, 110, 25, (panel.getWidth() / 2) - 110, (panel.getHeight() / 2) + (2 * 25), new StartGameListener());
+			JButton startGameButton = createButton("Start Game", 1, 12, 110, 25, (panel.getWidth() / 2) - 110,
+					(panel.getHeight() / 2) + (2 * 25), new StartGameListener());
 			panel.add(startGameButton);
 
 			// Set up Cancel Button
-			JButton cancelButton = createButton("Cancel", 1, 12, 110, 25, (panel.getWidth() / 2), (panel.getHeight() / 2) + (2 * 25), new CancelListener());
+			JButton cancelButton = createButton("Cancel", 1, 12, 110, 25, (panel.getWidth() / 2),
+					(panel.getHeight() / 2) + (2 * 25), new CancelListener());
 			panel.add(cancelButton);
 		}
 	}
-	
-	public void setPlacementPiece(String character){
+
+	public void setPlacementPiece(String character) {
 		if (playerCurrentlyPlacingPieces == 1) {
 			pieceToBePlaced = character.toUpperCase().charAt(0);
 		} else if (playerCurrentlyPlacingPieces == 2) {
 			pieceToBePlaced = character.charAt(0);
 		}
 	}
-	
+
 	private class PlacePieceListener implements ActionListener {
 
 		String pieceChar;
-		
-		public PlacePieceListener(String pieceChar){
+
+		public PlacePieceListener(String pieceChar) {
 			this.pieceChar = pieceChar;
 		}
-		
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			setPlacementPiece(pieceChar);			
+			setPlacementPiece(pieceChar);
 		}
-		
+
 	}
-	
+
 	private class SwitchPlayerListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if ((playerCurrentlyPlacingPieces == 1) && game.pieceInventoryEmpty(playerCurrentlyPlacingPieces)) {
 				playerCurrentlyPlacingPieces = 2;
-			} 
+			}
 		}
 	}
-	
+
 	private class FinishPiecePlacementListener implements ActionListener {
 
 		@Override
@@ -591,7 +597,7 @@ public class GUI {
 
 			game.setTurnTimer((int) timerComboBox.getSelectedItem());
 			setupForGame();
-			
+
 			setupPiecePlacingWindow();
 		}
 	}
@@ -668,7 +674,7 @@ public class GUI {
 			// Not needed
 		}
 
-		//Refactored to clarify method - Jesse
+		// Refactored to clarify method - Jesse
 		@Override
 		public void mousePressed(MouseEvent e) {
 			int sourceX = (int) e.getPoint().getX();
@@ -677,14 +683,14 @@ public class GUI {
 			// Get rid of X and Y ASAP!!!
 			int rowClicked = (sourceY - 10) / 80;
 			int columnClicked = (sourceX - 10) / 80;
-			
+
 			if (playerCurrentlyPlacingPieces != 0) {
 				if (pieceToBePlaced == '!') {
 					return;
 				} else if (pieceToBePlaced != ' ') {
-					if(playerCurrentlyPlacingPieces == 1 && rowClicked < 2)
+					if (playerCurrentlyPlacingPieces == 1 && rowClicked < 2)
 						game.placePiece(rowClicked, columnClicked, pieceToBePlaced);
-					if(playerCurrentlyPlacingPieces == 2 && rowClicked > 5)
+					if (playerCurrentlyPlacingPieces == 2 && rowClicked > 5)
 						game.placePiece(rowClicked, columnClicked, pieceToBePlaced);
 				} else {
 					game.removePiece(rowClicked, columnClicked, playerCurrentlyPlacingPieces);
@@ -701,33 +707,39 @@ public class GUI {
 
 				// No piece has been selected yet
 				if (noPieceSelectedAndPieceClicked(rowClicked, columnClicked)) {
+					System.out.println("first piece selected");
 					this.selectedPiece = boardPieces[rowClicked][columnClicked];
 				}
 
 				// If a piece is selected and an empty space is clicked
 				// AKA move
 				else if (selectedPieceAndEmptySpaceClicked(rowClicked, columnClicked)) {
+					System.out.println("piece1 already selected, empty space clicked, moving");
 					handleMove(rowClicked, columnClicked);
 				}
 
 				// Piece already selected, clicked a second piece
 				else if (pieceSelectedAndSecondPieceClicked(rowClicked, columnClicked)) {
+					System.out.println("piece1 already selected, piece two selected");
 					this.secondSelectedPiece = boardPieces[rowClicked][columnClicked];
 
 					// Piece selected, Second piece selected, empty square
 					// selected
 				} else if (twoPieceSelectedAndEmptySpaceClicked(rowClicked, columnClicked)) {
-
+					System.out.println("pieces 1 & 2 already selected, empy space clicked, checking for complex move");
 					if (checkForPull(rowClicked, columnClicked)) {
+						System.out.println("pull found");
 						handlePull(rowClicked, columnClicked);
 
 					} else if (checkForPush(rowClicked, columnClicked)) {
+						System.out.println("Push found");
 						handlePush(rowClicked, columnClicked);
 					}
 				}
 
 				// Invalid selection, clear data
 				else {
+					System.out.println("clearing all selections");
 					this.selectedPiece = null;
 					this.secondSelectedPiece = null;
 				}
@@ -853,8 +865,9 @@ public class GUI {
 				return 3;
 			else {
 				return -1;
-				//Removed 
-				//throw new ArimaaException("GUI.moveDirection(): Invalid direction :(");
+				// Removed
+				// throw new ArimaaException("GUI.moveDirection(): Invalid
+				// direction :(");
 			}
 		}
 
@@ -873,46 +886,72 @@ public class GUI {
 		}
 
 		private boolean checkForPush(int rowClicked, int columnClicked) {
+			if (!game.isValidMoveSquare(rowClicked, columnClicked))
+				return false;
+			boolean secondSelectedPieceCanMove = false;
 			if (this.secondSelectedPiece.getRow() + 1 == rowClicked
 					&& this.secondSelectedPiece.getColumn() == columnClicked) {
-				return true;
+				secondSelectedPieceCanMove = true;
 			}
-			if (this.secondSelectedPiece.getRow() - 1 == rowClicked
+			else if (this.secondSelectedPiece.getRow() - 1 == rowClicked
 					&& this.secondSelectedPiece.getColumn() == columnClicked) {
-				// numMoves-=2;
-				return true;
+				secondSelectedPieceCanMove = true;
 			}
-			if (this.secondSelectedPiece.getRow() == rowClicked
+			else if (this.secondSelectedPiece.getRow() == rowClicked
 					&& this.secondSelectedPiece.getColumn() + 1 == columnClicked) {
-				// numMoves-=2;
-				return true;
+				secondSelectedPieceCanMove = true;
 			}
-			if (this.secondSelectedPiece.getRow() == rowClicked
+			else if (this.secondSelectedPiece.getRow() == rowClicked
 					&& this.secondSelectedPiece.getColumn() - 1 == columnClicked) {
-				// numMoves-=2;
-				return true;
+				secondSelectedPieceCanMove = true;
 			}
-			return false;
+			boolean selectedPieceCanMove = false;
+			if(selectedPiece.getRow()+1 == secondSelectedPiece.getRow() && selectedPiece.getColumn() == secondSelectedPiece.getColumn()){
+				selectedPieceCanMove = true;
+			}
+			else if(selectedPiece.getRow()-1 == secondSelectedPiece.getRow() && selectedPiece.getColumn() == secondSelectedPiece.getColumn()){
+				selectedPieceCanMove = true;
+			}
+			else if(selectedPiece.getRow() == secondSelectedPiece.getRow() && selectedPiece.getColumn()+1 == secondSelectedPiece.getColumn()){
+				selectedPieceCanMove = true;
+			}
+			else if(selectedPiece.getRow() == secondSelectedPiece.getRow() && selectedPiece.getColumn()-1 == secondSelectedPiece.getColumn()){
+				selectedPieceCanMove = true;
+			}
+			return secondSelectedPieceCanMove && selectedPieceCanMove;
 		}
 
 		private boolean checkForPull(int rowClicked, int columnClicked) {
+			if (!game.isValidMoveSquare(rowClicked, columnClicked))
+				return false;
+			boolean canSelectedPieceMove = false;
 			if (this.selectedPiece.getRow() + 1 == rowClicked && this.selectedPiece.getColumn() == columnClicked) {
-				// numMoves-=2;
-				return true;
+				canSelectedPieceMove = true;
+			} else if (this.selectedPiece.getRow() - 1 == rowClicked
+					&& this.selectedPiece.getColumn() == columnClicked) {
+				canSelectedPieceMove = true;
+			} else if (this.selectedPiece.getRow() == rowClicked
+					&& this.selectedPiece.getColumn() + 1 == columnClicked) {
+				canSelectedPieceMove = true;
+			} else if (this.selectedPiece.getRow() == rowClicked
+					&& this.selectedPiece.getColumn() - 1 == columnClicked) {
+				canSelectedPieceMove = true;
 			}
-			if (this.selectedPiece.getRow() - 1 == rowClicked && this.selectedPiece.getColumn() == columnClicked) {
-				// numMoves-=2;
-				return true;
+			boolean canSecondSelectedPieceMove = false;
+			if (secondSelectedPiece.getRow() + 1 == selectedPiece.getRow()
+					&& secondSelectedPiece.getColumn() == selectedPiece.getColumn()) {
+				canSecondSelectedPieceMove = true;
+			} else if (secondSelectedPiece.getRow() - 1 == selectedPiece.getRow()
+					&& secondSelectedPiece.getColumn() == selectedPiece.getColumn()) {
+				canSecondSelectedPieceMove = true;
+			} else if (secondSelectedPiece.getRow() == selectedPiece.getRow()
+					&& secondSelectedPiece.getColumn() + 1 == selectedPiece.getColumn()) {
+				canSecondSelectedPieceMove = true;
+			} else if (secondSelectedPiece.getRow() == selectedPiece.getRow()
+					&& secondSelectedPiece.getColumn() - 1 == selectedPiece.getColumn()) {
+				canSecondSelectedPieceMove = true;
 			}
-			if (this.selectedPiece.getRow() == rowClicked && this.selectedPiece.getColumn() + 1 == columnClicked) {
-				// numMoves--;
-				return true;
-			}
-			if (this.selectedPiece.getRow() == rowClicked && this.selectedPiece.getColumn() - 1 == columnClicked) {
-				// numMoves--;
-				return true;
-			}
-			return false;
+			return canSelectedPieceMove && canSecondSelectedPieceMove;
 		}
 	}
 }
