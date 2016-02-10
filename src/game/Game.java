@@ -22,7 +22,7 @@ public class Game {
 	private int winner = 0;
 	private int numMoves = 4;
 	private int playerTurn = 1;
-	private boolean isPushPull;
+	public boolean isPushPull;
 	private HashMap<Character, Integer> pieceInventory;
 
 	public Game(BoardState b) {
@@ -416,7 +416,7 @@ public class Game {
 			}
 			break;
 		}
-		isPushPull = false;
+		isPushPull = worked;
 		return worked;
 	}
 
@@ -467,7 +467,7 @@ public class Game {
 		int direction2 = getDirection(row2, column2, row1, column1);
 
 		// Check that getDirection didn't fail
-		isPushPull = true;
+		isPushPull = false;
 		// Attempt to perform move operations on both pieces
 		switch (direction1) {
 		case 0:
