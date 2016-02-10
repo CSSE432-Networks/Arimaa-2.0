@@ -741,7 +741,7 @@ public class GUI {
 				calculatedDirection1 = moveDirectionOnePush(selectedPiece, secondSelectedPiece);
 				calculatedDirection2 = moveDirectionTwoPush(secondSelectedPiece, rowClicked, columnClicked);
 			} catch (ArimaaException e1) {
-				e1.printStackTrace();
+				return;
 			}
 
 			if (calculatedDirection1 != null && calculatedDirection2 != null) {
@@ -803,6 +803,7 @@ public class GUI {
 			else if (secondSelectedPiece.getColumn() - 1 == columnClicked && secondSelectedPiece.getRow() == rowClicked)
 				return 3;
 			else {
+				System.out.println("OnePush error");
 				throw new ArimaaException("GUI.moveDirectionTwoPush(): Invalid push movement :(");
 			}
 		}
@@ -823,6 +824,8 @@ public class GUI {
 					&& selectedPiece.getRow() == secondSelectedPiece.getRow())
 				return 3;
 			else {
+				System.out.println("TwoPush error");
+
 				throw new ArimaaException("GUI.moveDirectionOnePush(): Invalid push movement :(");
 			}
 		}
