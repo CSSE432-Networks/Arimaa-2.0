@@ -39,6 +39,7 @@ public class GUI {
 	private JLabel timerLabel;
 	private TimePanel timePanel;
 
+	//These used to be directly in the code. Refactored and pulled them out - Jesse
 	private final String WHITE_ELEPHANT_PIC_LOCATION = "resources/White elephant.png";
 	private final String WHITE_CAMEL_PIC_LOCATION = "resources/White camel.png";
 	private final String WHITE_HORSE_PIC_LOCATION = "resources/White horse.png";
@@ -117,6 +118,7 @@ public class GUI {
 		this.activeFrames = frames;
 	}
 
+	//refactored this to clean up huge switch statement - Jesse
 	private void renderInitialBoard() {
 		if (game.getWinner() != 0)
 			createWinWindow();
@@ -309,6 +311,7 @@ public class GUI {
 		renderBoard();
 	}
 
+	//Written for the addition of our new feature - Jesse
 	private void setupPiecePlacingWindow() {
 		//set up internal stuff
 		this.playerCurrentlyPlacingPieces = 1;
@@ -665,6 +668,7 @@ public class GUI {
 			// Not needed
 		}
 
+		//Refactored to clarify method - Jesse
 		@Override
 		public void mousePressed(MouseEvent e) {
 			int sourceX = (int) e.getPoint().getX();

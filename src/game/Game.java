@@ -647,6 +647,8 @@ public class Game {
 		return true;
 	}
 
+	// Refactored by Jesse
+	// Previously copied the string ~80 times and wrote to the file ~80 times...
 	public boolean saveFile(FileWriter fw) {
 		if (fw == null)
 			return false;
