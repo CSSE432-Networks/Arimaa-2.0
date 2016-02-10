@@ -7,6 +7,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+//Extracted from GUI class - Jesse
 public class ImagePanel extends JPanel {
 
 	private static final long serialVersionUID = -7315460075240330922L;
