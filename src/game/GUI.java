@@ -738,7 +738,7 @@ public class GUI {
 					else{
 						System.out.println("hey. nothing. nothing happened. no pushes or pulls");
 					}
-					System.out.println(game.isPushPull);
+					System.out.println("isPushPull: " + game.isPushPull);
 				}
 
 				// Invalid selection, clear data
@@ -782,6 +782,7 @@ public class GUI {
 			if (calculatedDirection != null) {
 				if (game.pull(this.selectedPiece.getRow(), this.selectedPiece.getColumn(),
 						this.secondSelectedPiece.getRow(), this.secondSelectedPiece.getColumn(), calculatedDirection)) {
+					System.out.println("got here");
 					renderBoard();
 				}
 				this.selectedPiece = null;
