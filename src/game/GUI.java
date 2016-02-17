@@ -767,8 +767,10 @@ public class GUI {
 			}
 
 			if (calculatedDirection != null) {
+				System.out.println("here");
 				if (game.pull(this.selectedPiece.getRow(), this.selectedPiece.getColumn(),
 						this.secondSelectedPiece.getRow(), this.secondSelectedPiece.getColumn(), calculatedDirection)) {
+					System.out.println("GUI here: successful pull");
 					renderBoard();
 				}
 				this.selectedPiece = null;
