@@ -603,7 +603,7 @@ public class Game {
 		if(this.currentBoard.getPushPull()){
 			this.currentBoard = this.boards.get(boards.size() - 2);
 			this.boards.remove(this.boards.size() - 1);
-			this.boards.remove(this.boards.size() - 2);
+			this.boards.remove(this.boards.size() - 1);
 			this.numMoves += 2;
 		} else {
 			this.currentBoard = this.boards.get(boards.size() - 1);
