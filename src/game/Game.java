@@ -198,8 +198,6 @@ public class Game {
 		if (getSpace(row, column) == null) {
 			return false;
 		}
-		// This may cause issues when we implement undo/redo if we try invalid
-		// moves before we undo
 		if (getSpace(row, column).getOwner() != Owner.values()[(getPlayerTurn() - 1)] && !isPushPull) {
 			return false;// not your turn
 		}
