@@ -417,6 +417,9 @@ public class Game {
 			break;
 		}
 		isPushPull = worked;
+		if(worked == true){
+			this.currentBoard.setPushPull(true);
+		}
 		return worked;
 	}
 
@@ -424,6 +427,7 @@ public class Game {
 		Piece pushingPiece = getSpace(rowPushing, columnPushing);
 		Piece pushedPiece = getSpace(rowPushed, columnPushed);
 		if (pieceCanPush(pushingPiece, pushedPiece) && move(rowPushed, columnPushed, dir2)) {
+			this.currentBoard.setPushPull(true);
 			isPushPull = true;
 			// should always be true
 			return move(rowPushing, columnPushing, dir1);
@@ -472,28 +476,36 @@ public class Game {
 		switch (direction1) {
 		case 0:
 			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {// pieceCanPush(getSpace(row1, direction1)
+				this.currentBoard.setPushPull(true);
 				move(row2, column2, direction2);
+				this.currentBoard.setPushPull(true);
 				isPushPull = true;
 				return true;
 			}
 			break;
 		case 1:
 			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {
+				this.currentBoard.setPushPull(true);
 				move(row2, column2, direction2);
+				this.currentBoard.setPushPull(true);;
 				isPushPull = true;
 				return true;
 			}
 			break;
 		case 2:
 			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {
+				this.currentBoard.setPushPull(true);
 				move(row2, column2, direction2);
+				this.currentBoard.setPushPull(true);
 				isPushPull = true;
 				return true;
 			}
 			break;
 		case 3:
 			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {
+				this.currentBoard.setPushPull(true);
 				move(row2, column2, direction2);
+				this.currentBoard.setPushPull(true);
 				isPushPull = true;
 				return true;
 			}
@@ -560,14 +572,16 @@ public class Game {
 		if (this.numMoves == 4)
 			return;
 
-		if(this.isPushPull){
+		if(this.currentBoard.getPushPull()){
+			this.currentBoard = this.boards.get(boards.size() - 2);
+			this.boards.remove(this.boards.size() - 1);
+			this.boards.remove(this.boards.size() - 2);
+			this.numMoves += 2;
+		} else {
 			this.currentBoard = this.boards.get(boards.size() - 1);
 			this.boards.remove(this.boards.size() - 1);
 			this.numMoves += 1;
 		}
-		this.currentBoard = this.boards.get(boards.size() - 1);
-		this.boards.remove(this.boards.size() - 1);
-		this.numMoves += 1;
 	}
 
 	public boolean loadFile(Scanner scanner) {

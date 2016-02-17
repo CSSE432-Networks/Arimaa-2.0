@@ -11,6 +11,7 @@ public class BoardState {
 	private char[][] boardArray = new char[8][8]; // Represents the current
 													// state of the board
 	private int turnNumber;
+	private boolean pushPull;
 
 	public BoardState(char[][] map, int turnNumber) {
 		for (int i = 0; i < 8; i++) {
@@ -48,5 +49,13 @@ public class BoardState {
 	@Override
 	public BoardState clone() {
 		return new BoardState(boardArray, turnNumber);
+	}
+	
+	public boolean getPushPull(){
+		return pushPull;
+	}
+	
+	public void setPushPull(boolean pushPull){
+		this.pushPull = pushPull;
 	}
 }
