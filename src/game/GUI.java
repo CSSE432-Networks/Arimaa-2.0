@@ -617,7 +617,6 @@ public class GUI {
 					fw = new FileWriter(selectedFile);
 				} catch (IOException e) {
 					// Shouldn't ever happen...
-					System.out.println("No file selected!");
 				}
 				game.saveFile(fw);
 			}
@@ -767,10 +766,8 @@ public class GUI {
 			}
 
 			if (calculatedDirection != null) {
-				System.out.println("here");
 				if (game.pull(this.selectedPiece.getRow(), this.selectedPiece.getColumn(),
 						this.secondSelectedPiece.getRow(), this.secondSelectedPiece.getColumn(), calculatedDirection)) {
-					System.out.println("GUI here: successful pull");
 					renderBoard();
 				}
 				this.selectedPiece = null;

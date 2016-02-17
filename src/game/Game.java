@@ -195,19 +195,15 @@ public class Game {
 	}
 
 	private boolean isValidMoveFromSquare(int row, int column) {
-		System.out.println("checking move for " + row + ", " + column + " isPushPull: " + isPushPull);
 		if (getSpace(row, column) == null) {
 			return false;
 		}
 		if (getSpace(row, column).getOwner() != Owner.values()[(getPlayerTurn() - 1)] && !isPushPull) {
-			System.out.println("IVMFS fail 1");
 			return false;// not your turn
 		}
 		if ((checkStrongerAdjacent(row, column) && !checkFriendlyAdjacent(row, column)) && !isPushPull) {
-			System.out.println("IVMFS fail 2");
 			return false;// can't move
 		}
-		System.out.println("IVMFS pass");
 		return true;
 	}
 
@@ -470,7 +466,6 @@ public class Game {
 	 */
 	public boolean pull(int row1, int column1, int row2, int column2, int direction1) {
 		if (!isValidSquaretoPullFrom(row1, column1, row2, column2)) {
-			System.out.println("fail 1");
 			return false;
 		}
 		// Get direction that pulled piece will move
@@ -602,7 +597,6 @@ public class Game {
 			return;
 
 		if(this.currentBoard.getPushPull()){
-			System.out.println("undoing 2 moves");
 			this.currentBoard = this.boards.get(boards.size() - 2);
 			this.boards.remove(this.boards.size() - 1);
 			this.boards.remove(this.boards.size() - 1);
