@@ -151,8 +151,10 @@ public class Game {
 		if (numMoves <= 0) {
 			return false;
 		}
-		if (!isValidMoveFromSquare(row, column))
+		if (!isValidMoveFromSquare(row, column)) {
+			System.out.println("invalid move");
 			return false;
+		}
 		boards.add(currentBoard);
 		currentBoard = currentBoard.clone();
 		switch (dir) {
@@ -194,8 +196,10 @@ public class Game {
 	}
 
 	private boolean isValidMoveFromSquare(int row, int column) {
-		if (getSpace(row, column) == null)
+		if (getSpace(row, column) == null) {
+			System.out.println("what the crap");
 			return false;
+		}
 		// System.out.println("isPushPull: "+isPushPull);
 		// This may cause issues when we implement undo/redo if we try invalid
 		// moves before we undo
@@ -468,50 +472,74 @@ public class Game {
 		if (!isValidSquaretoPullFrom(row1, column1, row2, column2))
 			return false;
 		// Get direction that pulled piece will move
-		int direction2 = getDirection(row2, column2, row1, column1);
+		int direction2 = getDirection(row2, column2, row1, column1);getClass();
+		System.out.println("space1: " + row1 +", " + column1 + " space2: " + row2 +", " +column2);
+		System.out.println("d1: " + direction1 + " d2: " + direction2);
 
 		// Check that getDirection didn't fail
-		isPushPull = false;
+		isPushPull = true;
+		boolean worked = false;
 		// Attempt to perform move operations on both pieces
 		switch (direction1) {
 		case 0:
 			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {// pieceCanPush(getSpace(row1, direction1)
 				this.currentBoard.setPushPull(true);
-				move(row2, column2, direction2);
-				this.currentBoard.setPushPull(true);
-				isPushPull = true;
-				return true;
+				if (move(row2, column2, direction2)) {
+					this.currentBoard.setPushPull(true);
+					System.out.println("here 0");
+					worked = true;
+				} else {
+					System.out.println("fail 0");
+					undoMove();
+					worked = false;
+				}
 			}
 			break;
 		case 1:
 			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {
 				this.currentBoard.setPushPull(true);
-				move(row2, column2, direction2);
-				this.currentBoard.setPushPull(true);;
-				isPushPull = true;
-				return true;
+				if (move(row2, column2, direction2)) {
+					this.currentBoard.setPushPull(true);;
+					System.out.println("here 1");
+					worked = true;
+				} else {
+					System.out.println("fail 1");
+					undoMove();
+					worked = false;
+				}
 			}
 			break;
 		case 2:
 			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {
 				this.currentBoard.setPushPull(true);
-				move(row2, column2, direction2);
-				this.currentBoard.setPushPull(true);
-				isPushPull = true;
-				return true;
+				if (move(row2, column2, direction2)) {
+					this.currentBoard.setPushPull(true);
+					System.out.println("here 2");
+					worked = true;
+				} else {
+					System.out.println("fail 2");
+					undoMove();
+					worked = false;
+				}
 			}
 			break;
 		case 3:
 			if (tryPull(getSpace(row1, column1), getSpace(row2, column2), row1, column1, direction1)) {
 				this.currentBoard.setPushPull(true);
-				move(row2, column2, direction2);
-				this.currentBoard.setPushPull(true);
-				isPushPull = true;
-				return true;
+				if (move(row2, column2, direction2)) {
+					this.currentBoard.setPushPull(true);
+					System.out.println("here 3");
+					worked = true;
+				} else {
+					System.out.println("fail 3");
+					undoMove();
+					worked = false;
+				}
 			}
 			break;
 		}
-		return false;
+		isPushPull = worked;
+		return worked;
 	}
 
 	private boolean tryPull(Piece space, Piece space2, int row1, int column1, int direction1) {
