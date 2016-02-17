@@ -231,6 +231,7 @@ public class Game {
 		numMoves = 4;
 		turnCounter++;
 		checkTrapSquares();
+		isPushPull = false;
 	}
 	
 	//DOCME: extracted this into its own method! tests still work - Tayler
@@ -337,30 +338,33 @@ public class Game {
 	}
 
 	private boolean checkStrongerAdjacent(int row, int col) {
+		System.out.println("here");
 		Piece cen = this.getSpace(row, col);
 		Piece up = this.getSpace(row - 1, col);
 		Piece down = this.getSpace(row + 1, col);
 		Piece left = this.getSpace(row, col - 1);
 		Piece right = this.getSpace(row, col + 1);
-		boolean foo = false;
 		if (up != null) {
-			foo = checkStrong(up, cen);
+			if (checkStrong(up, cen)) return true;
 		}
 		if (down != null) {
-			foo = checkStrong(down, cen);
+			if (checkStrong(down, cen)) return true;
 		}
 		if (right != null) {
-			foo = checkStrong(right, cen);
+			if (checkStrong(right, cen)) return true;
 		}
 		if (left != null) {
-			foo = checkStrong(left, cen);
+			if (checkStrong(left, cen)) return true;
 		}
-		return foo;
+		System.out.println("no stronger pieces found");
+		return false;
 	}
 
 	private boolean checkStrong(Piece one, Piece two) {
-		if (one.getOwner() != two.getOwner() && one.isStrongerThan(two))
+		if (one.getOwner() != two.getOwner() && one.isStrongerThan(two)) {
+			System.out.println("found stronger piece");
 			return true;
+		}
 		return false;
 	}
 
