@@ -152,7 +152,6 @@ public class Game {
 			return false;
 		}
 		if (!isValidMoveFromSquare(row, column)) {
-			System.out.println("invalid move");
 			return false;
 		}
 		boards.add(currentBoard);
@@ -197,18 +196,14 @@ public class Game {
 
 	private boolean isValidMoveFromSquare(int row, int column) {
 		if (getSpace(row, column) == null) {
-			System.out.println("what the crap");
 			return false;
 		}
-		// System.out.println("isPushPull: "+isPushPull);
 		// This may cause issues when we implement undo/redo if we try invalid
 		// moves before we undo
 		if (getSpace(row, column).getOwner() != Owner.values()[(getPlayerTurn() - 1)] && !isPushPull) {
-			// System.out.println("Not your turn: "+isPushPull);
 			return false;// not your turn
 		}
 		if ((checkStrongerAdjacent(row, column) && !checkFriendlyAdjacent(row, column)) && !isPushPull) {
-			// System.out.println("Can't move "+isPushPull);
 			return false;// can't move
 		}
 		return true;
@@ -473,8 +468,6 @@ public class Game {
 			return false;
 		// Get direction that pulled piece will move
 		int direction2 = getDirection(row2, column2, row1, column1);getClass();
-		System.out.println("space1: " + row1 +", " + column1 + " space2: " + row2 +", " +column2);
-		System.out.println("d1: " + direction1 + " d2: " + direction2);
 
 		// Check that getDirection didn't fail
 		isPushPull = true;
@@ -486,10 +479,8 @@ public class Game {
 				this.currentBoard.setPushPull(true);
 				if (move(row2, column2, direction2)) {
 					this.currentBoard.setPushPull(true);
-					System.out.println("here 0");
 					worked = true;
 				} else {
-					System.out.println("fail 0");
 					undoMove();
 					worked = false;
 				}
@@ -500,10 +491,8 @@ public class Game {
 				this.currentBoard.setPushPull(true);
 				if (move(row2, column2, direction2)) {
 					this.currentBoard.setPushPull(true);;
-					System.out.println("here 1");
 					worked = true;
 				} else {
-					System.out.println("fail 1");
 					undoMove();
 					worked = false;
 				}
@@ -514,10 +503,8 @@ public class Game {
 				this.currentBoard.setPushPull(true);
 				if (move(row2, column2, direction2)) {
 					this.currentBoard.setPushPull(true);
-					System.out.println("here 2");
 					worked = true;
 				} else {
-					System.out.println("fail 2");
 					undoMove();
 					worked = false;
 				}
@@ -528,10 +515,8 @@ public class Game {
 				this.currentBoard.setPushPull(true);
 				if (move(row2, column2, direction2)) {
 					this.currentBoard.setPushPull(true);
-					System.out.println("here 3");
 					worked = true;
 				} else {
-					System.out.println("fail 3");
 					undoMove();
 					worked = false;
 				}
