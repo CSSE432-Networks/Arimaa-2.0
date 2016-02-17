@@ -551,7 +551,6 @@ public class GUI {
 					p1Name = game.getP1Name();
 					p2Name = game.getP2Name();
 				} catch (FileNotFoundException e1) {
-					System.out.println("Load game failed!");
 				}
 			}
 		}
@@ -563,7 +562,6 @@ public class GUI {
 				timePanel.unpause();
 
 			} else {
-				System.err.println("Invalid game state");
 			}
 		}
 	}
@@ -707,43 +705,32 @@ public class GUI {
 
 				// No piece has been selected yet
 				if (noPieceSelectedAndPieceClicked(rowClicked, columnClicked)) {
-					System.out.println("first piece selected");
 					this.selectedPiece = boardPieces[rowClicked][columnClicked];
 				}
 
 				// If a piece is selected and an empty space is clicked
 				// AKA move
 				else if (selectedPieceAndEmptySpaceClicked(rowClicked, columnClicked)) {
-					System.out.println("piece1 already selected, empty space clicked, moving");
 					handleMove(rowClicked, columnClicked);
 				}
 
 				// Piece already selected, clicked a second piece
 				else if (pieceSelectedAndSecondPieceClicked(rowClicked, columnClicked)) {
-					System.out.println("piece1 already selected, piece two selected");
 					this.secondSelectedPiece = boardPieces[rowClicked][columnClicked];
 
 					// Piece selected, Second piece selected, empty square
 					// selected
 				} else if (twoPieceSelectedAndEmptySpaceClicked(rowClicked, columnClicked)) {
-					System.out.println("pieces 1 & 2 already selected, empy space clicked, checking for complex move");
 					if (checkForPull(rowClicked, columnClicked)) {
-						System.out.println("pull found");
 						handlePull(rowClicked, columnClicked);
 
 					} else if (checkForPush(rowClicked, columnClicked)) {
-						System.out.println("Push found");
 						handlePush(rowClicked, columnClicked);
 					}
-					else{
-						System.out.println("hey. nothing. nothing happened. no pushes or pulls");
-					}
-					System.out.println("isPushPull: " + game.isPushPull);
 				}
 
 				// Invalid selection, clear data
 				else {
-					System.out.println("clearing all selections");
 					this.selectedPiece = null;
 					this.secondSelectedPiece = null;
 				}
@@ -782,7 +769,6 @@ public class GUI {
 			if (calculatedDirection != null) {
 				if (game.pull(this.selectedPiece.getRow(), this.selectedPiece.getColumn(),
 						this.secondSelectedPiece.getRow(), this.secondSelectedPiece.getColumn(), calculatedDirection)) {
-					System.out.println("got here");
 					renderBoard();
 				}
 				this.selectedPiece = null;
@@ -821,7 +807,6 @@ public class GUI {
 			else if (secondSelectedPiece.getColumn() - 1 == columnClicked && secondSelectedPiece.getRow() == rowClicked)
 				return 3;
 			else {
-				System.out.println("OnePush error");
 				throw new ArimaaException("GUI.moveDirectionTwoPush(): Invalid push movement :(");
 			}
 		}
@@ -842,7 +827,6 @@ public class GUI {
 					&& selectedPiece.getRow() == secondSelectedPiece.getRow())
 				return 3;
 			else {
-				System.out.println("TwoPush error");
 
 				throw new ArimaaException("GUI.moveDirectionOnePush(): Invalid push movement :(");
 			}
