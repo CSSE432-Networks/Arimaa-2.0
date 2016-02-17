@@ -338,7 +338,6 @@ public class Game {
 	}
 
 	private boolean checkStrongerAdjacent(int row, int col) {
-		System.out.println("here");
 		Piece cen = this.getSpace(row, col);
 		Piece up = this.getSpace(row - 1, col);
 		Piece down = this.getSpace(row + 1, col);
@@ -356,13 +355,11 @@ public class Game {
 		if (left != null) {
 			if (checkStrong(left, cen)) return true;
 		}
-		System.out.println("no stronger pieces found");
 		return false;
 	}
 
 	private boolean checkStrong(Piece one, Piece two) {
 		if (one.getOwner() != two.getOwner() && one.isStrongerThan(two)) {
-			System.out.println("found stronger piece");
 			return true;
 		}
 		return false;
