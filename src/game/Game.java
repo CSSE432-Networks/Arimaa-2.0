@@ -220,6 +220,7 @@ public class Game {
 		checkTrapSquares();
 		checkWin();
 		numMoves--;
+		isPushPull=false;
 	}
 
 	public void endTurn() {
@@ -418,6 +419,7 @@ public class Game {
 		if(worked == true){
 			this.currentBoard.setPushPull(true);
 		}
+		isPushPull = false;
 		return worked;
 	}
 
@@ -523,6 +525,7 @@ public class Game {
 			break;
 		}
 		isPushPull = worked;
+		isPushPull = false;
 		return worked;
 	}
 
