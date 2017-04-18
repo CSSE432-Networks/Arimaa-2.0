@@ -1,5 +1,5 @@
 # Arimaa 3.0
-*Arimaa 3.0 is a CSSE432 Project by Jesse Shellabarger, Tayler How, Austin Yates, and Douglas Wise
+Arimaa 3.0 is a CSSE432 Project by Jesse Shellabarger, Tayler How, Austin Yates, and Douglas Wise
 
 *Arimaa 2.0 is a CSSE375 Project by Tayler How, Jesse Shellabarger, and Trevor Burch.
 
