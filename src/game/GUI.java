@@ -6,10 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -633,8 +630,14 @@ public class GUI {
 
                 ServerSocket sock = new ServerSocket(PORT);
                 communicationSocket = sock.accept();
+                BufferedReader br = new BufferedReader(new InputStreamReader(communicationSocket.getInputStream()));
+                String message = br.readLine();
+                System.out.println(message);
             } else {
                 communicationSocket = new Socket(ip, PORT);
+                PrintWriter out =
+                        new PrintWriter(communicationSocket.getOutputStream(), true);
+                out.println("HI TAYLER");
             }
         } catch (IOException e) {
             e.printStackTrace();
