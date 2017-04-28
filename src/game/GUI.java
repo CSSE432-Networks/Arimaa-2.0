@@ -32,7 +32,9 @@ public class GUI {
 	private ImagePanel[][] boardPieces;
 	private JTextField p1TextField;
 	private JTextField p2TextField;
+	private JTextField ipAddressTextField;
 	private JComboBox<Integer> timerComboBox;
+	private JComboBox<String> gameModeComboBox;
 	private JLabel moveCountLabel;
 	private JLabel turnCountLabel;
 	private JLabel turnIndicatorLabel;
@@ -445,6 +447,30 @@ public class GUI {
 			settingsFrame.getContentPane().add(panel);
 			settingsFrame.pack();
 			panel.setVisible(true);
+
+			// Set up Game Mode Label and Text Field
+			JLabel gameModeLabel = createLabel("<html><b>Game Mode:</b></html>", Color.WHITE, 14, 110, 25,
+					panel.getWidth() / 2 - 110, panel.getHeight() / 2 - 25 * 4);
+			panel.add(gameModeLabel);
+
+			String[] gameModePresets = { "Local", "Online" };
+			JComboBox<String> gameModeComboBox = new JComboBox<String>(gameModePresets);
+			gameModeComboBox = gameModeComboBox;
+			gameModeComboBox.setEditable(false);
+			gameModeComboBox.setSize(110, 25);
+			panel.add(gameModeComboBox);
+			gameModeComboBox.setLocation(panel.getWidth() / 2, panel.getHeight() / 2 - 25 * 4);
+			gameModeComboBox.setVisible(true);
+
+			// Set up IP Address Name Label and Text Field
+			JLabel ipAddressLabel = createLabel("<html><b>IP Address:</b><html>", Color.WHITE, 14, 110, 25,
+					panel.getWidth() / 2 - 110, panel.getHeight() / 2 - 25 * 3);
+			panel.add(ipAddressLabel);
+
+			JTextField ipAddressField = createField(110, 25, panel.getWidth() / 2, panel.getHeight() / 2 - 25 * 3);
+			ipAddressLabel.setFont(new Font(ipAddressField.getFont().getName(), 4, 14));
+			panel.add(ipAddressField);
+			ipAddressTextField = ipAddressField;
 
 			// Set up Player 1 Name Label and Text Field
 			JLabel p1NameLabel = createLabel("<html><b>Player 1 Name:</b><html>", Color.WHITE, 14, 110, 25,
