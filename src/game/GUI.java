@@ -646,341 +646,341 @@ public class GUI {
     }
 
 
-private class SaveGameListener implements ActionListener {
+    private class SaveGameListener implements ActionListener {
 
-    @Override
-    public void actionPerformed(ActionEvent arg0) {
-        File selectedFile = null;
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-        fileChooser.setApproveButtonText("Save");
-        timePanel.pause();
-        int result = fileChooser.showOpenDialog(gameBoardPanel);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            selectedFile = fileChooser.getSelectedFile();
-            FileWriter fw = null;
-            try {
-                fw = new FileWriter(selectedFile);
-            } catch (IOException e) {
-                // Shouldn't ever happen...
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            File selectedFile = null;
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+            fileChooser.setApproveButtonText("Save");
+            timePanel.pause();
+            int result = fileChooser.showOpenDialog(gameBoardPanel);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                selectedFile = fileChooser.getSelectedFile();
+                FileWriter fw = null;
+                try {
+                    fw = new FileWriter(selectedFile);
+                } catch (IOException e) {
+                    // Shouldn't ever happen...
+                }
+                game.saveFile(fw);
             }
-            game.saveFile(fw);
+            timePanel.unpause();
         }
-        timePanel.unpause();
-    }
-}
-
-private class UndoListener implements ActionListener {
-
-    @Override
-    public void actionPerformed(ActionEvent arg0) {
-        game.undoMove();
-        renderBoard();
-    }
-}
-
-private class EndTurnListener implements ActionListener {
-
-    @Override
-    public void actionPerformed(ActionEvent arg0) {
-        game.endTurn();
-        renderBoard();
-    }
-}
-
-private class MovementListener implements MouseListener {
-    ImagePanel selectedPiece;
-    ImagePanel secondSelectedPiece;
-
-    private MovementListener() {
-        this.selectedPiece = null;
-        this.secondSelectedPiece = null;
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        // Not needed
-    }
+    private class UndoListener implements ActionListener {
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        // Not needed
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        // Not needed
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        // Not needed
-    }
-
-    // Refactored to clarify method - Jesse
-    @Override
-    public void mousePressed(MouseEvent e) {
-        int sourceX = (int) e.getPoint().getX();
-        int sourceY = (int) e.getPoint().getY();
-
-        // Get rid of X and Y ASAP!!!
-        int rowClicked = (sourceY - 10) / 80;
-        int columnClicked = (sourceX - 10) / 80;
-
-        if (playerCurrentlyPlacingPieces != 0) {
-            if (pieceToBePlaced == '!') {
-                return;
-            } else if (pieceToBePlaced != ' ') {
-                if (playerCurrentlyPlacingPieces == 1 && rowClicked < 2)
-                    game.placePiece(rowClicked, columnClicked, pieceToBePlaced);
-                if (playerCurrentlyPlacingPieces == 2 && rowClicked > 5)
-                    game.placePiece(rowClicked, columnClicked, pieceToBePlaced);
-            } else {
-                game.removePiece(rowClicked, columnClicked, playerCurrentlyPlacingPieces);
-            }
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            game.undoMove();
             renderBoard();
-            gameBoardPanel.repaint();
-            pieceToBePlaced = '!';
-            return;
+        }
+    }
+
+    private class EndTurnListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            game.endTurn();
+            renderBoard();
+        }
+    }
+
+    private class MovementListener implements MouseListener {
+        ImagePanel selectedPiece;
+        ImagePanel secondSelectedPiece;
+
+        private MovementListener() {
+            this.selectedPiece = null;
+            this.secondSelectedPiece = null;
         }
 
-        // Beginning movement, nothing yet selected
-        // Selecting piece to interact with
-        if (clickOnBoard(rowClicked, columnClicked)) {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            // Not needed
+        }
 
-            // No piece has been selected yet
-            if (noPieceSelectedAndPieceClicked(rowClicked, columnClicked)) {
-                this.selectedPiece = boardPieces[rowClicked][columnClicked];
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            // Not needed
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            // Not needed
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            // Not needed
+        }
+
+        // Refactored to clarify method - Jesse
+        @Override
+        public void mousePressed(MouseEvent e) {
+            int sourceX = (int) e.getPoint().getX();
+            int sourceY = (int) e.getPoint().getY();
+
+            // Get rid of X and Y ASAP!!!
+            int rowClicked = (sourceY - 10) / 80;
+            int columnClicked = (sourceX - 10) / 80;
+
+            if (playerCurrentlyPlacingPieces != 0) {
+                if (pieceToBePlaced == '!') {
+                    return;
+                } else if (pieceToBePlaced != ' ') {
+                    if (playerCurrentlyPlacingPieces == 1 && rowClicked < 2)
+                        game.placePiece(rowClicked, columnClicked, pieceToBePlaced);
+                    if (playerCurrentlyPlacingPieces == 2 && rowClicked > 5)
+                        game.placePiece(rowClicked, columnClicked, pieceToBePlaced);
+                } else {
+                    game.removePiece(rowClicked, columnClicked, playerCurrentlyPlacingPieces);
+                }
+                renderBoard();
+                gameBoardPanel.repaint();
+                pieceToBePlaced = '!';
+                return;
             }
 
-            // If a piece is selected and an empty space is clicked
-            // AKA move
-            else if (selectedPieceAndEmptySpaceClicked(rowClicked, columnClicked)) {
-                handleMove(rowClicked, columnClicked);
-            }
+            // Beginning movement, nothing yet selected
+            // Selecting piece to interact with
+            if (clickOnBoard(rowClicked, columnClicked)) {
 
-            // Piece already selected, clicked a second piece
-            else if (pieceSelectedAndSecondPieceClicked(rowClicked, columnClicked)) {
-                this.secondSelectedPiece = boardPieces[rowClicked][columnClicked];
+                // No piece has been selected yet
+                if (noPieceSelectedAndPieceClicked(rowClicked, columnClicked)) {
+                    this.selectedPiece = boardPieces[rowClicked][columnClicked];
+                }
 
-                // Piece selected, Second piece selected, empty square
-                // selected
-            } else if (twoPieceSelectedAndEmptySpaceClicked(rowClicked, columnClicked)) {
-                if (checkForPull(rowClicked, columnClicked)) {
-                    handlePull(rowClicked, columnClicked);
+                // If a piece is selected and an empty space is clicked
+                // AKA move
+                else if (selectedPieceAndEmptySpaceClicked(rowClicked, columnClicked)) {
+                    handleMove(rowClicked, columnClicked);
+                }
 
-                } else if (checkForPush(rowClicked, columnClicked)) {
-                    handlePush(rowClicked, columnClicked);
+                // Piece already selected, clicked a second piece
+                else if (pieceSelectedAndSecondPieceClicked(rowClicked, columnClicked)) {
+                    this.secondSelectedPiece = boardPieces[rowClicked][columnClicked];
+
+                    // Piece selected, Second piece selected, empty square
+                    // selected
+                } else if (twoPieceSelectedAndEmptySpaceClicked(rowClicked, columnClicked)) {
+                    if (checkForPull(rowClicked, columnClicked)) {
+                        handlePull(rowClicked, columnClicked);
+
+                    } else if (checkForPush(rowClicked, columnClicked)) {
+                        handlePush(rowClicked, columnClicked);
+                    }
+                }
+
+                // Invalid selection, clear data
+                else {
+                    this.selectedPiece = null;
+                    this.secondSelectedPiece = null;
                 }
             }
+        }
 
-            // Invalid selection, clear data
-            else {
+        private void handlePush(int rowClicked, int columnClicked) {
+            Integer calculatedDirection1 = null;
+            Integer calculatedDirection2 = null;
+            try {
+                calculatedDirection1 = moveDirectionOnePush(selectedPiece, secondSelectedPiece);
+                calculatedDirection2 = moveDirectionTwoPush(secondSelectedPiece, rowClicked, columnClicked);
+            } catch (ArimaaException e1) {
+                return;
+            }
+
+            if (calculatedDirection1 != null && calculatedDirection2 != null) {
+                if (game.push(this.selectedPiece.getRow(), this.selectedPiece.getColumn(), calculatedDirection1,
+                        calculatedDirection2)) {
+                    renderBoard();
+                }
                 this.selectedPiece = null;
                 this.secondSelectedPiece = null;
             }
         }
-    }
 
-    private void handlePush(int rowClicked, int columnClicked) {
-        Integer calculatedDirection1 = null;
-        Integer calculatedDirection2 = null;
-        try {
-            calculatedDirection1 = moveDirectionOnePush(selectedPiece, secondSelectedPiece);
-            calculatedDirection2 = moveDirectionTwoPush(secondSelectedPiece, rowClicked, columnClicked);
-        } catch (ArimaaException e1) {
-            return;
-        }
-
-        if (calculatedDirection1 != null && calculatedDirection2 != null) {
-            if (game.push(this.selectedPiece.getRow(), this.selectedPiece.getColumn(), calculatedDirection1,
-                    calculatedDirection2)) {
-                renderBoard();
+        private void handlePull(int rowClicked, int columnClicked) {
+            Integer calculatedDirection = null;
+            try {
+                calculatedDirection = moveDirection(selectedPiece, rowClicked, columnClicked);
+            } catch (ArimaaException e1) {
+                e1.printStackTrace();
+                System.err.println("Arimaa Exception: " + e1.getMessage());
             }
-            this.selectedPiece = null;
-            this.secondSelectedPiece = null;
-        }
-    }
 
-    private void handlePull(int rowClicked, int columnClicked) {
-        Integer calculatedDirection = null;
-        try {
-            calculatedDirection = moveDirection(selectedPiece, rowClicked, columnClicked);
-        } catch (ArimaaException e1) {
-            e1.printStackTrace();
-            System.err.println("Arimaa Exception: " + e1.getMessage());
-        }
-
-        if (calculatedDirection != null) {
-            if (game.pull(this.selectedPiece.getRow(), this.selectedPiece.getColumn(),
-                    this.secondSelectedPiece.getRow(), this.secondSelectedPiece.getColumn(), calculatedDirection)) {
-                renderBoard();
+            if (calculatedDirection != null) {
+                if (game.pull(this.selectedPiece.getRow(), this.selectedPiece.getColumn(),
+                        this.secondSelectedPiece.getRow(), this.secondSelectedPiece.getColumn(), calculatedDirection)) {
+                    renderBoard();
+                }
+                this.selectedPiece = null;
+                this.secondSelectedPiece = null;
             }
-            this.selectedPiece = null;
-            this.secondSelectedPiece = null;
         }
-    }
 
-    private void handleMove(int rowClicked, int columnClicked) {
-        Integer calculatedDirection = null;
-        try {
-            calculatedDirection = moveDirection(selectedPiece, rowClicked, columnClicked);
-        } catch (ArimaaException e1) {
-            e1.printStackTrace();
-            System.err.println("Arimaa Exception: " + e1.getMessage());
-        }
-        // Using move to check for valid move
-        if (calculatedDirection != null) {
-            if (game.move(selectedPiece.getRow(), selectedPiece.getColumn(), calculatedDirection)) {
-                renderBoard();
-                game.isPushPull = false;
+        private void handleMove(int rowClicked, int columnClicked) {
+            Integer calculatedDirection = null;
+            try {
+                calculatedDirection = moveDirection(selectedPiece, rowClicked, columnClicked);
+            } catch (ArimaaException e1) {
+                e1.printStackTrace();
+                System.err.println("Arimaa Exception: " + e1.getMessage());
             }
-            this.selectedPiece = null;
-            this.secondSelectedPiece = null;
+            // Using move to check for valid move
+            if (calculatedDirection != null) {
+                if (game.move(selectedPiece.getRow(), selectedPiece.getColumn(), calculatedDirection)) {
+                    renderBoard();
+                    game.isPushPull = false;
+                }
+                this.selectedPiece = null;
+                this.secondSelectedPiece = null;
+            }
+        }
+
+        private int moveDirectionTwoPush(ImagePanel secondSelectedPiece2, int rowClicked, int columnClicked)
+                throws ArimaaException {
+
+            if (secondSelectedPiece.getRow() - 1 == rowClicked && secondSelectedPiece.getColumn() == columnClicked)
+                return 0;
+            else if (secondSelectedPiece.getColumn() + 1 == columnClicked && secondSelectedPiece.getRow() == rowClicked)
+                return 1;
+            else if (secondSelectedPiece.getRow() + 1 == rowClicked && secondSelectedPiece.getColumn() == columnClicked)
+                return 2;
+            else if (secondSelectedPiece.getColumn() - 1 == columnClicked && secondSelectedPiece.getRow() == rowClicked)
+                return 3;
+            else {
+                throw new ArimaaException("GUI.moveDirectionTwoPush(): Invalid push movement :(");
+            }
+        }
+
+        private int moveDirectionOnePush(ImagePanel selectedPiece2, ImagePanel secondSelectedPiece2)
+                throws ArimaaException {
+
+            if (selectedPiece.getRow() - 1 == secondSelectedPiece.getRow()
+                    && selectedPiece.getColumn() == secondSelectedPiece.getColumn())
+                return 0;
+            else if (selectedPiece.getColumn() + 1 == secondSelectedPiece.getColumn()
+                    && selectedPiece.getRow() == secondSelectedPiece.getRow())
+                return 1;
+            else if (selectedPiece.getRow() + 1 == secondSelectedPiece.getRow()
+                    && selectedPiece.getColumn() == secondSelectedPiece.getColumn())
+                return 2;
+            else if (selectedPiece.getColumn() - 1 == secondSelectedPiece.getColumn()
+                    && selectedPiece.getRow() == secondSelectedPiece.getRow())
+                return 3;
+            else {
+
+                throw new ArimaaException("GUI.moveDirectionOnePush(): Invalid push movement :(");
+            }
+        }
+
+        private boolean twoPieceSelectedAndEmptySpaceClicked(int rowClicked, int columnClicked) {
+            return this.selectedPiece != null && this.secondSelectedPiece != null
+                    && boardPieces[rowClicked][columnClicked] == null;
+        }
+
+        private boolean pieceSelectedAndSecondPieceClicked(int rowClicked, int columnClicked) {
+            return this.selectedPiece != null && this.secondSelectedPiece == null
+                    && boardPieces[rowClicked][columnClicked] != null
+                    && this.selectedPiece != boardPieces[rowClicked][columnClicked];
+        }
+
+        private int moveDirection(ImagePanel selectedPiece2, int rowClicked, int columnClicked) throws ArimaaException {
+
+            if (selectedPiece.getRow() - 1 == rowClicked && selectedPiece.getColumn() == columnClicked)
+                return 0;
+            else if (selectedPiece.getColumn() + 1 == columnClicked && selectedPiece.getRow() == rowClicked)
+                return 1;
+            else if (selectedPiece.getRow() + 1 == rowClicked && selectedPiece.getColumn() == columnClicked)
+                return 2;
+            else if (selectedPiece.getColumn() - 1 == columnClicked && selectedPiece.getRow() == rowClicked)
+                return 3;
+            else {
+                return -1;
+                // Removed
+                // throw new ArimaaException("GUI.moveDirection(): Invalid
+                // direction :(");
+            }
+        }
+
+        private boolean selectedPieceAndEmptySpaceClicked(int rowClicked, int columnClicked) {
+            return this.selectedPiece != null && this.secondSelectedPiece == null
+                    && boardPieces[rowClicked][columnClicked] == null;
+        }
+
+        private boolean noPieceSelectedAndPieceClicked(int rowClicked, int columnClicked) {
+            return boardPieces[rowClicked][columnClicked] != null && this.selectedPiece == null
+                    && this.secondSelectedPiece == null;
+        }
+
+        private boolean clickOnBoard(int rowClicked, int columnClicked) {
+            return rowClicked <= 7 && rowClicked >= 0 && columnClicked <= 7 && columnClicked >= 0;
+        }
+
+        private boolean checkForPush(int rowClicked, int columnClicked) {
+            if (!game.isValidMoveSquare(rowClicked, columnClicked))
+                return false;
+            boolean secondSelectedPieceCanMove = false;
+            if (this.secondSelectedPiece.getRow() + 1 == rowClicked
+                    && this.secondSelectedPiece.getColumn() == columnClicked) {
+                secondSelectedPieceCanMove = true;
+            } else if (this.secondSelectedPiece.getRow() - 1 == rowClicked
+                    && this.secondSelectedPiece.getColumn() == columnClicked) {
+                secondSelectedPieceCanMove = true;
+            } else if (this.secondSelectedPiece.getRow() == rowClicked
+                    && this.secondSelectedPiece.getColumn() + 1 == columnClicked) {
+                secondSelectedPieceCanMove = true;
+            } else if (this.secondSelectedPiece.getRow() == rowClicked
+                    && this.secondSelectedPiece.getColumn() - 1 == columnClicked) {
+                secondSelectedPieceCanMove = true;
+            }
+            boolean selectedPieceCanMove = false;
+            if (selectedPiece.getRow() + 1 == secondSelectedPiece.getRow() && selectedPiece.getColumn() == secondSelectedPiece.getColumn()) {
+                selectedPieceCanMove = true;
+            } else if (selectedPiece.getRow() - 1 == secondSelectedPiece.getRow() && selectedPiece.getColumn() == secondSelectedPiece.getColumn()) {
+                selectedPieceCanMove = true;
+            } else if (selectedPiece.getRow() == secondSelectedPiece.getRow() && selectedPiece.getColumn() + 1 == secondSelectedPiece.getColumn()) {
+                selectedPieceCanMove = true;
+            } else if (selectedPiece.getRow() == secondSelectedPiece.getRow() && selectedPiece.getColumn() - 1 == secondSelectedPiece.getColumn()) {
+                selectedPieceCanMove = true;
+            }
+            return secondSelectedPieceCanMove && selectedPieceCanMove;
+        }
+
+        private boolean checkForPull(int rowClicked, int columnClicked) {
+            if (!game.isValidMoveSquare(rowClicked, columnClicked))
+                return false;
+            boolean canSelectedPieceMove = false;
+            if (this.selectedPiece.getRow() + 1 == rowClicked && this.selectedPiece.getColumn() == columnClicked) {
+                canSelectedPieceMove = true;
+            } else if (this.selectedPiece.getRow() - 1 == rowClicked
+                    && this.selectedPiece.getColumn() == columnClicked) {
+                canSelectedPieceMove = true;
+            } else if (this.selectedPiece.getRow() == rowClicked
+                    && this.selectedPiece.getColumn() + 1 == columnClicked) {
+                canSelectedPieceMove = true;
+            } else if (this.selectedPiece.getRow() == rowClicked
+                    && this.selectedPiece.getColumn() - 1 == columnClicked) {
+                canSelectedPieceMove = true;
+            }
+            boolean canSecondSelectedPieceMove = false;
+            if (secondSelectedPiece.getRow() + 1 == selectedPiece.getRow()
+                    && secondSelectedPiece.getColumn() == selectedPiece.getColumn()) {
+                canSecondSelectedPieceMove = true;
+            } else if (secondSelectedPiece.getRow() - 1 == selectedPiece.getRow()
+                    && secondSelectedPiece.getColumn() == selectedPiece.getColumn()) {
+                canSecondSelectedPieceMove = true;
+            } else if (secondSelectedPiece.getRow() == selectedPiece.getRow()
+                    && secondSelectedPiece.getColumn() + 1 == selectedPiece.getColumn()) {
+                canSecondSelectedPieceMove = true;
+            } else if (secondSelectedPiece.getRow() == selectedPiece.getRow()
+                    && secondSelectedPiece.getColumn() - 1 == selectedPiece.getColumn()) {
+                canSecondSelectedPieceMove = true;
+            }
+            return canSelectedPieceMove && canSecondSelectedPieceMove;
         }
     }
-
-    private int moveDirectionTwoPush(ImagePanel secondSelectedPiece2, int rowClicked, int columnClicked)
-            throws ArimaaException {
-
-        if (secondSelectedPiece.getRow() - 1 == rowClicked && secondSelectedPiece.getColumn() == columnClicked)
-            return 0;
-        else if (secondSelectedPiece.getColumn() + 1 == columnClicked && secondSelectedPiece.getRow() == rowClicked)
-            return 1;
-        else if (secondSelectedPiece.getRow() + 1 == rowClicked && secondSelectedPiece.getColumn() == columnClicked)
-            return 2;
-        else if (secondSelectedPiece.getColumn() - 1 == columnClicked && secondSelectedPiece.getRow() == rowClicked)
-            return 3;
-        else {
-            throw new ArimaaException("GUI.moveDirectionTwoPush(): Invalid push movement :(");
-        }
-    }
-
-    private int moveDirectionOnePush(ImagePanel selectedPiece2, ImagePanel secondSelectedPiece2)
-            throws ArimaaException {
-
-        if (selectedPiece.getRow() - 1 == secondSelectedPiece.getRow()
-                && selectedPiece.getColumn() == secondSelectedPiece.getColumn())
-            return 0;
-        else if (selectedPiece.getColumn() + 1 == secondSelectedPiece.getColumn()
-                && selectedPiece.getRow() == secondSelectedPiece.getRow())
-            return 1;
-        else if (selectedPiece.getRow() + 1 == secondSelectedPiece.getRow()
-                && selectedPiece.getColumn() == secondSelectedPiece.getColumn())
-            return 2;
-        else if (selectedPiece.getColumn() - 1 == secondSelectedPiece.getColumn()
-                && selectedPiece.getRow() == secondSelectedPiece.getRow())
-            return 3;
-        else {
-
-            throw new ArimaaException("GUI.moveDirectionOnePush(): Invalid push movement :(");
-        }
-    }
-
-    private boolean twoPieceSelectedAndEmptySpaceClicked(int rowClicked, int columnClicked) {
-        return this.selectedPiece != null && this.secondSelectedPiece != null
-                && boardPieces[rowClicked][columnClicked] == null;
-    }
-
-    private boolean pieceSelectedAndSecondPieceClicked(int rowClicked, int columnClicked) {
-        return this.selectedPiece != null && this.secondSelectedPiece == null
-                && boardPieces[rowClicked][columnClicked] != null
-                && this.selectedPiece != boardPieces[rowClicked][columnClicked];
-    }
-
-    private int moveDirection(ImagePanel selectedPiece2, int rowClicked, int columnClicked) throws ArimaaException {
-
-        if (selectedPiece.getRow() - 1 == rowClicked && selectedPiece.getColumn() == columnClicked)
-            return 0;
-        else if (selectedPiece.getColumn() + 1 == columnClicked && selectedPiece.getRow() == rowClicked)
-            return 1;
-        else if (selectedPiece.getRow() + 1 == rowClicked && selectedPiece.getColumn() == columnClicked)
-            return 2;
-        else if (selectedPiece.getColumn() - 1 == columnClicked && selectedPiece.getRow() == rowClicked)
-            return 3;
-        else {
-            return -1;
-            // Removed
-            // throw new ArimaaException("GUI.moveDirection(): Invalid
-            // direction :(");
-        }
-    }
-
-    private boolean selectedPieceAndEmptySpaceClicked(int rowClicked, int columnClicked) {
-        return this.selectedPiece != null && this.secondSelectedPiece == null
-                && boardPieces[rowClicked][columnClicked] == null;
-    }
-
-    private boolean noPieceSelectedAndPieceClicked(int rowClicked, int columnClicked) {
-        return boardPieces[rowClicked][columnClicked] != null && this.selectedPiece == null
-                && this.secondSelectedPiece == null;
-    }
-
-    private boolean clickOnBoard(int rowClicked, int columnClicked) {
-        return rowClicked <= 7 && rowClicked >= 0 && columnClicked <= 7 && columnClicked >= 0;
-    }
-
-    private boolean checkForPush(int rowClicked, int columnClicked) {
-        if (!game.isValidMoveSquare(rowClicked, columnClicked))
-            return false;
-        boolean secondSelectedPieceCanMove = false;
-        if (this.secondSelectedPiece.getRow() + 1 == rowClicked
-                && this.secondSelectedPiece.getColumn() == columnClicked) {
-            secondSelectedPieceCanMove = true;
-        } else if (this.secondSelectedPiece.getRow() - 1 == rowClicked
-                && this.secondSelectedPiece.getColumn() == columnClicked) {
-            secondSelectedPieceCanMove = true;
-        } else if (this.secondSelectedPiece.getRow() == rowClicked
-                && this.secondSelectedPiece.getColumn() + 1 == columnClicked) {
-            secondSelectedPieceCanMove = true;
-        } else if (this.secondSelectedPiece.getRow() == rowClicked
-                && this.secondSelectedPiece.getColumn() - 1 == columnClicked) {
-            secondSelectedPieceCanMove = true;
-        }
-        boolean selectedPieceCanMove = false;
-        if (selectedPiece.getRow() + 1 == secondSelectedPiece.getRow() && selectedPiece.getColumn() == secondSelectedPiece.getColumn()) {
-            selectedPieceCanMove = true;
-        } else if (selectedPiece.getRow() - 1 == secondSelectedPiece.getRow() && selectedPiece.getColumn() == secondSelectedPiece.getColumn()) {
-            selectedPieceCanMove = true;
-        } else if (selectedPiece.getRow() == secondSelectedPiece.getRow() && selectedPiece.getColumn() + 1 == secondSelectedPiece.getColumn()) {
-            selectedPieceCanMove = true;
-        } else if (selectedPiece.getRow() == secondSelectedPiece.getRow() && selectedPiece.getColumn() - 1 == secondSelectedPiece.getColumn()) {
-            selectedPieceCanMove = true;
-        }
-        return secondSelectedPieceCanMove && selectedPieceCanMove;
-    }
-
-    private boolean checkForPull(int rowClicked, int columnClicked) {
-        if (!game.isValidMoveSquare(rowClicked, columnClicked))
-            return false;
-        boolean canSelectedPieceMove = false;
-        if (this.selectedPiece.getRow() + 1 == rowClicked && this.selectedPiece.getColumn() == columnClicked) {
-            canSelectedPieceMove = true;
-        } else if (this.selectedPiece.getRow() - 1 == rowClicked
-                && this.selectedPiece.getColumn() == columnClicked) {
-            canSelectedPieceMove = true;
-        } else if (this.selectedPiece.getRow() == rowClicked
-                && this.selectedPiece.getColumn() + 1 == columnClicked) {
-            canSelectedPieceMove = true;
-        } else if (this.selectedPiece.getRow() == rowClicked
-                && this.selectedPiece.getColumn() - 1 == columnClicked) {
-            canSelectedPieceMove = true;
-        }
-        boolean canSecondSelectedPieceMove = false;
-        if (secondSelectedPiece.getRow() + 1 == selectedPiece.getRow()
-                && secondSelectedPiece.getColumn() == selectedPiece.getColumn()) {
-            canSecondSelectedPieceMove = true;
-        } else if (secondSelectedPiece.getRow() - 1 == selectedPiece.getRow()
-                && secondSelectedPiece.getColumn() == selectedPiece.getColumn()) {
-            canSecondSelectedPieceMove = true;
-        } else if (secondSelectedPiece.getRow() == selectedPiece.getRow()
-                && secondSelectedPiece.getColumn() + 1 == selectedPiece.getColumn()) {
-            canSecondSelectedPieceMove = true;
-        } else if (secondSelectedPiece.getRow() == selectedPiece.getRow()
-                && secondSelectedPiece.getColumn() - 1 == selectedPiece.getColumn()) {
-            canSecondSelectedPieceMove = true;
-        }
-        return canSelectedPieceMove && canSecondSelectedPieceMove;
-    }
-}
 }
