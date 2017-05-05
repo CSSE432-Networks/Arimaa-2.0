@@ -576,7 +576,6 @@ public class GUI {
                 activeFrames.get(1).dispose();
 
                 game.setPlayerTurn(1);
-                game.incrementTurnCounter();
                 String boardStateToSend = game.saveFile();
                 printWriter.println(boardStateToSend);
 
@@ -816,6 +815,16 @@ public class GUI {
         // Refactored to clarify method - Jesse
         @Override
         public void mousePressed(MouseEvent e) {
+            System.out.println("You clicked");
+            for (int row = 0; row < 8; row ++) {
+                for (int col = 0; col < 8; col++ ) {
+                    if (new String(game.currentBoard.getBoardArray()[row][col] + "").equals(" ") ) {
+                        System.out.print("-");
+                    }
+                    System.out.print(game.currentBoard.getBoardArray()[row][col]);
+                }
+            }
+            System.out.println();
             int sourceX = (int) e.getPoint().getX();
             int sourceY = (int) e.getPoint().getY();
 
