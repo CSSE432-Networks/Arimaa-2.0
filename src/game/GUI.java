@@ -10,6 +10,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class GUI {
@@ -778,6 +779,7 @@ public class GUI {
         @Override
         public void mousePressed(MouseEvent e) {
             System.out.println("You clicked");
+            System.out.println(Arrays.toString(boardPieces));
             int sourceX = (int) e.getPoint().getX();
             int sourceY = (int) e.getPoint().getY();
 
