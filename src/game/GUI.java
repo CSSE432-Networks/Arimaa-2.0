@@ -631,6 +631,7 @@ public class GUI {
                         // should block
                         System.out.println("Blocking while waiting for boardstate");
                         String boardState = bufferedReader.readLine();
+                        game.loadFileFromString(boardState);
                         System.out.println("Received boardstate: " + boardState);
                         setupForGame();
                     } catch (IOException ex) {
@@ -728,8 +729,7 @@ public class GUI {
             //pack & ship gamestate
             String boardstateToSend = game.saveFile();
             System.out.println("Sending boardstate: " + boardstateToSend);
-            printWriter.write(boardstateToSend);
-            printWriter.flush();
+            printWriter.println(boardstateToSend);
 
             // block while other player takes turn
             try {
@@ -737,6 +737,7 @@ public class GUI {
                 String boardstateReceived = bufferedReader.readLine();
                 System.out.println("Boardstate Recieved: " + boardstateReceived);
                 game.loadFileFromString(boardstateReceived);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
