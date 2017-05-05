@@ -550,11 +550,12 @@ public class GUI {
 
                 // block while other player takes turn
                 try {
-                    System.out.println("Blocking until boardstate received");
+                    System.out.println("Waiting on P2 to place pieces");
                     String boardstateReceived = bufferedReader.readLine();
                     System.out.println("Boardstate Recieved: " + boardstateReceived);
                     game.loadFileFromString(boardstateReceived);
                     activeFrames.get(1).dispose();
+                    System.out.println("Starting game");
                     timePanel.unpause();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -579,7 +580,7 @@ public class GUI {
 
                 // block while other player takes turn
                 try {
-                    System.out.println("Blocking until boardstate received");
+                    System.out.println("Wait on P1 to take first turn");
                     String boardstateReceived = bufferedReader.readLine();
                     System.out.println("Boardstate Recieved: " + boardstateReceived);
                     game.loadFileFromString(boardstateReceived);
@@ -767,7 +768,7 @@ public class GUI {
 
             // block while other player takes turn
             try {
-                System.out.println("Blocking until boardstate received");
+                System.out.println("Waiting for other player to take turn");
                 String boardstateReceived = bufferedReader.readLine();
                 System.out.println("Boardstate Recieved: " + boardstateReceived);
                 game.loadFileFromString(boardstateReceived);
