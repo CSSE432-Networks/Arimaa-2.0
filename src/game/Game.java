@@ -449,10 +449,10 @@ public class Game {
     /**
      * 0: up, 1: right, 2: down, 3: left
      *
-     * @param row        : row that contains the pulling piece
-     * @param column     : column that contains the pulling piece
-     * @param direction1 : direction the pulling piece will move
-     * @param direction2 : direction the piece being pulled will move
+     * @param row1        : row that contains the pulling piece
+     * @param column1     : column that contains the pulling piece
+     * @param row2 : direction the pulling piece will move
+     * @param column2 : direction the piece being pulled will move
      * @return True if pull succeeds, False if it fails
      */
     public boolean pull(int row1, int column1, int row2, int column2, int direction1) {

@@ -628,8 +628,9 @@ public class GUI {
                     // wait for host to take first turn
                     try {
                         // should block
+                        System.out.println("Blocking while waiting for boardstate");
                         String boardState = bufferedReader.readLine();
-                        System.out.println("Recieved boardstate: " + boardState);
+                        System.out.println("Received boardstate: " + boardState);
                         setupForGame();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -731,6 +732,7 @@ public class GUI {
 
             // block while other player takes turn
             try {
+                System.out.println("Blocking until boardstate received");
                 String boardstateReceived = bufferedReader.readLine();
                 System.out.println("Boardstate Recieved: " + boardstateReceived);
                 game.loadFileFromString(boardstateReceived);
@@ -775,6 +777,7 @@ public class GUI {
         // Refactored to clarify method - Jesse
         @Override
         public void mousePressed(MouseEvent e) {
+            System.out.println("You clicked");
             int sourceX = (int) e.getPoint().getX();
             int sourceY = (int) e.getPoint().getY();
 
