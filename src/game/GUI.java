@@ -555,6 +555,7 @@ public class GUI {
                     System.out.println("Boardstate Recieved: " + boardstateReceived);
                     game.loadFileFromString(boardstateReceived);
                     activeFrames.get(1).dispose();
+                    playerCurrentlyPlacingPieces = 0;
                     System.out.println("Starting game");
                     timePanel.unpause();
                 } catch (IOException ex) {
