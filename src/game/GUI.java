@@ -575,6 +575,7 @@ public class GUI {
                 playerCurrentlyPlacingPieces = 0;
                 activeFrames.get(1).dispose();
 
+                game.setPlayerTurn(1);
                 String boardStateToSend = game.saveFile();
                 printWriter.println(boardStateToSend);
 
