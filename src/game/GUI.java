@@ -543,6 +543,24 @@ public class GUI {
         public void actionPerformed(ActionEvent e) {
             if ((playerCurrentlyPlacingPieces == 1) && game.pieceInventoryEmpty(playerCurrentlyPlacingPieces)) {
                 playerCurrentlyPlacingPieces = 2;
+
+                String boardStateToSend = game.saveFile();
+                printWriter.println(boardStateToSend);
+
+                // block while other player takes turn
+                try {
+                    System.out.println("Blocking until boardstate received");
+                    String boardstateReceived = bufferedReader.readLine();
+                    System.out.println("Boardstate Recieved: " + boardstateReceived);
+                    game.loadFileFromString(boardstateReceived);
+                    activeFrames.get(1).dispose();
+                    timePanel.unpause();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
+                // read in gamestate and display
+                renderBoard();
             }
         }
     }
@@ -554,7 +572,23 @@ public class GUI {
             if (game.pieceInventoryEmpty(1) && game.pieceInventoryEmpty(2)) {
                 playerCurrentlyPlacingPieces = 0;
                 activeFrames.get(1).dispose();
-                timePanel.unpause();
+
+                String boardStateToSend = game.saveFile();
+                printWriter.println(boardStateToSend);
+
+                // block while other player takes turn
+                try {
+                    System.out.println("Blocking until boardstate received");
+                    String boardstateReceived = bufferedReader.readLine();
+                    System.out.println("Boardstate Recieved: " + boardstateReceived);
+                    game.loadFileFromString(boardstateReceived);
+                    timePanel.unpause();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
+                // read in gamestate and display
+                renderBoard();
             }
         }
     }
@@ -624,17 +658,15 @@ public class GUI {
                     setupForGame();
                     setupPiecePlacingWindow();
                 } else {
-
-                    // TODO: skipping piece placement process for now
-                    // wait for host to take first turn
                     try {
                         // should block
-                        System.out.println("Blocking while waiting for boardstate");
+                        System.out.println("Blocking while waiting for initial boardstate");
                         String boardState = bufferedReader.readLine();
                         game.loadFileFromString(boardState);
                         System.out.println("Received boardstate: " + boardState);
+                        playerCurrentlyPlacingPieces = 2;
                         setupForGame();
-                        timePanel.unpause();
+                        setupPiecePlacingWindow();
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
