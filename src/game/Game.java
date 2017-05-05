@@ -221,6 +221,10 @@ public class Game {
         isPushPull = false;
     }
 
+    public void incrementTurnCounter() {
+        this.turnCounter++;
+    }
+
     public void endTurn() {
         if (getPlayerTurn() == 1) {
             setPlayerTurn(2);
