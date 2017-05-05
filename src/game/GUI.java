@@ -36,6 +36,7 @@ public class GUI {
     private Socket communicationSocket = null;
     private BufferedReader bufferedReader;
     private PrintWriter printWriter;
+    private boolean networked;
 
     // These used to be directly in the code. Refactored and pulled them out -
     // Jesse
@@ -569,7 +570,7 @@ public class GUI {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (game.pieceInventoryEmpty(1) && game.pieceInventoryEmpty(2)) {
+            if ((game.pieceInventoryEmpty(1) && game.pieceInventoryEmpty(2)) || (game.pieceInventoryEmpty(2) && networked)) {
                 playerCurrentlyPlacingPieces = 0;
                 activeFrames.get(1).dispose();
 
@@ -639,7 +640,7 @@ public class GUI {
             game.p1Name = p1TextField.getText();
             game.p2Name = p2TextField.getText();
             game.moveTimer = (int) timerComboBox.getSelectedItem();
-            boolean networked = gameModeNetworkComboBox.getSelectedItem().equals("Online");
+            networked = gameModeNetworkComboBox.getSelectedItem().equals("Online");
             String ip = ipAddressTextField.getText();
 
             if (game.p1Name.equals(""))
@@ -664,9 +665,9 @@ public class GUI {
                         String boardState = bufferedReader.readLine();
                         game.loadFileFromString(boardState);
                         System.out.println("Received boardstate: " + boardState);
-                        playerCurrentlyPlacingPieces = 2;
                         setupForGame();
                         setupPiecePlacingWindow();
+                        playerCurrentlyPlacingPieces = 2;
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
