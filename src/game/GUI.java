@@ -634,6 +634,7 @@ public class GUI {
                         game.loadFileFromString(boardState);
                         System.out.println("Received boardstate: " + boardState);
                         setupForGame();
+                        timePanel.unpause();
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -737,7 +738,7 @@ public class GUI {
                 String boardstateReceived = bufferedReader.readLine();
                 System.out.println("Boardstate Recieved: " + boardstateReceived);
                 game.loadFileFromString(boardstateReceived);
-
+                timePanel.unpause();
             } catch (IOException e) {
                 e.printStackTrace();
             }
