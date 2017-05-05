@@ -675,11 +675,67 @@ public class Game {
         return true;
     }
 
+    // new for networks
+    public boolean loadFileFromString(String boardstate) {
+        // assumes be have valid boardstate string
+        String[] values = boardstate.split(",");
+        BoardState boardToSet = new BoardState(
+                new char[][]{{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}, {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}, {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}, {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}, {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},},
+                0);
+
+        String[] validBoardCharactersArray = {" ", "E", "C", "H", "D", "K", "R", "e", "c", "h", "d", "k", "r"};
+        ArrayList<String> vbc = new ArrayList<String>();
+        for (String s : validBoardCharactersArray) {
+            vbc.add(s);
+        }
+
+        // Parse boardState
+        int count = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int k = 0; k < 8; k++) {
+                String next = values[count];
+                if (!vbc.contains(next)) {
+                    return false;
+                }
+                boardToSet.setBoardSpace(i, k, next);
+                count++;
+            }
+        }
+
+        // Parse turnCounter, p1Name, p2Name
+        int turnCounter = Integer.parseInt(values[count]);
+        count++;
+
+        int turnTimer = Integer.parseInt(values[count]);
+        count++;
+
+        String p1name = values[count];
+        count++;
+
+        String p2name = values[count];
+        count++;
+
+        // Successful load! Push all changes to game permanently
+        this.currentBoard = boardToSet;
+        this.turnCounter = turnCounter;
+        this.moveTimer = turnTimer;
+        this.p1Name = p1name;
+        this.p2Name = p2name;
+
+        if (this.turnCounter % 2 == 1) {
+            this.playerTurn = 2;
+        } else {
+            this.playerTurn = 1;
+        }
+        return true;
+    }
+
     // Refactored by Jesse
     // Previously copied the string ~80 times and wrote to the file ~80 times...
-    public boolean saveFile(FileWriter fw) {
-        if (fw == null)
-            return false;
+    public String saveFile() {
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -697,13 +753,7 @@ public class Game {
         str.append(this.p2Name);
         String s = str.toString();
 
-        try {
-            fw.write(s);
-            fw.close();
-        } catch (IOException e) {
-            return false;
-        }
-        return true;
+        return s;
     }
 
     // Getters & Setters

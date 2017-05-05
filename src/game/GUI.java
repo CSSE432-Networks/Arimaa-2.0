@@ -32,7 +32,9 @@ public class GUI {
     private JLabel timerLabel;
     private TimePanel timePanel;
     private static final int PORT = 9001;
-    public Socket communicationSocket = null;
+    private Socket communicationSocket = null;
+    private BufferedReader bufferedReader;
+    private PrintWriter printWriter;
 
     // These used to be directly in the code. Refactored and pulled them out -
     // Jesse
@@ -616,32 +618,64 @@ public class GUI {
 
             game.setTurnTimer((int) timerComboBox.getSelectedItem());
             if (networked) {
-                setupNetworkConnection(ip);
-            }
-            setupForGame();
+                boolean host = setupNetworkConnection(ip);
+                if (host) {
+                    setupForGame();
+                    setupPiecePlacingWindow();
+                } else {
+                    setupForGame();
+                    // TODO: skipping piece placement process for now
+                    // wait for host to take first turn
+                    try {
+                        // should block
+                        String boardState = bufferedReader.readLine();
 
-            setupPiecePlacingWindow();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            } else {
+                // play locally
+                setupForGame();
+                setupPiecePlacingWindow();
+            }
         }
     }
 
-    private void setupNetworkConnection(String ip) {
+    private boolean setupNetworkConnection(String ip) {
         try {
             if (ip.equals("")) {
-
+                // host
+                // setup socket & IO
                 ServerSocket sock = new ServerSocket(PORT);
                 communicationSocket = sock.accept();
-                BufferedReader br = new BufferedReader(new InputStreamReader(communicationSocket.getInputStream()));
-                String message = br.readLine();
+                bufferedReader = new BufferedReader(new InputStreamReader(communicationSocket.getInputStream()));
+                printWriter = new PrintWriter(communicationSocket.getOutputStream(), true);
+
+                //test
+                String message = bufferedReader.readLine();
                 System.out.println(message);
+
+                // return true since host
+                return true;
             } else {
+                // not host
+                // setup socket & IO
                 communicationSocket = new Socket(ip, PORT);
-                PrintWriter out =
-                        new PrintWriter(communicationSocket.getOutputStream(), true);
-                out.println("HI TAYLER");
+                bufferedReader = new BufferedReader(new InputStreamReader(communicationSocket.getInputStream()));
+                printWriter = new PrintWriter(communicationSocket.getOutputStream(), true);
+
+                // test
+                printWriter.println("Connection established");
+
+                // return false since not host
+                return false;
             }
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
+            // will not execute
+            return false;
         }
     }
 
@@ -661,10 +695,12 @@ public class GUI {
                 FileWriter fw = null;
                 try {
                     fw = new FileWriter(selectedFile);
+                    String saveString = game.saveFile();
+                    fw.write(saveString);
+                    fw.close();
                 } catch (IOException e) {
-                    // Shouldn't ever happen...
+                    // Shouldn't ever happen...?
                 }
-                game.saveFile(fw);
             }
             timePanel.unpause();
         }
@@ -683,7 +719,23 @@ public class GUI {
 
         @Override
         public void actionPerformed(ActionEvent arg0) {
+            // handles internal turn switching logic
             game.endTurn();
+
+            //pack & ship gamestate
+            String boardstateToSend = game.saveFile();
+            printWriter.write(boardstateToSend);
+            printWriter.flush();
+
+            // block while other player takes turn
+            try {
+                String boardstateReceived = bufferedReader.readLine();
+                game.loadFileFromString(boardstateReceived);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // read in gamestate and display
             renderBoard();
         }
     }
