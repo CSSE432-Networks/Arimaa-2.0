@@ -63,7 +63,7 @@ public class GUI {
         p1TextField = null;
         this.game = new Game();
         this.boardPieces = new ImagePanel[8][8];
-        this.activeFrames = new ArrayList<JFrame>();
+        this.activeFrames = new ArrayList();
         JFrame mainMenuFrame = new JFrame();
         this.activeFrames.add(mainMenuFrame);
         mainMenuFrame.setTitle("Welcome to Arimaa!");
@@ -779,7 +779,14 @@ public class GUI {
         @Override
         public void mousePressed(MouseEvent e) {
             System.out.println("You clicked");
-            System.out.println(Arrays.toString(boardPieces));
+            for (int row = 0; row < 8; row ++) {
+                for (int col = 0; col < 8; col++ ) {
+                    if (new String(game.currentBoard.getBoardArray()[row][col] + "").equals(" ") ) {
+                        System.out.print("-");
+                    }
+                    System.out.print(game.currentBoard.getBoardArray()[row][col]);
+                }
+            }
             int sourceX = (int) e.getPoint().getX();
             int sourceY = (int) e.getPoint().getY();
 
