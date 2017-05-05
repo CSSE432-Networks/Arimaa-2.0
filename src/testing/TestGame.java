@@ -698,24 +698,24 @@ public class TestGame {
 	}
 
 	// Testing saveFile
-	@Test
-	public void testSaveFile() throws IOException {
-		FileWriter fw = null;
-		File saveFile = new File("Resources/SaveTest1.txt");
-		try {
-			fw = new FileWriter(saveFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Game g = new Game(b);
-		assertTrue(g.saveFile(fw));
-	}
-	
-	@Test
-	public void testSaveFile2() throws IOException{
-		Game g = new Game();
-		assertFalse(g.saveFile(null));
-	}
+//	@Test
+//	public void testSaveFile() throws IOException {
+//		FileWriter fw = null;
+//		File saveFile = new File("Resources/SaveTest1.txt");
+//		try {
+//			fw = new FileWriter(saveFile);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		Game g = new Game(b);
+//		assertTrue(g.saveFile(fw));
+//	}
+//
+//	@Test
+//	public void testSaveFile2() throws IOException{
+//		Game g = new Game();
+//		assertFalse(g.saveFile(null));
+//	}
 
 	// Testing loadFile
 	@Test

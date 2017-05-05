@@ -623,13 +623,14 @@ public class GUI {
                     setupForGame();
                     setupPiecePlacingWindow();
                 } else {
-                    setupForGame();
+
                     // TODO: skipping piece placement process for now
                     // wait for host to take first turn
                     try {
                         // should block
                         String boardState = bufferedReader.readLine();
-
+                        System.out.println("Recieved boardstate: " + boardState);
+                        setupForGame();
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -724,12 +725,14 @@ public class GUI {
 
             //pack & ship gamestate
             String boardstateToSend = game.saveFile();
+            System.out.println("Sending boardstate: " + boardstateToSend);
             printWriter.write(boardstateToSend);
             printWriter.flush();
 
             // block while other player takes turn
             try {
                 String boardstateReceived = bufferedReader.readLine();
+                System.out.println("Boardstate Recieved: " + boardstateReceived);
                 game.loadFileFromString(boardstateReceived);
             } catch (IOException e) {
                 e.printStackTrace();
