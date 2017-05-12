@@ -692,6 +692,7 @@ public class GUI {
                         try {
                             System.out.println("Observer: Blocking to read boardstate from socket...");
                             String boardState = bufferedReader.readLine();
+                            communicationSocket.close();
                             System.out.println(boardState);
 
                             System.out.println("Observer: Rendering boardstate");
@@ -703,6 +704,7 @@ public class GUI {
                             } else {
                                 renderBoard();
                             }
+                            setupNetworkConnection(ip);
                         } catch (IOException e1) {
                             e1.printStackTrace();
                             break;
