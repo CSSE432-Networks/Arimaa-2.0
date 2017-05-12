@@ -242,7 +242,7 @@ public class GUI {
         panel.setVisible(true);
         gameBoardPanel = panel;
 
-        gameBoardPanel.addMouseListener(new MovementListener());
+        if (!observer) gameBoardPanel.addMouseListener(new MovementListener());
         activeFrames.get(0).setBackground(Color.BLACK);
 
         gameFrame.setVisible(true);
