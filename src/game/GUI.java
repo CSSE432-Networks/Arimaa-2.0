@@ -679,13 +679,13 @@ public class GUI {
                     setupForGame();
                     setupPiecePlacingWindow();
                 } else if (observer) {
-                    System.out.println("iIm an observer");
+                    System.out.println("I'm an observer");
                     setupForGame();
                     while(true) {
                         try {
-                            System.out.println("Read boardstate from socket");
+                            System.out.println("Observer: Blocking to read boardstate from socket...");
                             String boardState = bufferedReader.readLine();
-                            System.out.println("Rendering boardstate");
+                            System.out.println("Observer: Rendering boardstate");
                             game.loadFileFromString(boardState);
                             renderBoard();
                         } catch (IOException e1) {
@@ -710,7 +710,7 @@ public class GUI {
             } else {
                 // play locally
                 setupForGame();
-                if (!observer) setupPiecePlacingWindow();
+                setupPiecePlacingWindow();
             }
         }
     }
