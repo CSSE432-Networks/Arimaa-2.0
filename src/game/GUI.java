@@ -450,7 +450,7 @@ public class GUI {
                     panel.getWidth() / 2 - 110, panel.getHeight() / 2 - 25 * 4);
             panel.add(gameModeLabel);
 
-            String[] gameModePresets = {"Local", "Online"};
+            String[] gameModePresets = {"Local", "Online", "Observer"};
             JComboBox<String> gameModeComboBox = new JComboBox<String>(gameModePresets);
             gameModeNetworkComboBox = gameModeComboBox;
             gameModeComboBox.setEditable(false);
