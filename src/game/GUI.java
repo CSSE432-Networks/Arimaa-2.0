@@ -699,6 +699,7 @@ public class GUI {
                             } else {
                                 renderBoard();
                             }
+                            gameBoardPanel.repaint();
                         } catch (IOException e1) {
                             e1.printStackTrace();
                             break;
