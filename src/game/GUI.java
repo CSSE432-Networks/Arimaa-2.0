@@ -680,8 +680,8 @@ public class GUI {
                     setupPiecePlacingWindow();
                 } else if (observer) {
                     System.out.println("iIm an observer");
+                    setupForGame();
                     while(true) {
-                        setupForGame();
                         try {
                             System.out.println("Read boardstate from socket");
                             String boardState = bufferedReader.readLine();
@@ -690,6 +690,7 @@ public class GUI {
                             renderBoard();
                         } catch (IOException e1) {
                             e1.printStackTrace();
+                            break;
                         }
                     }
                 } else {
@@ -726,10 +727,6 @@ public class GUI {
 
                 new ObserverListener(sock, observers).start();
 
-                //test
-                String message = bufferedReader.readLine();
-                System.out.println(message);
-
                 // return true since host
                 return true;
             } else {
@@ -738,10 +735,6 @@ public class GUI {
                 communicationSocket = new Socket(ip, PORT);
                 bufferedReader = new BufferedReader(new InputStreamReader(communicationSocket.getInputStream()));
                 printWriter = new PrintWriter(communicationSocket.getOutputStream(), true);
-
-                // test
-                printWriter.println("Connection established");
-                sendToObserver("Connection established");
 
                 // return false since not host
                 return false;
