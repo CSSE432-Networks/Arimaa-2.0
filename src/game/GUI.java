@@ -683,8 +683,8 @@ public class GUI {
                     setupForGame();
                     setupPiecePlacingWindow();
                 } else if (observer) {
-                    System.out.println("I'm an observer");
-                    setupForGame();
+                    System.out.println("I'm an observer!");
+                    boolean firstTime = true;
                     while(true) {
                         try {
                             System.out.println("Observer: Blocking to read boardstate from socket...");
@@ -693,12 +693,18 @@ public class GUI {
 
                             System.out.println("Observer: Rendering boardstate");
                             game.loadFileFromString(boardState);
-                            renderBoard();
+                            if (firstTime) {
+                                setupForGame();
+                                firstTime = false;
+                            } else {
+                                renderBoard();
+                            }
                         } catch (IOException e1) {
                             e1.printStackTrace();
                             break;
                         }
                     }
+                    System.out.println("Observer: Loop is dead :(");
                 } else {
                     try {
                         // should block
