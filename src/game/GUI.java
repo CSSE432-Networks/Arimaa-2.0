@@ -552,7 +552,7 @@ public class GUI {
                 try {
                     System.out.println("Waiting on P2 to place pieces");
                     String boardstateReceived = bufferedReader.readLine();
-                    System.out.println("Boardstate Recieved: " + boardstateReceived);
+                    System.out.println("Boardstate Received: " + boardstateReceived);
                     game.loadFileFromString(boardstateReceived);
                     activeFrames.get(1).dispose();
                     playerCurrentlyPlacingPieces = 0;
@@ -584,7 +584,7 @@ public class GUI {
                 try {
                     System.out.println("Wait on P1 to take first turn");
                     String boardstateReceived = bufferedReader.readLine();
-                    System.out.println("Boardstate Recieved: " + boardstateReceived);
+                    System.out.println("Boardstate Received: " + boardstateReceived);
                     game.loadFileFromString(boardstateReceived);
                     timePanel.unpause();
                 } catch (IOException ex) {
@@ -772,7 +772,7 @@ public class GUI {
             try {
                 System.out.println("Waiting for other player to take turn");
                 String boardstateReceived = bufferedReader.readLine();
-                System.out.println("Boardstate Recieved: " + boardstateReceived);
+                System.out.println("Boardstate Received: " + boardstateReceived);
                 game.loadFileFromString(boardstateReceived);
                 timePanel.unpause();
             } catch (IOException e) {
