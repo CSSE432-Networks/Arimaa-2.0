@@ -580,8 +580,8 @@ public class GUI {
     private void sendToObserver(String boardStateToSend) {
         try {
             for (int i = 0; i < observers.size(); i++) {
-                printWriter = new PrintWriter(observers.get(i).getOutputStream(), true);
-                printWriter.println(boardStateToSend);
+                PrintWriter observerPrintWriter = new PrintWriter(observers.get(i).getOutputStream(), true);
+                observerPrintWriter.println(boardStateToSend);
             }
         } catch(IOException e){
             e.printStackTrace();
@@ -810,7 +810,7 @@ public class GUI {
 
                 // Forward to observers
                 sendToObserver(boardstateReceived);
-                
+
                 // Load gamestate
                 game.loadFileFromString(boardstateReceived);
                 timePanel.unpause();
