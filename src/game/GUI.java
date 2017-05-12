@@ -121,6 +121,7 @@ public class GUI {
 
     // refactored this to clean up huge switch statement - Jesse
     private void renderInitialBoard() {
+        System.out.println("Render Init Board");
         if (game.getWinner() != 0)
             createWinWindow();
         char[][] boardArray = this.game.currentBoard.getBoardArray();
@@ -181,6 +182,7 @@ public class GUI {
     }
 
     protected void renderBoard() {
+        System.out.println("Render Board");
         for (int i = 0; i < 8; i++) {
             for (int k = 0; k < 8; k++) {
                 if (boardPieces[i][k] != null) {
@@ -224,6 +226,7 @@ public class GUI {
     // Method extracted from duplicate code in StartGameListener and
     // LoadGameListener. yay!
     public void setupForGame() {
+        System.out.println("Setup for game");
         JFrame mainMenu = activeFrames.get(0);
         activeFrames.remove(0);
         mainMenu.dispose();
@@ -239,7 +242,7 @@ public class GUI {
         panel.setVisible(true);
         gameBoardPanel = panel;
 
-        if (!observer) gameBoardPanel.addMouseListener(new MovementListener());
+        gameBoardPanel.addMouseListener(new MovementListener());
         activeFrames.get(0).setBackground(Color.BLACK);
 
         gameFrame.setVisible(true);
@@ -694,12 +697,16 @@ public class GUI {
                             System.out.println("Observer: Rendering boardstate");
                             game.loadFileFromString(boardState);
                             if (firstTime) {
+                                System.out.println("First time");
                                 setupForGame();
                                 firstTime = false;
                             } else {
                                 renderBoard();
                             }
+
                             gameBoardPanel.repaint();
+
+                            gameBoardPanel.validate();
                         } catch (IOException e1) {
                             e1.printStackTrace();
                             break;
