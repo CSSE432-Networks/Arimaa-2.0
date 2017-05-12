@@ -673,12 +673,13 @@ public class GUI {
             settings.dispose();
 
             game.setTurnTimer((int) timerComboBox.getSelectedItem());
-            if (networked) {
+            if (networked || observer) {
                 boolean host = setupNetworkConnection(ip);
                 if (host) {
                     setupForGame();
                     setupPiecePlacingWindow();
                 } else if (observer) {
+                    System.out.println("iIm an observer");
                     while(true) {
                         setupForGame();
                         try {
