@@ -685,7 +685,7 @@ public class GUI {
                             System.out.println("Read boardstate from socket");
                             String boardState = bufferedReader.readLine();
                             System.out.println("Rendering boardstate");
-                            game.loadFileFromString(boardState)
+                            game.loadFileFromString(boardState);
                             renderBoard();
                         } catch (IOException e1) {
                             e1.printStackTrace();
