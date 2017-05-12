@@ -36,7 +36,7 @@ public class GUI {
     private BufferedReader bufferedReader;
     private PrintWriter printWriter;
     private boolean networked;
-    private volatile List<Socket> observers;
+    private volatile List<Socket> observers = new LinkedList<>();
 
     // These used to be directly in the code. Refactored and pulled them out -
     // Jesse
@@ -720,7 +720,6 @@ public class GUI {
                 bufferedReader = new BufferedReader(new InputStreamReader(communicationSocket.getInputStream()));
                 printWriter = new PrintWriter(communicationSocket.getOutputStream(), true);
 
-                this.observers = new LinkedList<>();
                 new ObserverListener(sock, observers).start();
 
                 //test
