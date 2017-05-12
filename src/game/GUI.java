@@ -295,7 +295,7 @@ public class GUI {
         this.timePanel = new TimePanel(GUI.this, game, game.getTurnTimer(), timerLabel);
 
 
-
+        if (!observer) {
             // Set up Save Game Button
             JButton saveButton = createButton("Save", 1, 12, 65, 50, 657, gameFrame.getHeight() / 2 - 90,
                     new SaveGameListener());
@@ -310,7 +310,7 @@ public class GUI {
             JButton endTurnButton = createButton("End Turn", 1, 12, 137, 50, 655, gameFrame.getHeight() / 2 - 37,
                     new EndTurnListener());
             gameBoardPanel.add(endTurnButton);
-        
+        }
 
         renderBoard();
     }
