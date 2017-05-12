@@ -25,6 +25,7 @@ public class ObserverListener extends Thread {
             while (true) {
                 Socket socket = serverSocket.accept();
                 observers.add(socket);
+                System.out.println("added observer");
             }
 
         } catch (IOException e) {

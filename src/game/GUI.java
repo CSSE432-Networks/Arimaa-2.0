@@ -679,12 +679,13 @@ public class GUI {
                     setupForGame();
                     setupPiecePlacingWindow();
                 } else if (observer) {
-                    System.out.println("iIm an observer");
+                    System.out.println("Im an observer");
                     setupForGame();
                     while(true) {
                         try {
                             System.out.println("Read boardstate from socket");
                             String boardState = bufferedReader.readLine();
+                            System.out.println(boardState);
                             System.out.println("Rendering boardstate");
                             game.loadFileFromString(boardState);
                             renderBoard();
