@@ -557,6 +557,11 @@ public class GUI {
                     System.out.println("Waiting on P2 to place pieces");
                     String boardstateReceived = bufferedReader.readLine();
                     System.out.println("Boardstate Received: " + boardstateReceived);
+
+                    // Forward to observers
+                    sendToObserver(boardstateReceived);
+
+                    // Load into game
                     game.loadFileFromString(boardstateReceived);
                     activeFrames.get(1).dispose();
                     playerCurrentlyPlacingPieces = 0;
@@ -594,7 +599,6 @@ public class GUI {
                 game.setPlayerTurn(1);
                 String boardStateToSend = game.saveFile();
                 printWriter.println(boardStateToSend);
-                sendToObserver(boardStateToSend);
 
                 // block while other player takes turn
                 try {
@@ -803,6 +807,11 @@ public class GUI {
                 System.out.println("Waiting for other player to take turn");
                 String boardstateReceived = bufferedReader.readLine();
                 System.out.println("Boardstate Received: " + boardstateReceived);
+
+                // Forward to observers
+                sendToObserver(boardstateReceived);
+                
+                // Load gamestate
                 game.loadFileFromString(boardstateReceived);
                 timePanel.unpause();
             } catch (IOException e) {
