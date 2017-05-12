@@ -9,8 +9,8 @@ import java.awt.event.MouseListener;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
+import java.util.List;
 
 public class GUI {
     private String p1Name;
@@ -36,6 +36,7 @@ public class GUI {
     private BufferedReader bufferedReader;
     private PrintWriter printWriter;
     private boolean networked;
+    private volatile List<Socket> observers;
 
     // These used to be directly in the code. Refactored and pulled them out -
     // Jesse
@@ -55,6 +56,7 @@ public class GUI {
     private final String NEW_GAME_SETTINGS_BACKGROUND = "resources/BoardStoneBigCropped.jpg";
     private static final String INITIAL_WINDOW_BACKGROUND = "resources/BoardStoneBig.jpg";
     private final String WINNER_BACKGROUND = "resources/BoardStoneBigCropped.jpg";
+    private boolean observer;
 
     public GUI() {
         this.p1Name = "Player 1";
@@ -237,7 +239,7 @@ public class GUI {
         panel.setVisible(true);
         gameBoardPanel = panel;
 
-        gameBoardPanel.addMouseListener(new MovementListener());
+        if (!observer) gameBoardPanel.addMouseListener(new MovementListener());
         activeFrames.get(0).setBackground(Color.BLACK);
 
         gameFrame.setVisible(true);
@@ -292,20 +294,23 @@ public class GUI {
         // P1 Time Panel
         this.timePanel = new TimePanel(GUI.this, game, game.getTurnTimer(), timerLabel);
 
-        // Set up Save Game Button
-        JButton saveButton = createButton("Save", 1, 12, 65, 50, 657, gameFrame.getHeight() / 2 - 90,
-                new SaveGameListener());
-        gameBoardPanel.add(saveButton);
 
-        // Set up Undo Button
-        JButton undoButton = createButton("Undo", 1, 12, 65, 50, 727, gameFrame.getHeight() / 2 - 90,
-                new UndoListener());
-        gameBoardPanel.add(undoButton);
+        if (!observer) {
+            // Set up Save Game Button
+            JButton saveButton = createButton("Save", 1, 12, 65, 50, 657, gameFrame.getHeight() / 2 - 90,
+                    new SaveGameListener());
+            gameBoardPanel.add(saveButton);
 
-        // Set up End Turn Button
-        JButton endTurnButton = createButton("End Turn", 1, 12, 137, 50, 655, gameFrame.getHeight() / 2 - 37,
-                new EndTurnListener());
-        gameBoardPanel.add(endTurnButton);
+            // Set up Undo Button
+            JButton undoButton = createButton("Undo", 1, 12, 65, 50, 727, gameFrame.getHeight() / 2 - 90,
+                    new UndoListener());
+            gameBoardPanel.add(undoButton);
+
+            // Set up End Turn Button
+            JButton endTurnButton = createButton("End Turn", 1, 12, 137, 50, 655, gameFrame.getHeight() / 2 - 37,
+                    new EndTurnListener());
+            gameBoardPanel.add(endTurnButton);
+        }
 
         renderBoard();
     }
@@ -411,7 +416,6 @@ public class GUI {
         button.addActionListener(listener);
         button.setVisible(true);
         return button;
-
     }
 
     public JFrame createFrame(String text, int x, int y) {
@@ -546,6 +550,7 @@ public class GUI {
 
                 String boardStateToSend = game.saveFile();
                 printWriter.println(boardStateToSend);
+                sendToObserver(boardStateToSend);
 
                 // block while other player takes turn
                 try {
@@ -567,6 +572,17 @@ public class GUI {
         }
     }
 
+    private void sendToObserver(String boardStateToSend) {
+        try {
+            for (int i = 0; i < observers.size(); i++) {
+                printWriter = new PrintWriter(observers.get(i).getOutputStream(), true);
+                printWriter.println(boardStateToSend);
+            }
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
     private class FinishPiecePlacementListener implements ActionListener {
 
         @Override
@@ -578,6 +594,7 @@ public class GUI {
                 game.setPlayerTurn(1);
                 String boardStateToSend = game.saveFile();
                 printWriter.println(boardStateToSend);
+                sendToObserver(boardStateToSend);
 
                 // block while other player takes turn
                 try {
@@ -644,6 +661,7 @@ public class GUI {
             game.moveTimer = (int) timerComboBox.getSelectedItem();
             networked = gameModeNetworkComboBox.getSelectedItem().equals("Online");
             String ip = ipAddressTextField.getText();
+            observer = gameModeNetworkComboBox.getSelectedItem().equals("Observer");
 
             if (game.p1Name.equals(""))
                 game.p1Name = "Player 1";
@@ -660,6 +678,16 @@ public class GUI {
                 if (host) {
                     setupForGame();
                     setupPiecePlacingWindow();
+                } else if (observer) {
+                    while(true) {
+                        setupForGame();
+                        try {
+                            String boardState = bufferedReader.readLine();
+                            renderBoard();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
                 } else {
                     try {
                         // should block
@@ -677,7 +705,7 @@ public class GUI {
             } else {
                 // play locally
                 setupForGame();
-                setupPiecePlacingWindow();
+                if (!observer) setupPiecePlacingWindow();
             }
         }
     }
@@ -691,6 +719,9 @@ public class GUI {
                 communicationSocket = sock.accept();
                 bufferedReader = new BufferedReader(new InputStreamReader(communicationSocket.getInputStream()));
                 printWriter = new PrintWriter(communicationSocket.getOutputStream(), true);
+
+                this.observers = new LinkedList<>();
+                new ObserverListener(sock, observers).start();
 
                 //test
                 String message = bufferedReader.readLine();
@@ -707,6 +738,7 @@ public class GUI {
 
                 // test
                 printWriter.println("Connection established");
+                sendToObserver("Connection established");
 
                 // return false since not host
                 return false;
@@ -766,6 +798,7 @@ public class GUI {
             String boardstateToSend = game.saveFile();
             System.out.println("Sending boardstate: " + boardstateToSend);
             printWriter.println(boardstateToSend);
+            sendToObserver(boardstateToSend);
 
             // block while other player takes turn
             try {
