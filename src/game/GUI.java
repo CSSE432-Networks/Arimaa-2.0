@@ -884,7 +884,6 @@ public class GUI {
                     try {
                         SwingUtilities.invokeAndWait(() -> createWinWindowForName(boardstateReceived.split(" ")[1]));
                     } catch (Exception e1) {
-                        e1.printStackTrace();
                     }
                 }
                 System.out.println("Boardstate Received: " + boardstateReceived);
