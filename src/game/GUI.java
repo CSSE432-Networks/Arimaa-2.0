@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
@@ -687,30 +688,52 @@ public class GUI {
                     setupPiecePlacingWindow();
                 } else if (observer) {
                     System.out.println("I'm an observer!");
-                    boolean firstTime = true;
-                    while(true) {
-                        try {
-                            System.out.println("Observer: Blocking to read boardstate from socket...");
-                            String boardState = bufferedReader.readLine();
-                            communicationSocket.close();
-                            System.out.println(boardState);
+                    Thread thread = new Thread(() -> {
+                        boolean firstTime = true;
+                        while (true) {
+                            try {
+                                System.out.println("Observer: Blocking to read boardstate from socket...");
+                                String boardState = bufferedReader.readLine();
+                                //communicationSocket.close();
+                                System.out.println(boardState);
 
-                            System.out.println("Observer: Rendering boardstate");
-                            game.loadFileFromString(boardState);
-                            if (firstTime) {
-                                System.out.println("First time");
-                                setupForGame();
-                                firstTime = false;
-                            } else {
-                                renderBoard();
+                                System.out.println("Observer: Rendering boardstate");
+                                if(firstTime) {
+                                    try {
+                                        SwingUtilities.invokeAndWait(() -> {
+                                            game.loadFileFromString(boardState);
+                                            System.out.println("First time");
+                                            setupForGame();
+//                                            setupNetworkConnection(ip);
+                                        });
+                                    } catch (InterruptedException e1) {
+                                        e1.printStackTrace();
+                                    } catch (InvocationTargetException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                    firstTime = false;
+                                } else {
+                                    try {
+                                        SwingUtilities.invokeAndWait(() -> {
+                                            game.loadFileFromString(boardState);
+                                            renderBoard();
+//                                            setupNetworkConnection(ip);
+                                        });
+                                    } catch (InterruptedException e1) {
+                                        e1.printStackTrace();
+                                    } catch (InvocationTargetException e1) {
+                                        e1.printStackTrace();
+                                    }
+
+                                }
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                                break;
                             }
-                            setupNetworkConnection(ip);
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                            break;
                         }
-                    }
-                    System.out.println("Observer: Loop is dead :(");
+                        System.out.println("Observer: Loop is dead :(");
+                    });
+                    thread.start();
                 } else {
                     try {
                         // should block
