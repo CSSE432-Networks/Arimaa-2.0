@@ -202,12 +202,45 @@ public class GUI {
         renderInitialBoard();
     }
 
+    public void createWinWindowForName(String playerName) {
+
+        JFrame winnerFrame = createFrame("Winner", 650 / 2 - 324 / 2 + 75, 650 / 2 - 324 / 2 + 0);
+        ImagePanel panel = new ImagePanel(WINNER_BACKGROUND);
+        winnerFrame.getContentPane().add(panel);
+        winnerFrame.pack();
+        // winnerFrame.setResizable(false);
+        panel.setVisible(true);
+
+        // Set Up winner name Label
+        JLabel winnerLabel = createLabel(
+                "<html> <div style=\"text-align: center;\"> <b>" + playerName + " Wins!" + "</b></html>", Color.WHITE,
+                24, 150, 150, winnerFrame.getWidth() / 2 - 75, winnerFrame.getHeight() / 2 - 87);
+        panel.add(winnerLabel);
+        panel.repaint();
+    }
+
     public void createWinWindow() {
         String playerName = "";
         if (this.game.getWinner() == 1)
             playerName = game.getP1Name();
         else if (this.game.getWinner() == 2)
             playerName = game.getP2Name();
+
+        printWriter.println("Win " + playerName);
+        printWriter.flush();
+
+        for (int i = 0; i < observers.size(); i ++) {
+            try {
+                BufferedWriter br = new BufferedWriter(new OutputStreamWriter(observers.get(i).getOutputStream()));
+                br.write("Win " + playerName);
+                br.newLine();
+                br.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+                observers.remove(observers.get(i));
+                i--;
+            }
+        }
 
         JFrame winnerFrame = createFrame("Winner", 650 / 2 - 324 / 2 + 75, 650 / 2 - 324 / 2 + 0);
         ImagePanel panel = new ImagePanel(WINNER_BACKGROUND);
@@ -694,7 +727,13 @@ public class GUI {
                             try {
                                 System.out.println("Observer: Blocking to read boardstate from socket...");
                                 String boardState = bufferedReader.readLine();
-                                //communicationSocket.close();
+                                if (boardState.startsWith("Win")) {
+                                    try {
+                                        SwingUtilities.invokeAndWait(() -> createWinWindowForName(boardState.split(" ")[1]));
+                                    } catch (Exception e1) {
+                                        e1.printStackTrace();
+                                    }
+                                }
                                 System.out.println(boardState);
 
                                 System.out.println("Observer: Rendering boardstate");
@@ -841,6 +880,13 @@ public class GUI {
             try {
                 System.out.println("Waiting for other player to take turn");
                 String boardstateReceived = bufferedReader.readLine();
+                if (boardstateReceived.startsWith("Win")) {
+                    try {
+                        SwingUtilities.invokeAndWait(() -> createWinWindowForName(boardstateReceived.split(" ")[1]));
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
                 System.out.println("Boardstate Received: " + boardstateReceived);
 
                 // Forward to observers
