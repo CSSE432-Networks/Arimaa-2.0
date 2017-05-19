@@ -1,4 +1,7 @@
 # Arimaa 3.0
+
+Github Repository: https://github.com/CSSE432-Networks/Arimaa-3.0
+
 Arimaa 3.0 is a CSSE432 Project by Jesse Shellabarger, Tayler How, Austin Yates, and Douglas Wise
 
 *Arimaa 2.0 was a CSSE375 Project by Tayler How, Jesse Shellabarger, and Trevor Burch.
